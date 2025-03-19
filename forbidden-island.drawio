@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Safari/605.1.15" version="26.1.0">
   <diagram name="第 1 页" id="hJObz6MQkuNjEbWugFrw">
-    <mxGraphModel dx="2541" dy="1780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3207" dy="2239" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -35,9 +35,6 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-47" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="VjPRYB1g1QLdpqp4aKT3-4" target="bTGDOJ0MJef6S4-PFqFq-46">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="bTGDOJ0MJef6S4-PFqFq-49" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="VjPRYB1g1QLdpqp4aKT3-4" target="bTGDOJ0MJef6S4-PFqFq-48">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="VjPRYB1g1QLdpqp4aKT3-4" value="character" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -80,7 +77,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-2" value="start menu" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="280" y="700" width="120" height="60" as="geometry" />
+          <mxGeometry x="-979.9999999999999" y="-420" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="eDjvxQ4qI4vpgXlW1Nu9-3" target="eDjvxQ4qI4vpgXlW1Nu9-9" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -92,7 +89,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-3" value="start game" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="50" y="810" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1210" y="-310" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="eDjvxQ4qI4vpgXlW1Nu9-5" target="eDjvxQ4qI4vpgXlW1Nu9-15" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -101,28 +98,28 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-5" value="option" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="280" y="810" width="120" height="60" as="geometry" />
+          <mxGeometry x="-979.9999999999999" y="-310" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-7" value="end game" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="490" y="810" width="120" height="60" as="geometry" />
+          <mxGeometry x="-769.9999999999999" y="-310" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-9" value="难度选择" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="-70" y="920" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1330" y="-200" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-13" value="人数选择" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="100" y="920" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1160" y="-200" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-15" value="画面" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="260" y="920" width="120" height="60" as="geometry" />
+          <mxGeometry x="-999.9999999999999" y="-200" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-17" value="声音" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="280" y="1020" width="120" height="60" as="geometry" />
+          <mxGeometry x="-979.9999999999999" y="-100" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="eDjvxQ4qI4vpgXlW1Nu9-19" target="eDjvxQ4qI4vpgXlW1Nu9-2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="eDjvxQ4qI4vpgXlW1Nu9-19" value="press enter to continue" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="280" y="620" width="120" height="60" as="geometry" />
+          <mxGeometry x="-979.9999999999999" y="-500" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Dl-SQO9RMqr-6nA1L3A8-1" target="Dl-SQO9RMqr-6nA1L3A8-7" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -244,10 +241,10 @@
           <mxGeometry y="146" width="170" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-46" value="adventurers" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="-140" y="390" width="120" height="60" as="geometry" />
+          <mxGeometry x="-20" y="370" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="bTGDOJ0MJef6S4-PFqFq-48" value="hand cards" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="10" y="390" width="120" height="60" as="geometry" />
+        <mxCell id="bTGDOJ0MJef6S4-PFqFq-50" value="title page&amp;nbsp;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="-969.9999999999999" y="-620" width="100" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
