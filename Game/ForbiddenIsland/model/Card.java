@@ -1,5 +1,5 @@
 package Game.ForbiddenIsland.model;
 
-public interface Card {
-    CardType getType();
+public class Card {
+    CardType cardType;
 }

@@ -1,7 +1,14 @@
 package Game.ForbiddenIsland.model;
 
-public interface Deck {
-    Card drawCard();
-    void shuffle();
-    void initialize();
+public class Deck {
+    public Card drawCard(){
+        return null;
+    }
+    public void shuffle(){
+
+    }
+    public void initialize(){
+
+    }
+
 }

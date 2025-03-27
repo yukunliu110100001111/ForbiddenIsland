@@ -1,5 +1,10 @@
 package Game.ForbiddenIsland.model;
 
-public interface ActionCard extends Card {
-    void execute(Game game);
+import Game.ForbiddenIsland.model.Action.Action;
+
+public class ActionCard extends Card {
+
+    public void action(GameState gameState) {
+
+    }
 }

@@ -2,6 +2,7 @@ package Game.ForbiddenIsland.model;
 
 public enum CardType {
     TREASURE,
-    SPECIAL,
+    HELICOPTER,
+    SANDBAG,
     FLOOD
 }
