@@ -1,4 +1,4 @@
-package Game.ForbiddenIsland.model;
+package Game.ForbiddenIsland.model.Players;
 
 public enum PlayerType {
     DRIVE,
