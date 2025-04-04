@@ -1,6 +1,7 @@
 package Game.ForbiddenIsland.model;
 
 
+import Game.ForbiddenIsland.model.Cards.Card;
 import Game.ForbiddenIsland.model.Players.Player;
 
 import java.util.List;
@@ -9,11 +10,28 @@ import java.util.Map;
 public class ActionContext {
     private List<Player> targetPlayers;
     private Tile targetTile;
-    private Map<String, Object> metadata;
+    private Card targetCard;
 
-    public ActionContext(List<Player> targetPlayers, Tile targetTile) {
+
+    public ActionContext(Tile targetTile) {
+        this.targetTile = targetTile;
+    }
+    public ActionContext(Card targetCard) {
+        this.targetCard = targetCard;
+    }
+    public ActionContext(List<Player> players) {
+        this.targetPlayers = players;
+    }
+
+    public ActionContext(List<Player> players, Tile tile) {
+        this.targetPlayers = players;
+        this.targetTile = tile;
+    }
+
+    public ActionContext(List<Player> targetPlayers, Tile targetTile, Card targetCard) {
         this.targetPlayers = targetPlayers;
         this.targetTile = targetTile;
+        this.targetCard = targetCard;
     }
 
     public List<Player> getTargetPlayers() {
@@ -24,15 +42,7 @@ public class ActionContext {
         return targetTile;
     }
 
-    public void setMetadata(Map<String, Object> metadata) {
-        this.metadata = metadata;
-    }
-
-    public Map<String, Object> getMetadata() {
-        return metadata;
-    }
-
-    public Object get(String key) {
-        return metadata != null ? metadata.get(key) : null;
+    public Card getTargetCard() {
+        return targetCard;
     }
 }
