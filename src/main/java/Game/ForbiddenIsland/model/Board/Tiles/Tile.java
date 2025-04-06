@@ -1,7 +1,6 @@
 package Game.ForbiddenIsland.model.Board.Tiles;
 
-import src.main.java.Game.ForbiddenIsland.model.TreasureType;
-import Game.ForbiddenIsland.model.Board.Tiles.TileState;
+import Game.ForbiddenIsland.model.TreasureType;
 
 public class Tile {
     private String name;
