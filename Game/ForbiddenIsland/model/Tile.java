@@ -1,33 +1,28 @@
 package Game.ForbiddenIsland.model;
 
-import Game.ForbiddenIsland.model.Cards.CardName;
-
 public class Tile {
-    private TileState tileState;
-    //Position of the tile
-    private int x,y;
-
+    TileState state = TileState.SAFE;
     public TileState getState(){
-        return tileState;
+        return this.state;
     }
-    public void flood() {
-        this.tileState = TileState.FLOODED;
-    }
-    public void sink() {
-        this.tileState = TileState.SINK;
-    }
-    public void drain(){
-        if(this.tileState == TileState.FLOODED){
-            this.tileState = TileState.SAFE;
+    public void flood(){
+        if(this.state == TileState.SAFE){
+            this.state = TileState.FLOODED;
+        }
+        else if(this.state == TileState.FLOODED){
+            this.state = TileState.SINK;
         }
     }
+    public void drain(){
+        this.state = TileState.SAFE;
+    }
     public boolean isSafe(){
-        return this.tileState == TileState.SAFE;
+        return this.state == TileState.SAFE;
     }
     public boolean isFlooded(){
-        return this.tileState == TileState.FLOODED;
+        return this.state == TileState.FLOODED;
     }
     public boolean isSink(){
-        return this.tileState == TileState.SINK;
+        return this.state == TileState.SINK;
     }
 }
