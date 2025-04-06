@@ -8,5 +8,8 @@ public class GameState {
     private List<Player> players;
     private List<Tile> board;
     private int waterLevel;
+    public void waterRise(){
+        waterLevel++;
 
+    }
 }

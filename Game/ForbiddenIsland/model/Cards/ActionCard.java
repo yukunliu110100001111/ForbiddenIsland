@@ -7,6 +7,11 @@ import Game.ForbiddenIsland.model.GameState;
 
 public class ActionCard extends Card {
     CardAction action;
+
+    public ActionCard(String name, CardType cardType) {
+        super(name, cardType);
+    }
+
     public void use(GameState gameState, ActionContext context) {
         this.action.execute(gameState, context);
     }
