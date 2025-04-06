@@ -1,11 +1,11 @@
 package Game.ForbiddenIsland.model;
 
 
-import Game.ForbiddenIsland.model.Cards.Card;
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
+import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.Players.Player;
 
 import java.util.List;
-import java.util.Map;
 
 public class ActionContext {
     private List<Player> targetPlayers;

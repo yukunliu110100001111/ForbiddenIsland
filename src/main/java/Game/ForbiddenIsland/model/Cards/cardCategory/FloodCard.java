@@ -1,6 +1,7 @@
-package Game.ForbiddenIsland.model.Cards;
+package Game.ForbiddenIsland.model.Cards.cardCategory;
 
-import Game.ForbiddenIsland.model.*;
+import Game.ForbiddenIsland.model.Cards.CardType;
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 
 public class FloodCard extends Card {
     private final Tile targetTile;
@@ -13,11 +14,6 @@ public class FloodCard extends Card {
         return targetTile;
     }
     public void flood(){
-        if (targetTile.isSafe()){
-            targetTile.flood();
-        }
-        if(targetTile.isFlooded()){
-            targetTile.sink();
-        }
+        this.targetTile.flood();
     }
 }

@@ -1,4 +1,4 @@
-package Game.ForbiddenIsland.model;
+package Game.ForbiddenIsland.model.Board.Tiles;
 
 public enum TileState {
     SAFE,

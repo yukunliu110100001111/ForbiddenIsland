@@ -1,5 +1,6 @@
 package Game.ForbiddenIsland.model;
 
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Players.Player;
 
 import java.util.List;

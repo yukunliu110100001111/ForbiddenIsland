@@ -1,8 +1,8 @@
 package Game.ForbiddenIsland.model.Players;
 
-import Game.ForbiddenIsland.model.Cards.Card;
+import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.Players.PlayerActions.PlayerAction;
-import Game.ForbiddenIsland.model.Tile;
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 
 import java.util.List;
 

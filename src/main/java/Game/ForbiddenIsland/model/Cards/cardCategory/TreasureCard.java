@@ -1,11 +1,12 @@
-package Game.ForbiddenIsland.model.Cards;
+package Game.ForbiddenIsland.model.Cards.cardCategory;
 
+import Game.ForbiddenIsland.model.Cards.CardType;
 import Game.ForbiddenIsland.model.TreasureType;
 
 public class TreasureCard extends Card {
     private final TreasureType treasureType;
-    public TreasureCard(String name,TreasureType type) {
-        super(name, CardType.TREASURE);
+    public TreasureCard(TreasureType type) {
+        super(CardName.TREASURE, CardType.TREASURE);
         this.treasureType = type;
     }
 

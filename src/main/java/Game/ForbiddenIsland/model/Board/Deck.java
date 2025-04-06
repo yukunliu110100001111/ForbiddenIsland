@@ -1,6 +1,6 @@
-package Game.ForbiddenIsland.model;
+package Game.ForbiddenIsland.model.Board;
 
-import Game.ForbiddenIsland.model.Cards.Card;
+import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 
 public class Deck {
     public Card drawCard(){

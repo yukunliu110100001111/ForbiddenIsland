@@ -2,7 +2,7 @@ package Game.ForbiddenIsland.model.Players.PlayerActions;
 
 import Game.ForbiddenIsland.model.GameState;
 import Game.ForbiddenIsland.model.Players.Player;
-import Game.ForbiddenIsland.model.Tile;
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 
 import java.util.List;
 
