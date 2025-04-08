@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0" version="26.2.8">
   <diagram name="第 1 页" id="hJObz6MQkuNjEbWugFrw">
-    <mxGraphModel dx="2882" dy="1809" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4637" dy="2723" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -76,37 +76,37 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-1" value="game start" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-1099.8600000000001" y="100" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1280.0600000000002" y="68" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Dl-SQO9RMqr-6nA1L3A8-7" target="bTGDOJ0MJef6S4-PFqFq-2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-7" value="set up" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="-1099.8600000000001" y="220" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1280.0600000000002" y="188" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-14" value="shuffle the tiles" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-949.86" y="120" width="100" height="40" as="geometry" />
+          <mxGeometry x="-1130.06" y="88" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-24" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" parent="1" vertex="1">
-          <mxGeometry x="-979.86" y="180" width="20" height="120" as="geometry" />
+          <mxGeometry x="-1160.06" y="148" width="20" height="120" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-25" value="place the tiles" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-949.86" y="170" width="100" height="40" as="geometry" />
+          <mxGeometry x="-1130.06" y="138" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-26" value="initialize the flood" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-949.86" y="340" width="100" height="30" as="geometry" />
+          <mxGeometry x="-1130.06" y="308" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-27" value="divide the cards" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-949.86" y="300" width="100" height="30" as="geometry" />
+          <mxGeometry x="-1130.06" y="268" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-28" value="draw the sink card" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-949.86" y="220" width="100" height="30" as="geometry" />
+          <mxGeometry x="-1130.06" y="188" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="Dl-SQO9RMqr-6nA1L3A8-30" value="random give the charactor" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-949.86" y="260" width="100" height="30" as="geometry" />
+          <mxGeometry x="-1130.06" y="228" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-1" value="lose condition judgement" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-659.86" y="637.5" width="120" height="60" as="geometry" />
+          <mxGeometry x="-840.06" y="605.5" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="bTGDOJ0MJef6S4-PFqFq-2" target="bTGDOJ0MJef6S4-PFqFq-7" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -115,63 +115,63 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-2" value="player round&lt;div&gt;(the round that player can move, use special card)&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="-1099.8600000000001" y="440" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1280.0600000000002" y="408" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-7" value="player action" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="-849.86" y="390" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1030.06" y="358" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="bTGDOJ0MJef6S4-PFqFq-9" target="bTGDOJ0MJef6S4-PFqFq-2" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-1159.8600000000001" y="610" />
-              <mxPoint x="-1159.8600000000001" y="470" />
+              <mxPoint x="-1340.0600000000002" y="578" />
+              <mxPoint x="-1340.0600000000002" y="438" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-9" value="computer round&lt;div&gt;(draw cards and do movement)&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="-1099.8600000000001" y="580" width="120" height="60" as="geometry" />
+          <mxGeometry x="-1280.0600000000002" y="548" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-13" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" parent="1" vertex="1">
-          <mxGeometry x="-969.86" y="550" width="20" height="120" as="geometry" />
+          <mxGeometry x="-1150.06" y="518" width="20" height="120" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="bTGDOJ0MJef6S4-PFqFq-14" target="bTGDOJ0MJef6S4-PFqFq-17" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-14" value="draw treasure cards" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-939.86" y="530" width="113" height="50" as="geometry" />
+          <mxGeometry x="-1120.06" y="498" width="113" height="50" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="bTGDOJ0MJef6S4-PFqFq-15" target="bTGDOJ0MJef6S4-PFqFq-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-15" value="draw flood cards" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-939.86" y="645" width="113" height="45" as="geometry" />
+          <mxGeometry x="-1120.06" y="613" width="113" height="45" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="bTGDOJ0MJef6S4-PFqFq-17" target="bTGDOJ0MJef6S4-PFqFq-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-17" value="water rise card" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-769.86" y="540" width="100" height="30" as="geometry" />
+          <mxGeometry x="-950.06" y="508" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-23" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" parent="1" vertex="1">
-          <mxGeometry x="-719.86" y="350" width="20" height="120" as="geometry" />
+          <mxGeometry x="-900.06" y="318" width="20" height="120" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-24" value="move" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-690" y="335" width="100" height="35" as="geometry" />
+          <mxGeometry x="-870.2" y="303" width="100" height="35" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-25" value="shove up" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-690" y="380" width="100" height="30" as="geometry" />
+          <mxGeometry x="-870.2" y="348" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-26" value="give cards" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-690" y="420" width="100" height="30" as="geometry" />
+          <mxGeometry x="-870.2" y="388" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-27" value="capture treasures" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-690" y="460" width="100" height="30" as="geometry" />
+          <mxGeometry x="-870.2" y="428" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-28" value="general game frame" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
-          <mxGeometry x="-1009.8599999999999" y="22" width="100" height="40" as="geometry" />
+          <mxGeometry x="-1190.06" y="-10" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-29" value="abandon" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-690" y="290" width="100" height="30" as="geometry" />
+          <mxGeometry x="-870.2" y="258" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-36" value="player action" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="-310" y="122" width="170" height="176" as="geometry" />
@@ -195,7 +195,7 @@
           <mxGeometry x="-150" y="360" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-50" value="title page&amp;nbsp;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
-          <mxGeometry x="-969.9999999999999" y="-620" width="100" height="40" as="geometry" />
+          <mxGeometry x="-979.9999999999999" y="-560" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="bTGDOJ0MJef6S4-PFqFq-56" value="Extends" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" parent="1" source="bTGDOJ0MJef6S4-PFqFq-46" target="nJpi2xPGVOCgY6oC-HRX-24" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
@@ -560,10 +560,10 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="p3xC8zhsnyFE_TkQBfF3-1" value="use special cards" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-690" y="250" width="100" height="30" as="geometry" />
+          <mxGeometry x="-870.2" y="218" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="p3xC8zhsnyFE_TkQBfF3-2" value="win condition judgement" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-510" y="637.5" width="120" height="60" as="geometry" />
+          <mxGeometry x="-690.2" y="605.5" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
