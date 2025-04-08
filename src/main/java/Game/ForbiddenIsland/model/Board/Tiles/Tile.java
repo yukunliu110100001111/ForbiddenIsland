@@ -2,43 +2,21 @@ package Game.ForbiddenIsland.model.Board.Tiles;
 
 import Game.ForbiddenIsland.model.TreasureType;
 
-public class Tile {
-    private String name;
-    private TreasureType treasureType;
-    private boolean foolsLanding;
-    TileState state = TileState.SAFE;
+public interface Tile {
+    String getName();
+    void setName(String name);
 
-    public Tile() {}
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    TreasureType getTreasureType();
+    void setTreasureType(TreasureType treasureType);
 
-    public TreasureType getTreasureType() { return treasureType; }
-    public void setTreasureType(TreasureType treasureType) { this.treasureType = treasureType; }
+    boolean isFoolsLanding();
+    void setFoolsLanding(boolean foolsLanding);
 
-    public boolean isFoolsLanding() { return foolsLanding; }
-    public void setFoolsLanding(boolean foolsLanding) { this.foolsLanding = foolsLanding; }
+    TileState getState();
+    void flood();
+    void drain();
 
-    public TileState getState(){
-        return this.state;
-    }
-    public void flood(){
-        if(this.state == TileState.SAFE){
-            this.state = TileState.FLOODED;
-        }
-        else if(this.state == TileState.FLOODED){
-            this.state = TileState.SINK;
-        }
-    }
-    public void drain(){
-        this.state = TileState.SAFE;
-    }
-    public boolean isSafe(){
-        return this.state == TileState.SAFE;
-    }
-    public boolean isFlooded(){
-        return this.state == TileState.FLOODED;
-    }
-    public boolean isSink(){
-        return this.state == TileState.SINK;
-    }
+    boolean isSafe();
+    boolean isFlooded();
+    boolean isSink();
 }

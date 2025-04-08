@@ -1,43 +1,22 @@
 package Game.ForbiddenIsland.model.Players;
 
-import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
-import Game.ForbiddenIsland.model.Players.PlayerActions.PlayerAction;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
+import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 
 import java.util.List;
 
-public class Player {
-    //This method is an action that the player can do
-    private final PlayerAction action;
-    private PlayerType type;
-    private Tile position;
-    private List<Card> hands;
-    public Player(PlayerType type, Tile position, List<Card> hands, PlayerAction action) {
-        this.type = type;
-        this.position = position;
-        this.hands = hands;
-        this.action = action;
-    }
+public interface Player {
+    PlayerType getType();
+    void setType(PlayerType type);
 
-    public PlayerAction getAction() {
-        return action;
-    }
-    public PlayerType getType() {
-        return type;
-    }
-    public void setType(PlayerType type) {
-        this.type = type;
-    }
-    public Tile getPosition() {
-        return position;
-    }
-    public void setPosition(Tile position) {
-        this.position = position;
-    }
-    public List<Card> getHands() {
-        return hands;
-    }
-    public void setHands(List<Card> hands) {
-        this.hands = hands;
-    }
+    Tile getPosition();
+    void setPosition(Tile position);
+
+    List<Card> getHands();
+    void setHands(List<Card> hands);
+
+    int getHandsSize();
+
+    void addCard(Card card);
+    void removeCard(Card card);
 }

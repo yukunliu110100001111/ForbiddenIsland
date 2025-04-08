@@ -2,15 +2,11 @@ package Game.ForbiddenIsland.model.Board;
 
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 
-public class Deck {
-    public Card drawCard(){
-        return null;
-    }
-    public void shuffle(){
+import java.util.List;
 
-    }
-    public void initialize(){
-
-    }
-
+public interface Deck {
+    void initialize(List<Card> initialCards);
+    Card drawCard();
+    void discard(Card card);
+    void reshuffleDiscardsIntoDrawPile();
 }

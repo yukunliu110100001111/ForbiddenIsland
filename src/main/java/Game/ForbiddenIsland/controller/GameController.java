@@ -2,7 +2,9 @@ package Game.ForbiddenIsland.controller;
 
 import Game.ForbiddenIsland.model.*;
 import Game.ForbiddenIsland.factory.PlayerFactory;
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Players.Player;
+import Game.ForbiddenIsland.model.Players.PlayerType;
 
 import java.util.ArrayList;
 import java.util.List;
