@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Forbidden Island - Cover</title>
+    <link rel="icon" href="appicon.ico" type="image/x-icon"/>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background-image: url('./coverbg.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            font-size: 64px;
+            background: linear-gradient(to right, yellow, red);
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        #start-btn {
+            margin-top: 40px;
+            font-size: 32px;
+            color: white;
+            animation: blink 1s infinite;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>FORBIDDEN ISLAND</h1>
+<button id="start-btn">PRESS TO START</button>
+
+<script>
+    document.getElementById('start-btn').addEventListener('click', () => {
+        window.location.href = 'menu.html'; // 跳转到菜单页
+    });
+</script>
+</body>
+</html>

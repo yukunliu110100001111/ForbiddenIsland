@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Forbidden Island - Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #001f3f;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #003366;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        #board {
+            display: grid;
+            grid-template-columns: repeat(6, 80px);
+            grid-template-rows: repeat(6, 80px);
+            gap: 5px;
+            justify-content: center;
+            margin: 1rem auto;
+        }
+
+        .tile {
+            background-color: #0a74da;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .empty {
+            background-color: transparent;
+            border: none;
+        }
+
+        #controls {
+            text-align: center;
+            margin-top: auto;
+            padding: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            margin: 0.2rem;
+            border: none;
+            background: white;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<header>FORBIDDEN ISLAND - GAME</header>
+<main>
+    <div id="board">
+        <!-- 游戏地图，使用 6x6 的网格 -->
+        <!-- 示例布置（中间为岛屿，四角为空）-->
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="tile">Temple of the Sun</div>
+        <div class="tile">Temple of the Moon</div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="tile">Tidal Palace</div>
+        <div class="tile">Coral Palace</div>
+        <div class="tile">Dunes of Deception</div>
+        <div class="tile">Cave of Shadows</div>
+        <div class="empty"></div>
+        <div class="tile">Watchtower</div>
+        <div class="tile">Crimson Forest</div>
+        <div class="tile">Fools' Landing</div>
+        <div class="tile">Cave of Embers</div>
+        <div class="tile">Misty Marsh</div>
+        <div class="tile">Bronze Gate</div>
+        <div class="tile">Twilight Hollow</div>
+        <div class="tile">Howling Garden</div>
+        <div class="tile">Breakers Bridge</div>
+        <div class="tile">Phantom Rock</div>
+        <div class="tile">Silver Gate</div>
+        <div class="tile">Whispering Garden</div>
+        <div class="empty"></div>
+        <div class="tile">Observatory</div>
+        <div class="tile">Cliffs of Abandon</div>
+        <div class="tile">Gold Gate</div>
+        <div class="tile">Lost Lagoon</div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="tile">Iron Gate</div>
+        <div class="tile">Coral Reef</div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+    </div>
+</main>
+<div id="controls">
+    <button onclick="alert('Move Action')">Move</button>
+    <button onclick="alert('Shore Up Action')">Shore Up</button>
+    <button onclick="alert('Give a Card')">Give Card</button>
+    <button onclick="alert('Capture Treasure')">Capture</button>
+    <button onclick="window.location.href='menu.html'">Return to Menu</button>
+</div>
+</body>
+</html>
