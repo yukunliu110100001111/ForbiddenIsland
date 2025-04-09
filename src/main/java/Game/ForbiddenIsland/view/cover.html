@@ -6,20 +6,17 @@
     <title>Forbidden Island - Cover</title>
     <link rel="icon" href="appicon.ico" type="image/x-icon"/>
 
-    <!-- 引入自定义字体 -->
-    <style>
-        @font-face {
-            font-family: 'MedievalSharp';
-            src: url('./Fonts/MedievalSharp-Regular.ttf') format('truetype');
-        }
+    <!-- 引入 Google 字体：Cinzel -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
 
+    <style>
         body {
             margin: 0;
             height: 100vh;
             background-image: url('./coverbg.png');
             background-size: cover;
             background-position: center;
-            font-family: 'MedievalSharp', sans-serif;
+            font-family: 'Cinzel', serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -32,7 +29,7 @@
             left: 0;
             height: 100%;
             width: 100%;
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(0, 0, 0, 0.35);
             z-index: 1;
         }
 
@@ -40,48 +37,78 @@
             z-index: 2;
             text-align: center;
             color: white;
+            position: relative;
+        }
+
+        .blur-bar {
+            position: absolute;
+            top: 42%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 160px; /* <-- 调整高斯模糊条高度的地方 */
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+            animation: pulse-glow 4s ease-in-out infinite;
         }
 
         h1 {
-            font-size: 72px;
-            background: linear-gradient(to right, #fff44f, #ff6f61);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 40px;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
+            font-size: 96px; /* 放大标题字号 */
+            letter-spacing: 4px;
+            color: #fff9d2; /* 替代渐变，使用亮色纯文本 */
+            text-shadow: 0 0 20px #fffbb0, 0 0 30px #ffffff;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 2;
+            animation: soft-breath 3.5s ease-in-out infinite;
+        }
+
+        @keyframes soft-breath {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.02);
+                opacity: 0.95;
+            }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 80px rgba(255, 255, 255, 0.35);
+            }
         }
 
         #start-btn {
-            font-size: 32px;
+            font-size: 28px;
             padding: 15px 40px;
-            color: #fff;
-            border: 2px solid #fff;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid #ffffffaa;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.12);
             cursor: pointer;
-            animation: blink 1.2s infinite;
             transition: all 0.3s ease;
-            text-shadow: 2px 2px 6px black;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+            z-index: 2;
+            position: relative;
         }
 
         #start-btn:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.05);
-        }
-
-        @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0;
-            }
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
 <body>
 <div class="overlay"></div>
 <div class="content">
+    <div class="blur-bar"></div>
     <h1>FORBIDDEN ISLAND</h1>
     <button id="start-btn">PRESS TO START</button>
 </div>

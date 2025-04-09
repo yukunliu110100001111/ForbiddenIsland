@@ -35,17 +35,21 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'JollyLodger', Arial, sans-serif;
-            display: grid;
-            grid-template-rows: auto 1fr auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
         }
 
         main {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            padding: 2rem;
-            gap: 1.5rem;
+            justify-content: center;
+            flex-grow: 1;
+            gap: 2rem;
+            width: 100%;
             animation: fadeIn 0.6s ease;
         }
 
@@ -59,23 +63,26 @@
                 transform: translateY(0);
             }
         }
+
         h1 {
             font-size: 4rem;
-            margin-bottom: 1rem;
+            margin-top: 2rem;
         }
+
         .slider-group {
             width: 100%;
             max-width: 400px;
-            text-align: left;
+            text-align: center;
         }
+
         label {
-            display: block;
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.8rem;
         }
+
         input[type="range"] {
             width: 100%;
         }
+
         button {
             padding: 0.6rem 1.5rem;
             font-size: 1.2rem;
@@ -84,7 +91,7 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            margin: 0.3rem;
+            margin-bottom: 2rem;
             transition: transform 0.2s ease, background-color 0.3s;
         }
 
@@ -100,24 +107,18 @@
         }
 
         #settings-icon {
-            right: 60px;
+            right: 80px;
         }
+
         #theme-toggle {
             right: 20px;
         }
 
-        #theme-toggle:hover {
-            transform: rotate(180deg) scale(1.2);
-        }
-
-        #theme-icon {
-            display: inline-block;
-            transition: transform 0.4s ease;
-        }
-
         #theme-toggle:hover #theme-icon {
-            transform: rotate(360deg) scale(1.2);
+            transform: rotate(360deg);
+            transition: transform 0.5s ease;
         }
+
         #settings-panel {
             display: none;
             position: absolute;
@@ -129,34 +130,25 @@
             width: 320px;
             color: var(--text);
             box-shadow: 0 0 10px black;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
         }
-        #settings-panel label {
-            font-weight: bold;
+
+        #settings-panel.show {
+            transform: scale(1);
+            opacity: 1;
         }
-        #settings-panel input[type="range"] {
-            width: 100%;
+
+        #settings-panel button {
+            display: block;
+            margin: 1rem auto 0;
         }
     </style>
 </head>
 <body>
 <button id="settings-icon">⚙</button>
 <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
-
-<main>
-    <h1>GAME MENU</h1>
-
-    <div class="slider-group">
-        <label for="players">Number of Players: <span id="player-count">2</span></label>
-        <input type="range" id="players" min="2" max="4" value="2"/>
-    </div>
-
-    <div class="slider-group">
-        <label for="difficulty">Difficulty: <span id="difficulty-label">Novice</span></label>
-        <input type="range" id="difficulty" min="1" max="4" value="1"/>
-    </div>
-
-    <button id="start-game">Start Game</button>
-</main>
 
 <div id="settings-panel">
     <div class="slider-group">
@@ -171,80 +163,58 @@
         <label for="sfx">SFX Volume: 💥 <span id="sfx-value">70</span></label>
         <input type="range" id="sfx" min="0" max="100" value="70"/>
     </div>
-    <div class="slider-group">
-        <button onclick="playTestSound()">🔊 Test Sound</button>
-        <button onclick="saveSettings()">✔ Save & Close</button>
-    </div>
+    <button onclick="saveSettings()">Apply Setting</button>
 </div>
 
+<main>
+    <h1>GAME MENU</h1>
+
+    <div class="slider-group">
+        <label for="players">Number of Players: <span id="player-count">2</span></label>
+        <input type="range" id="players" min="2" max="4" value="2"/>
+    </div>
+
+    <div class="slider-group">
+        <label for="difficulty">Difficulty: <span id="difficulty-label">Novice</span></label>
+        <input type="range" id="difficulty" min="1" max="4" value="1"/>
+    </div>
+</main>
+
+<button id="start-game">Start Game</button>
+
 <script>
-    const difficultyNames = ["Novice", "Normal", "Elite", "Legendary"];
-    const themeToggle = document.getElementById("theme-toggle");
-    const themeIcon = document.getElementById("theme-icon");
-
-    window.addEventListener("DOMContentLoaded", () => {
-        ["master", "music", "sfx"].forEach(id => {
-            const saved = localStorage.getItem(id);
-            if (saved !== null) {
-                document.getElementById(id).value = saved;
-                document.getElementById(`${id}-value`).textContent = saved;
-            }
-        });
-        const theme = localStorage.getItem("theme") || "dark";
-        document.documentElement.setAttribute("data-theme", theme);
-        themeIcon.textContent = theme === "dark" ? "🌙" : "🌞";
-    });
-
-    document.getElementById("players").addEventListener("input", e => {
-        document.getElementById("player-count").textContent = e.target.value;
-    });
-
-    document.getElementById("difficulty").addEventListener("input", e => {
-        document.getElementById("difficulty-label").textContent = difficultyNames[e.target.value - 1];
-    });
-
-    document.getElementById("start-game").addEventListener("click", () => {
-        document.body.style.opacity = 1;
-        document.body.style.transition = 'opacity 0.5s';
-        document.body.style.opacity = 0;
-        setTimeout(() => {
-            window.location.href = "game.html";
-        }, 500);
-    });
-
-    document.getElementById("settings-icon").addEventListener("click", () => {
+    document.getElementById("settings-icon").onclick = () => {
         const panel = document.getElementById("settings-panel");
-        panel.style.display = panel.style.display === "block" ? "none" : "block";
-    });
-
-    themeToggle.addEventListener("click", () => {
-        const html = document.documentElement;
-        const current = html.getAttribute("data-theme");
-        const next = current === "dark" ? "light" : "dark";
-        html.setAttribute("data-theme", next);
-        localStorage.setItem("theme", next);
-        themeIcon.textContent = next === "dark" ? "🌙" : "🌞";
-    });
-
-    ["master", "music", "sfx"].forEach(id => {
-        const slider = document.getElementById(id);
-        slider.addEventListener("input", () => {
-            document.getElementById(`${id}-value`).textContent = slider.value;
-        });
-    });
-
-    function playTestSound() {
-        const audio = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
-        audio.volume = document.getElementById("sfx").value / 100;
-        audio.play();
-    }
+        panel.classList.toggle("show");
+        panel.style.display = panel.classList.contains("show") ? "block" : "none";
+    };
 
     function saveSettings() {
-        ["master", "music", "sfx"].forEach(id => {
-            localStorage.setItem(id, document.getElementById(id).value);
-        });
+        document.getElementById("settings-panel").classList.remove("show");
         document.getElementById("settings-panel").style.display = "none";
     }
+
+    const themeToggle = document.getElementById("theme-toggle");
+    themeToggle.onclick = () => {
+        const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", theme);
+        document.getElementById("theme-icon").textContent = theme === "dark" ? "🌙" : "🌞";
+    };
+
+    document.getElementById("players").oninput = e => {
+        document.getElementById("player-count").textContent = e.target.value;
+    };
+
+    const difficultyNames = ["Novice", "Normal", "Elite", "Legendary"];
+    document.getElementById("difficulty").oninput = e => {
+        document.getElementById("difficulty-label").textContent = difficultyNames[e.target.value - 1];
+    };
+
+    document.getElementById("start-game").onclick = () => {
+        document.body.style.transition = 'opacity 0.5s';
+        document.body.style.opacity = 0;
+        setTimeout(() => window.location.href = "game.html", 500);
+    };
 </script>
 </body>
 </html>
