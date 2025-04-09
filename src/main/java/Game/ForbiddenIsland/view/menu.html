@@ -5,51 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Forbidden Island - Menu</title>
     <style>
+        @font-face {
+            font-family: 'JollyLodger';
+            src: url('./fonts/JollyLodger-Regular.ttf') format('truetype');
+        }
+
+        :root {
+            --transition-speed: 0.4s;
+        }
         :root[data-theme="dark"] {
             --bg: #111;
             --text: white;
             --panel: rgba(40, 40, 40, 0.95);
         }
-
         :root[data-theme="light"] {
             --bg: #eee;
             --text: #111;
             --panel: rgba(255, 255, 255, 0.95);
         }
 
-        body {
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: Arial, sans-serif;
+            font-family: 'JollyLodger', Arial, sans-serif;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        main {
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            height: 100vh;
+            align-items: center;
+            padding: 2rem;
+            gap: 1.5rem;
+            animation: fadeIn 0.6s ease;
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         h1 {
-            font-size: 3rem;
-            margin-bottom: 2rem;
+            font-size: 4rem;
+            margin-bottom: 1rem;
         }
-
         .slider-group {
-            margin-bottom: 1.5rem;
-            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
         }
-
         label {
             display: block;
             font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
-
         input[type="range"] {
-            width: 300px;
+            width: 100%;
         }
-
         button {
             padding: 0.6rem 1.5rem;
             font-size: 1.2rem;
@@ -59,30 +85,39 @@
             border-radius: 8px;
             cursor: pointer;
             margin: 0.3rem;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        #settings-icon, #theme-toggle {
+            position: absolute;
+            top: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--text);
+            transition: transform 0.3s ease;
         }
 
         #settings-icon {
-            position: absolute;
-            top: 20px;
             right: 60px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--text);
         }
-
         #theme-toggle {
-            position: absolute;
-            top: 20px;
             right: 20px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--text);
         }
 
+        #theme-toggle:hover {
+            transform: rotate(180deg) scale(1.2);
+        }
+
+        #theme-icon {
+            display: inline-block;
+            transition: transform 0.4s ease;
+        }
+
+        #theme-toggle:hover #theme-icon {
+            transform: rotate(360deg) scale(1.2);
+        }
         #settings-panel {
             display: none;
             position: absolute;
@@ -95,20 +130,33 @@
             color: var(--text);
             box-shadow: 0 0 10px black;
         }
-
         #settings-panel label {
             font-weight: bold;
         }
-
         #settings-panel input[type="range"] {
             width: 100%;
         }
     </style>
 </head>
 <body>
-<h1>GAME MENU</h1>
 <button id="settings-icon">⚙</button>
-<button id="theme-toggle">🌗</button>
+<button id="theme-toggle"><span id="theme-icon">🌙</span></button>
+
+<main>
+    <h1>GAME MENU</h1>
+
+    <div class="slider-group">
+        <label for="players">Number of Players: <span id="player-count">2</span></label>
+        <input type="range" id="players" min="2" max="4" value="2"/>
+    </div>
+
+    <div class="slider-group">
+        <label for="difficulty">Difficulty: <span id="difficulty-label">Novice</span></label>
+        <input type="range" id="difficulty" min="1" max="4" value="1"/>
+    </div>
+
+    <button id="start-game">Start Game</button>
+</main>
 
 <div id="settings-panel">
     <div class="slider-group">
@@ -129,20 +177,10 @@
     </div>
 </div>
 
-<div class="slider-group">
-    <label for="players">Number of Players: <span id="player-count">2</span></label>
-    <input type="range" id="players" min="2" max="4" value="2"/>
-</div>
-
-<div class="slider-group">
-    <label for="difficulty">Difficulty: <span id="difficulty-label">Novice</span></label>
-    <input type="range" id="difficulty" min="1" max="4" value="1"/>
-</div>
-
-<button id="start-game">Start Game</button>
-
 <script>
     const difficultyNames = ["Novice", "Normal", "Elite", "Legendary"];
+    const themeToggle = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
 
     window.addEventListener("DOMContentLoaded", () => {
         ["master", "music", "sfx"].forEach(id => {
@@ -154,6 +192,7 @@
         });
         const theme = localStorage.getItem("theme") || "dark";
         document.documentElement.setAttribute("data-theme", theme);
+        themeIcon.textContent = theme === "dark" ? "🌙" : "🌞";
     });
 
     document.getElementById("players").addEventListener("input", e => {
@@ -165,7 +204,12 @@
     });
 
     document.getElementById("start-game").addEventListener("click", () => {
-        window.location.href = "game.html";
+        document.body.style.opacity = 1;
+        document.body.style.transition = 'opacity 0.5s';
+        document.body.style.opacity = 0;
+        setTimeout(() => {
+            window.location.href = "game.html";
+        }, 500);
     });
 
     document.getElementById("settings-icon").addEventListener("click", () => {
@@ -173,11 +217,13 @@
         panel.style.display = panel.style.display === "block" ? "none" : "block";
     });
 
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const current = document.documentElement.getAttribute("data-theme");
+    themeToggle.addEventListener("click", () => {
+        const html = document.documentElement;
+        const current = html.getAttribute("data-theme");
         const next = current === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
+        html.setAttribute("data-theme", next);
         localStorage.setItem("theme", next);
+        themeIcon.textContent = next === "dark" ? "🌙" : "🌞";
     });
 
     ["master", "music", "sfx"].forEach(id => {

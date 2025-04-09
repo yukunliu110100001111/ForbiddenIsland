@@ -1,4 +1,4 @@
-package src.main.resources.Font;
+package Game.ForbiddenIsland.controller;
 
 import java.awt.*;
 import java.io.IOException;

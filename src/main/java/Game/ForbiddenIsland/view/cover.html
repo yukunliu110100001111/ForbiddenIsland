@@ -5,58 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Forbidden Island - Cover</title>
     <link rel="icon" href="appicon.ico" type="image/x-icon"/>
+
+    <!-- 引入自定义字体 -->
     <style>
+        @font-face {
+            font-family: 'MedievalSharp';
+            src: url('./Fonts/MedievalSharp-Regular.ttf') format('truetype');
+        }
+
         body {
             margin: 0;
             height: 100vh;
             background-image: url('./coverbg.png');
             background-size: cover;
             background-position: center;
+            font-family: 'MedievalSharp', sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: 'Arial', sans-serif;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.25);
+            z-index: 1;
+        }
+
+        .content {
+            z-index: 2;
+            text-align: center;
+            color: white;
         }
 
         h1 {
-            font-size: 64px;
-            background: linear-gradient(to right, yellow, red);
+            font-size: 72px;
+            background: linear-gradient(to right, #fff44f, #ff6f61);
             -webkit-background-clip: text;
-            color: transparent;
-            font-weight: bold;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
         }
 
         #start-btn {
-            margin-top: 40px;
             font-size: 32px;
-            color: white;
-            animation: blink 1s infinite;
+            padding: 15px 40px;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            background: none;
-            border: none;
+            animation: blink 1.2s infinite;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 6px black;
+        }
+
+        #start-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
         }
 
         @keyframes blink {
-            0% {
+            0%, 100% {
                 opacity: 1;
             }
             50% {
                 opacity: 0;
             }
-            100% {
-                opacity: 1;
-            }
         }
     </style>
 </head>
 <body>
-<h1>FORBIDDEN ISLAND</h1>
-<button id="start-btn">PRESS TO START</button>
+<div class="overlay"></div>
+<div class="content">
+    <h1>FORBIDDEN ISLAND</h1>
+    <button id="start-btn">PRESS TO START</button>
+</div>
 
 <script>
     document.getElementById('start-btn').addEventListener('click', () => {
-        window.location.href = 'menu.html'; // 跳转到菜单页
+        window.location.href = 'menu.html';
     });
 </script>
 </body>
