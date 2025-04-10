@@ -1,13 +1,13 @@
-package Game.ForbiddenIsland.model;
+package Game.ForbiddenIsland.util;
 
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
-import Game.ForbiddenIsland.model.Players.PlayerImp;
+import Game.ForbiddenIsland.model.Players.Player;
 
 import java.util.List;
 
 public class ActionContext {
-    private final List<PlayerImp> targetPlayers;
+    private final List<Player> targetPlayers;
     private final Tile targetTile;
     private final Card targetCard;
 
@@ -17,7 +17,7 @@ public class ActionContext {
         this.targetCard = builder.targetCard;
     }
 
-    public List<PlayerImp> getTargetPlayers() {
+    public List<Player> getTargetPlayers() {
         return targetPlayers;
     }
 
@@ -31,11 +31,11 @@ public class ActionContext {
 
     // Builder class
     public static class Builder {
-        private List<PlayerImp> targetPlayers;
+        private List<Player> targetPlayers;
         private Tile targetTile;
         private Card targetCard;
 
-        public Builder setTargetPlayers(List<PlayerImp> players) {
+        public Builder setTargetPlayers(List<Player> players) {
             this.targetPlayers = players;
             return this;
         }

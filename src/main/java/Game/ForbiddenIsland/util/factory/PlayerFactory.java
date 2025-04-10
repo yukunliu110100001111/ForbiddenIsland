@@ -1,4 +1,4 @@
-package Game.ForbiddenIsland.factory;
+package Game.ForbiddenIsland.util.factory;
 
 import Game.ForbiddenIsland.model.*;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;

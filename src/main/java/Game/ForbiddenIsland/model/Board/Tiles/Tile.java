@@ -6,6 +6,10 @@ public interface Tile {
     String getName();
     void setName(String name);
 
+    int getX();
+    int getY();
+    void setPosition(int x,int y);
+
     TreasureType getTreasureType();
     void setTreasureType(TreasureType treasureType);
 

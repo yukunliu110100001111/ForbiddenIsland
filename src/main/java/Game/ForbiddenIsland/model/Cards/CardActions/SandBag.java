@@ -1,6 +1,6 @@
 package Game.ForbiddenIsland.model.Cards.CardActions;
 
-import Game.ForbiddenIsland.model.ActionContext;
+import Game.ForbiddenIsland.util.ActionContext;
 import Game.ForbiddenIsland.model.GameState;
 
 public class SandBag implements CardAction {

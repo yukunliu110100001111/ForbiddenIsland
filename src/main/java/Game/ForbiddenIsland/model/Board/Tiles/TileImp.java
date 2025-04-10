@@ -4,13 +4,18 @@ import Game.ForbiddenIsland.model.TreasureType;
 
 public class TileImp implements Tile{
     private String name;
+    private int x,y; //Position
     private TreasureType treasureType;
     private boolean foolsLanding;
-    TileState state = TileState.SAFE;
+    private TileState state = TileState.SAFE;
 
     public TileImp() {}
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public void setPosition(int x,int y) { this.x = x; this.y = y; }
 
     public TreasureType getTreasureType() { return treasureType; }
     public void setTreasureType(TreasureType treasureType) { this.treasureType = treasureType; }

@@ -1,13 +1,15 @@
 package Game.ForbiddenIsland.model;
 
+import Game.ForbiddenIsland.model.Board.GameMap;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
-import Game.ForbiddenIsland.model.Players.PlayerImp;
+import Game.ForbiddenIsland.model.Players.Player;
 
 import java.util.*;
 
 public class GameState {
-    private List<PlayerImp> players;
-    private List<Tile> board;
+    private List<Player> players;
+    private GameMap map;
+
     private final Map<TreasureType, Boolean> collectedTreasures =
             new EnumMap<>(Map.of(
                     TreasureType.EARTH, false,
@@ -23,6 +25,10 @@ public class GameState {
 
     public int getWaterLevel() {
         return waterLevel;
+    }
+
+    public GameMap getMap() {
+        return map;
     }
 
     public boolean isTreasureCollected(TreasureType type) {
