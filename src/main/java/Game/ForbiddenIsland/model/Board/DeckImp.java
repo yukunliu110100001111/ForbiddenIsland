@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DeckImp implements Deck{
-    private final List<Card> drawPile = new ArrayList<>();
-    private final List<Card> discardPile = new ArrayList<>();
-    public void initialize(List<Card> initialCards) {
+public class DeckImp<T extends Card> implements Deck<T>{
+    private final List<T> drawPile = new ArrayList<>();
+    private final List<T> discardPile = new ArrayList<>();
+    public void initialize(List<T> initialCards) {
         drawPile.clear();
         discardPile.clear();
         drawPile.addAll(initialCards);
         shufflePile(drawPile);
     }
     //Draw one card from the head of the draw pile
-    public Card drawCard() {
+    public T drawCard() {
         if (drawPile.isEmpty()) {
             reshuffleDiscardsIntoDrawPile();
         }
@@ -28,12 +28,12 @@ public class DeckImp implements Deck{
         return null;
     }
     //shuffle the DrawPile
-    private void shufflePile(List<Card> Pile) {
+    private void shufflePile(List<T> Pile) {
         Collections.shuffle(Pile);
     }
 
     // Discard a card into the discard pile
-    public void discard(Card card) {
+    public void discard(T card) {
         if (card != null) {
             discardPile.add(card);
         }

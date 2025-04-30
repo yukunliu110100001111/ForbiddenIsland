@@ -7,14 +7,16 @@ import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.Cards.cardCategory.FloodCard;
 import Game.ForbiddenIsland.model.Players.Player;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 //GameState 里有所有游戏状态，也就是玩家、地图、两个牌堆、水level
 public class GameState {
     private List<Player> players;
     private final GameMap map;
-    private final Deck treasureDeck;
-    private final Deck floodDeck;
+    private final Deck<Card> treasureDeck;
+    private final Deck<FloodCard> floodDeck;
     private int currentPlayerIndex;
     private int waterLevel;
     private final Map<TreasureType, Boolean> collectedTreasures =
@@ -26,7 +28,7 @@ public class GameState {
             ));
 
     public GameState(List<Player> players, GameMap map,
-                     Deck treasureDeck, Deck floodDeck) {
+                     Deck<Card> treasureDeck, Deck<FloodCard> floodDeck) {
         this.players = players;
         this.map = map;
         this.treasureDeck = treasureDeck;
@@ -42,6 +44,9 @@ public class GameState {
 
     public int getWaterLevel() {
         return waterLevel;
+    }
+    public void setWaterLevel(int difficultyLevel) {
+        waterLevel  = difficultyLevel;
     }
 
     public GameMap getMap() {
@@ -106,6 +111,5 @@ public class GameState {
                 !e.getValue() && map.isTreasureInaccessible(e.getKey())
         );
     }
-
 
 }

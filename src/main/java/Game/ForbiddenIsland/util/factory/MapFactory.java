@@ -13,7 +13,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class MapFactory {
-    public static GameMap loadMaps(String mapPath) throws Exception {
+    public static GameMap loadMaps() throws Exception {
+        String mapPath = "src/main/resources/model/map.json";
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addAbstractTypeMapping(Tile.class, TileImp.class);
