@@ -1,8 +1,8 @@
 package Game.ForbiddenIsland.model.Cards.cardCategory;
 
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.CardName;
 import Game.ForbiddenIsland.model.Cards.CardType;
-import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 
 public class FloodCard extends Card {
     private final Tile targetTile;

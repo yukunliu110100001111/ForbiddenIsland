@@ -1,10 +1,10 @@
 package Game.ForbiddenIsland.model.Cards.cardCategory;
 
-import Game.ForbiddenIsland.util.ActionContext;
 import Game.ForbiddenIsland.model.Cards.CardActions.CardAction;
 import Game.ForbiddenIsland.model.Cards.CardName;
 import Game.ForbiddenIsland.model.Cards.CardType;
 import Game.ForbiddenIsland.model.GameState;
+import Game.ForbiddenIsland.util.ActionContext;
 
 public class ActionCard extends Card {
     CardAction action;
