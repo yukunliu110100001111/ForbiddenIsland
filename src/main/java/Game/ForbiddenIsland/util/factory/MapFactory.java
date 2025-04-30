@@ -23,7 +23,7 @@ public class MapFactory {
         return new GameMap(assignPositions(tiles,mapPath));
     }
 
-    //load a map file to initialize a list to an two-dimensional array
+    //load a map file to initialize a list to a two-dimensional array
     private static Tile[][] assignPositions(List<Tile> tiles, String jsonPath) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(new File(jsonPath));
