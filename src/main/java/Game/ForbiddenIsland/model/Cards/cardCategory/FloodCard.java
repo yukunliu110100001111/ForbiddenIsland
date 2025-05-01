@@ -5,6 +5,7 @@ import Game.ForbiddenIsland.model.Cards.CardName;
 import Game.ForbiddenIsland.model.Cards.CardType;
 
 public class FloodCard extends Card {
+    //this class is for flood card
     private final Tile targetTile;
     public FloodCard(Tile targetTile) {
         super(CardName.FLOOD, CardType.FLOOD);

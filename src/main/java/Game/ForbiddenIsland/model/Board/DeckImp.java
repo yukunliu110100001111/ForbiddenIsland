@@ -5,8 +5,9 @@ import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+//This class is used to implement the Deck interface
 public class DeckImp<T extends Card> implements Deck<T>{
+    // Draw pile and discard pile
     private final List<T> drawPile = new ArrayList<>();
     private final List<T> discardPile = new ArrayList<>();
     public void initialize(List<T> initialCards) {

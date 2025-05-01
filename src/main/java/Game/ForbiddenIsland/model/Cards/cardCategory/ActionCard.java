@@ -7,6 +7,7 @@ import Game.ForbiddenIsland.model.GameState;
 import Game.ForbiddenIsland.util.ActionContext;
 
 public class ActionCard extends Card {
+    //this class is used to represent the action cards, for example, helicopter, sandbag, waterrise
     CardAction action;
 
     public ActionCard(CardName name, CardType cardType, CardAction action) {

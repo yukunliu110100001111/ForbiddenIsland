@@ -13,9 +13,9 @@ public class PlayerImp implements Player{
     private Tile position;
     private List<Card> hands;
     private int handsSize = 5;
-    public PlayerImp(PlayerType type, Tile position) {
+    public PlayerImp(PlayerType type) {
         this.type = type;
-        this.position = position;
+        this.position = null;
         this.hands = new ArrayList<Card>();
     }
 

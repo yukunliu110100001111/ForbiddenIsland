@@ -5,6 +5,7 @@ import Game.ForbiddenIsland.model.Cards.CardType;
 import Game.ForbiddenIsland.model.TreasureType;
 
 public class TreasureCard extends Card {
+    // Treasure card
     private final TreasureType treasureType;
     public TreasureCard(TreasureType type) {
         super(CardName.TREASURE, CardType.TREASURE);

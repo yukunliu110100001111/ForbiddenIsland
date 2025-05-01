@@ -6,7 +6,7 @@ import Game.ForbiddenIsland.model.Players.PlayerImp;
 import Game.ForbiddenIsland.model.Players.PlayerType;
 
 public class PlayerFactory {
-    public static Player createPlayer(PlayerType type,Tile startTile) {
-        return new PlayerImp(type, startTile);
+    public static Player createPlayer(PlayerType type) {
+        return new PlayerImp(type);
     }
 }
