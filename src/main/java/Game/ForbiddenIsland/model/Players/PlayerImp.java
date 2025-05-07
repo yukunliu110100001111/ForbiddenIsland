@@ -2,8 +2,8 @@ package Game.ForbiddenIsland.model.Players;
 
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
-import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //This class is the player model, contain the player type, position, and hands
@@ -13,10 +13,10 @@ public class PlayerImp implements Player{
     private Tile position;
     private List<Card> hands;
     private int handsSize = 5;
-    public PlayerImp(PlayerType type, Tile position, List<Card> hands) {
+    public PlayerImp(PlayerType type) {
         this.type = type;
-        this.position = position;
-        this.hands = hands;
+        this.position = null;
+        this.hands = new ArrayList<Card>();
     }
 
     public PlayerType getType() {
