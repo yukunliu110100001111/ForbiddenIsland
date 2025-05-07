@@ -13,8 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class MapFactory {
-    public static GameMap loadMaps() throws Exception {
-        String mapPath = "src/main/resources/model/map.json";
+    public static GameMap loadMaps(String mapPath) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addAbstractTypeMapping(Tile.class, TileImp.class);
@@ -24,7 +23,7 @@ public class MapFactory {
         return new GameMap(assignPositions(tiles,mapPath));
     }
 
-    //load a map file to initialize a list to a two-dimensional array
+    //load a map file to initialize a list to an two-dimensional array
     private static Tile[][] assignPositions(List<Tile> tiles, String jsonPath) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(new File(jsonPath));

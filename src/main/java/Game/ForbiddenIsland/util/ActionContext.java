@@ -6,7 +6,6 @@ import Game.ForbiddenIsland.model.Players.Player;
 
 import java.util.List;
 
-//  ActionContext class, which contains the context information for an action
 public class ActionContext {
     private final List<Player> targetPlayers;
     private final Tile targetTile;

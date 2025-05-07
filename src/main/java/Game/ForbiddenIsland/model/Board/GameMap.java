@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameMap {
-    // This class is a gameMap, containing all the tiles in the game.
     private Tile[][] board;
 
     public GameMap(Tile[][] board) {

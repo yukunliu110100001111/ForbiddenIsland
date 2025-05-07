@@ -23,4 +23,6 @@ public interface Tile {
     boolean isSafe();
     boolean isFlooded();
     boolean isSink();
+
+    void setSink(boolean sink);
 }

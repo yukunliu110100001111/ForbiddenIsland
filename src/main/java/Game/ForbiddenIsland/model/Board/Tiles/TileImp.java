@@ -3,16 +3,16 @@ package Game.ForbiddenIsland.model.Board.Tiles;
 import Game.ForbiddenIsland.model.TreasureType;
 
 public class TileImp implements Tile{
-    //this class is for the tile.
     private String name;
     private int x,y; //Position
-    private TreasureType treasureType; //if the tile has a treasure.
-    private boolean foolsLanding;  //check if the tile is fools landing.
-    private TileState state = TileState.SAFE; //initial state is safe.
+    private TreasureType treasureType;
+    private boolean foolsLanding;
+    private TileState state = TileState.SAFE;
 
     public TileImp() {}
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
     public int getX() { return x; }
     public int getY() { return y; }
     public void setPosition(int x,int y) { this.x = x; this.y = y; }
@@ -45,5 +45,11 @@ public class TileImp implements Tile{
     }
     public boolean isSink(){
         return this.state == TileState.SINK;
+    }
+    
+    public void setSink(boolean sink) {
+        if (sink) {
+            this.state = TileState.SINK;
+        }
     }
 }

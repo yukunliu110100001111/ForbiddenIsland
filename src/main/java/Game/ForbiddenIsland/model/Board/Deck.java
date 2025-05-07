@@ -4,10 +4,9 @@ import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 
 import java.util.List;
 
-public interface Deck<T extends Card> {
-    //this class is used to manage the cards in the deck
-    void initialize(List<T> initialCards);
-    T drawCard();
-    void discard(T card);
+public interface Deck {
+    void initialize(List<Card> initialCards);
+    Card drawCard();
+    void discard(Card card);
     void reshuffleDiscardsIntoDrawPile();
 }

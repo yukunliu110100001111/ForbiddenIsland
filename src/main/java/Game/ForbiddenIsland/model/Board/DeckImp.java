@@ -5,19 +5,18 @@ import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-//This class is used to implement the Deck interface
-public class DeckImp<T extends Card> implements Deck<T>{
-    // Draw pile and discard pile
-    private final List<T> drawPile = new ArrayList<>();
-    private final List<T> discardPile = new ArrayList<>();
-    public void initialize(List<T> initialCards) {
+
+public class DeckImp implements Deck{
+    private final List<Card> drawPile = new ArrayList<>();
+    private final List<Card> discardPile = new ArrayList<>();
+    public void initialize(List<Card> initialCards) {
         drawPile.clear();
         discardPile.clear();
         drawPile.addAll(initialCards);
         shufflePile(drawPile);
     }
     //Draw one card from the head of the draw pile
-    public T drawCard() {
+    public Card drawCard() {
         if (drawPile.isEmpty()) {
             reshuffleDiscardsIntoDrawPile();
         }
@@ -29,12 +28,12 @@ public class DeckImp<T extends Card> implements Deck<T>{
         return null;
     }
     //shuffle the DrawPile
-    private void shufflePile(List<T> Pile) {
+    private void shufflePile(List<Card> Pile) {
         Collections.shuffle(Pile);
     }
 
     // Discard a card into the discard pile
-    public void discard(T card) {
+    public void discard(Card card) {
         if (card != null) {
             discardPile.add(card);
         }
