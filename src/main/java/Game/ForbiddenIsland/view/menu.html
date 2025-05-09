@@ -140,9 +140,11 @@
             opacity: 1;
         }
 
-        #settings-panel button {
+        #back-cover {
             display: block;
             margin: 1rem auto 0;
+            font-size: 1rem;
+            padding: 0.4rem 1rem;
         }
     </style>
 </head>
@@ -163,7 +165,7 @@
         <label for="sfx">SFX Volume: 💥 <span id="sfx-value">70</span></label>
         <input type="range" id="sfx" min="0" max="100" value="70"/>
     </div>
-    <button onclick="saveSettings()">Apply Setting</button>
+    <button id="back-cover" onclick="window.location.href='cover.html'">Back to Cover</button>
 </div>
 
 <main>
@@ -189,11 +191,6 @@
         panel.style.display = panel.classList.contains("show") ? "block" : "none";
     };
 
-    function saveSettings() {
-        document.getElementById("settings-panel").classList.remove("show");
-        document.getElementById("settings-panel").style.display = "none";
-    }
-
     const themeToggle = document.getElementById("theme-toggle");
     themeToggle.onclick = () => {
         const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
@@ -210,11 +207,30 @@
         document.getElementById("difficulty-label").textContent = difficultyNames[e.target.value - 1];
     };
 
+    ["master", "music", "sfx"].forEach(id => {
+        const slider = document.getElementById(id);
+        slider.addEventListener("input", () => {
+            document.getElementById(`${id}-value`).textContent = slider.value;
+            localStorage.setItem(id, slider.value);
+        });
+    });
+
     document.getElementById("start-game").onclick = () => {
         document.body.style.transition = 'opacity 0.5s';
         document.body.style.opacity = 0;
         setTimeout(() => window.location.href = "game.html", 500);
     };
+
+    // Load saved values on startup
+    window.addEventListener("DOMContentLoaded", () => {
+        ["master", "music", "sfx"].forEach(id => {
+            const saved = localStorage.getItem(id);
+            if (saved !== null) {
+                document.getElementById(id).value = saved;
+                document.getElementById(`${id}-value`).textContent = saved;
+            }
+        });
+    });
 </script>
 </body>
 </html>
