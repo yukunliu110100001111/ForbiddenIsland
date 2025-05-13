@@ -1,0 +1,19 @@
+@import url('../styles/variables-light.css');
+@import url('../styles/variables-dark.css');
+
+.card-base {
+    padding: var(--spacing-lg);
+    min-width: 600px;
+    max-width: 1000px;
+    border-radius: var(--radius-lg);
+
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 8px 32px var(--card-shadow);
+    backdrop-filter: blur(var(--card-blur));
+    -webkit-backdrop-filter: blur(var(--card-blur));
+
+    color: var(--color-text-primary);
+    text-align: center;
+    z-index: var(--z-container);
+}

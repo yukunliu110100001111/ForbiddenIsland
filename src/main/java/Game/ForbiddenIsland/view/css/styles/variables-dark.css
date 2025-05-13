@@ -54,4 +54,29 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
+
+    --button-bg: rgba(0, 0, 0, 0.3);
+    --button-bg-hover: rgba(0, 0, 0, 0.4);
+    --button-text: #FFFFFF;
+    --button-border: rgba(255, 255, 255, 0.2);
+    --button-shadow: rgba(0, 0, 0, 0.5);
+
+    /* —— 卡片 —— */
+    --card-bg: rgba(30, 30, 30, 0.4);
+    --card-border: rgba(255, 255, 255, 0.2);
+    --card-shadow: rgba(0, 0, 0, 0.6);
+    --card-blur: 16px;
+
+    /* —— 滑块 —— */
+    --slider-track-bg: rgba(200, 200, 200, 0.2);
+    --slider-thumb-bg: var(--color-text-primary);
+
+    /* —— 插槽（Room 页面） —— */
+    --slot-bg: rgba(255, 255, 255, 0.1);
+    --slot-border: rgba(255, 255, 255, 0.5);
+
+    /* —— 封面标题 —— */
+    --cover-title-color: #fff9d2;
+    --cover-title-shadow-1: 0 0 15px #fffbb0;
+    --cover-title-shadow-2: 0 0 25px #ffffff;
 }
