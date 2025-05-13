@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Forbidden Island - Menu</title>
+    <style>
+        @font-face {
+            font-family: 'JollyLodger';
+            src: url('./fonts/JollyLodger-Regular.ttf') format('truetype');
+        }
+
+        :root {
+            --transition-speed: 0.4s;
+        }
+        :root[data-theme="dark"] {
+            --bg: #111;
+            --text: white;
+            --panel: rgba(40, 40, 40, 0.95);
+        }
+        :root[data-theme="light"] {
+            --bg: #eee;
+            --text: #111;
+            --panel: rgba(255, 255, 255, 0.95);
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'JollyLodger', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            gap: 2rem;
+            width: 100%;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-top: 2rem;
+        }
+
+        .slider-group {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        label {
+            font-size: 1.8rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        button {
+            padding: 0.6rem 1.5rem;
+            font-size: 1.2rem;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        #settings-icon, #theme-toggle {
+            position: absolute;
+            top: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--text);
+            transition: transform 0.3s ease;
+        }
+
+        #settings-icon {
+            right: 80px;
+        }
+
+        #theme-toggle {
+            right: 20px;
+        }
+
+        #theme-toggle:hover #theme-icon {
+            transform: rotate(360deg);
+            transition: transform 0.5s ease;
+        }
+
+        #settings-panel {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: var(--panel);
+            padding: 1rem;
+            border-radius: 12px;
+            width: 320px;
+            color: var(--text);
+            box-shadow: 0 0 10px black;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+        }
+
+        #settings-panel.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        #back-cover {
+            display: block;
+            margin: 1rem auto 0;
+            font-size: 1rem;
+            padding: 0.4rem 1rem;
+        }
+    </style>
+</head>
+<body>
+<button id="settings-icon">⚙</button>
+<button id="theme-toggle"><span id="theme-icon">🌙</span></button>
+
+<div id="settings-panel">
+    <div class="slider-group">
+        <label for="master">Master Volume: 🔊 <span id="master-value">80</span></label>
+        <input type="range" id="master" min="0" max="100" value="80"/>
+    </div>
+    <div class="slider-group">
+        <label for="music">Music Volume: 🎵 <span id="music-value">60</span></label>
+        <input type="range" id="music" min="0" max="100" value="60"/>
+    </div>
+    <div class="slider-group">
+        <label for="sfx">SFX Volume: 💥 <span id="sfx-value">70</span></label>
+        <input type="range" id="sfx" min="0" max="100" value="70"/>
+    </div>
+    <button id="back-cover" onclick="window.location.href='cover.html'">Back to Cover</button>
+</div>
+
+<main>
+    <h1>GAME MENU</h1>
+
+    <div class="slider-group">
+        <label for="players">Number of Players: <span id="player-count">2</span></label>
+        <input type="range" id="players" min="2" max="4" value="2"/>
+    </div>
+
+    <div class="slider-group">
+        <label for="difficulty">Difficulty: <span id="difficulty-label">Novice</span></label>
+        <input type="range" id="difficulty" min="1" max="4" value="1"/>
+    </div>
+</main>
+
+<button id="start-game">Start Game</button>
+
+<script>
+    document.getElementById("settings-icon").onclick = () => {
+        const panel = document.getElementById("settings-panel");
+        panel.classList.toggle("show");
+        panel.style.display = panel.classList.contains("show") ? "block" : "none";
+    };
+
+    const themeToggle = document.getElementById("theme-toggle");
+    themeToggle.onclick = () => {
+        const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", theme);
+        document.getElementById("theme-icon").textContent = theme === "dark" ? "🌙" : "🌞";
+    };
+
+    document.getElementById("players").oninput = e => {
+        document.getElementById("player-count").textContent = e.target.value;
+    };
+
+    const difficultyNames = ["Novice", "Normal", "Elite", "Legendary"];
+    document.getElementById("difficulty").oninput = e => {
+        document.getElementById("difficulty-label").textContent = difficultyNames[e.target.value - 1];
+    };
+
+    ["master", "music", "sfx"].forEach(id => {
+        const slider = document.getElementById(id);
+        slider.addEventListener("input", () => {
+            document.getElementById(`${id}-value`).textContent = slider.value;
+            localStorage.setItem(id, slider.value);
+        });
+    });
+
+    document.getElementById("start-game").onclick = () => {
+        document.body.style.transition = 'opacity 0.5s';
+        document.body.style.opacity = 0;
+        setTimeout(() => window.location.href = "game.html", 500);
+    };
+
+    // Load saved values on startup
+    window.addEventListener("DOMContentLoaded", () => {
+        ["master", "music", "sfx"].forEach(id => {
+            const saved = localStorage.getItem(id);
+            if (saved !== null) {
+                document.getElementById(id).value = saved;
+                document.getElementById(`${id}-value`).textContent = saved;
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Forbidden Island - Cover</title>
+    <link rel="icon" href="icons/appicon.ico" type="image/x-icon"/>
+
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/pages/cover.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div class="content">
+    <div class="blur-bar"></div>
+    <h1>FORBIDDEN ISLAND</h1>
+    <button id="start-btn">PRESS TO START</button>
+</div>
+
+<script>
+    document.getElementById('start-btn').addEventListener('click', () => {
+        window.location.href = 'lobby.html';
+    });
+</script>
+</body>
+</html>
