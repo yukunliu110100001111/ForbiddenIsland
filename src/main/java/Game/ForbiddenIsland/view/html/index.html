@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Forbidden Island SPA 示例</title>
+
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/pages/cover.css">
+    <link rel="stylesheet" href="../css/pages/lobby.css">
+    <link rel="stylesheet" href="../css/pages/creation.css">
+    <link rel="stylesheet" href="../css/pages/room.css">
+</head>
+<body>
+<div class="overlay"></div>
+<div id="app"></div>
+
+<script>
+    const app = document.getElementById('app');
+    const overlay = document.querySelector('.overlay');
+
+    // 控制遮罩
+    function toggleOverlay(show) {
+        overlay.classList.toggle('active', show);
+    }
+
+    // 加载视图：name 对应 sub/NAME.html
+    async function loadView(name, push = true) {
+        if (push) window.location.hash = name;
+        toggleOverlay(true);
+        // 模拟加载延迟
+        await new Promise(r => setTimeout(r, 300));
+        const html = await fetch(`sub/${name}.html`).then(r => r.text());
+        app.innerHTML = html;
+        bindViewEvents(name);
+        toggleOverlay(false);
+    }
+
+    // 绑定按钮事件
+    function bindViewEvents(name) {
+        if (name === 'cover') {
+            document.getElementById('start-btn')
+                .onclick = () => loadView('lobby');
+        }
+        if (name === 'lobby') {
+            document.getElementById('go-create-room')
+                .onclick = () => loadView('creation');
+            document.getElementById('go-join-room')
+                .onclick = () => loadView('room');
+        }
+        if (name === 'creation') {
+            document.getElementById('create-room')
+                .onclick = () => loadView('room');
+        }
+        if (name === 'room') {
+            document.getElementById('btn-room-start')
+                .onclick = () => loadView('game');
+        }
+        // …如需更多视图，可继续添加
+    }
+
+    // 监听页面 hash 变化
+    window.addEventListener('hashchange', () => {
+        const view = window.location.hash.slice(1) || 'cover';
+        loadView(view, false);
+    });
+
+    // 初始加载
+    window.addEventListener('DOMContentLoaded', () => {
+        const start = window.location.hash.slice(1) || 'cover';
+        loadView(start, false);
+    });
+</script>
+</body>
+</html>
