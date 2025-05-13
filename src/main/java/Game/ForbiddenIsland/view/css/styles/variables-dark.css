@@ -79,4 +79,31 @@
     --cover-title-color: #fff9d2;
     --cover-title-shadow-1: 0 0 15px #fffbb0;
     --cover-title-shadow-2: 0 0 25px #ffffff;
+
+    --bg-gradient: linear-gradient(
+            to bottom,
+            rgba(10, 10, 30, 0.9),
+            rgba(0, 0, 0, 0.9)
+    );
+
+    /* game 专属 */
+    --bg-image: url('../Images/Cards/seabg.png');
+    --status-bar-bg: var(--color-panel-bg);
+    --header-bg: var(--color-panel-bg);
+    --card-text: var(--color-text-primary);
+
+    --tile-border: #222222;
+    --tile-shadow: 0 8px 15px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+    --tile-bg-default: #8b6f2f; /* 更暗的金色 */
+    --tile-bg-flooded: #005577;
+    --tile-bg-sunk: #111111;
+    --tile-hover-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+
+    --meter-bg: #003355;
+    --meter-active-bg: #aa0000;
+
+    --anim-fast: var(--transition-fast);
+    --anim-medium: var(--transition-medium);
+    --anim-slow: var(--transition-slow);
+    --anim-del: 0.3s;
 }
