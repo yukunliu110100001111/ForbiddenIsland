@@ -5,18 +5,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-//111111
 import Game.ForbiddenIsland.model.Board.GameMap;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Board.Tiles.TileImp;
 import Game.ForbiddenIsland.model.Cards.CardName;
 import Game.ForbiddenIsland.model.Cards.CardType;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
+import Game.ForbiddenIsland.model.Cards.cardCategory.TreasureCard;
+import Game.ForbiddenIsland.model.Cards.cardCategory.ActionCard;
+import Game.ForbiddenIsland.model.Cards.cardCategory.FloodCard;
+import Game.ForbiddenIsland.model.Cards.CardActions.CardAction;
+import Game.ForbiddenIsland.model.Cards.CardActions.Helicopter;
+import Game.ForbiddenIsland.model.Cards.CardActions.SandBag;
+import Game.ForbiddenIsland.model.Cards.CardActions.WaterRise;
 import Game.ForbiddenIsland.model.GameState;
 import Game.ForbiddenIsland.model.Players.Player;
 import Game.ForbiddenIsland.model.Players.PlayerType;
 import Game.ForbiddenIsland.model.TreasureType;
 import Game.ForbiddenIsland.util.factory.PlayerFactory;
+import Game.ForbiddenIsland.util.ActionContext;
 
 public class GameController {
     private GameState gameState;
@@ -42,7 +49,7 @@ public class GameController {
         List<Player> players = new ArrayList<>();
         PlayerType[] availableTypes = PlayerType.values();
         Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA};
-        Tile startingTile = getFoolsLanding(); // 假设所有玩家从Fools' Landing开始
+        Tile startingTile = getFoolsLanding();
         
         for (int i = 0; i < playerCount; i++) {
             PlayerType type = availableTypes[i % availableTypes.length];
@@ -129,22 +136,22 @@ public class GameController {
         // 添加宝藏卡（每种宝藏5张）
         for (TreasureType type : TreasureType.values()) {
             for (int i = 0; i < 5; i++) {
-                treasureDeck.add(new Card(CardName.TREASURE, CardType.TREASURE));
+                treasureDeck.add(new TreasureCard(type));
             }
         }
         
         // 添加特殊卡
         // 3张直升机卡
         for (int i = 0; i < 3; i++) {
-            treasureDeck.add(new Card(CardName.HELICOPTER, CardType.HELICOPTER_LIFT));
+            treasureDeck.add(new ActionCard(CardName.HELICOPTER, CardType.HELICOPTER_LIFT, new Helicopter()));
         }
         // 2张沙袋卡
         for (int i = 0; i < 2; i++) {
-            treasureDeck.add(new Card(CardName.SANDBAG, CardType.SANDBAGS));
+            treasureDeck.add(new ActionCard(CardName.SANDBAG, CardType.SANDBAGS, new SandBag()));
         }
         // 3张水位上升卡
         for (int i = 0; i < 3; i++) {
-            treasureDeck.add(new Card(CardName.WATERRISE, CardType.WATERS_RISE));
+            treasureDeck.add(new ActionCard(CardName.WATERRISE, CardType.WATERS_RISE, new WaterRise()));
         }
         
         // 洗牌
@@ -156,7 +163,7 @@ public class GameController {
         
         // 为每个岛屿创建一张沉没卡
         for (Tile tile : gameState.getMap().getAllTiles()) {
-            floodDeck.add(new Card(CardName.FLOOD, CardType.FLOOD));
+            floodDeck.add(new FloodCard(tile));
         }
         
         // 洗牌
@@ -165,263 +172,14 @@ public class GameController {
 
     public void startTurn() {
         actionsRemaining = 3;
-        // 检查游戏状态
         checkGameState();
     }
 
     public void endTurn() {
-        // 抽宝藏卡
         drawTreasureCards();
-        // 抽沉没卡
         drawFloodCards();
-        // 检查游戏状态
         checkGameState();
-        // 切换到下一个玩家
         nextPlayer();
-    }
-
-    public boolean movePlayer(Player player, Tile targetTile) {
-        if (actionsRemaining <= 0) return false;
-        
-        // 检查移动是否合法
-        if (isValidMove(player, targetTile)) {
-            player.setPosition(targetTile);
-            actionsRemaining--;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean collectTreasure(Player player, TreasureType treasureType) {
-        if (actionsRemaining <= 0) return false;
-        
-        // 检查是否满足收集条件
-        if (canCollectTreasure(player, treasureType)) {
-            gameState.setTreasureCollected(treasureType, true);
-            actionsRemaining--;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean giveCard(Player giver, Player receiver, Card card) {
-        if (actionsRemaining <= 0) return false;
-        
-        // 检查是否满足送卡条件
-        if (canGiveCard(giver, receiver, card)) {
-            giver.removeCard(card);
-            receiver.addCard(card);
-            actionsRemaining--;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean useSpecialAbility(Player player, Object... params) {
-        if (actionsRemaining <= 0) return false;
-        
-        switch (player.getType()) {
-            case PILOT:
-                return usePilotAbility(player, (Tile) params[0]);
-            case ENGINEER:
-                return useEngineerAbility(player, (List<Tile>) params[0]);
-            case NAVIGATER:
-                return useNavigatorAbility(player, (Player) params[0], (Tile) params[1]);
-            case EXPLORER:
-                return useExplorerAbility(player, (Tile) params[0]);
-            case DRIVE:
-                return useDiverAbility(player, (Tile) params[0]);
-            case MESSENGER:
-                return useMessengerAbility(player, (Player) params[0], (Card) params[1]);
-            default:
-                return false;
-        }
-    }
-
-    private void checkGameState() {
-        // 检查胜利条件
-        if (checkWinCondition()) {
-            gameOver = true;
-            gameResult = "Victory!";
-            return;
-        }
-
-        // 检查失败条件
-        if (checkLoseCondition()) {
-            gameOver = true;
-            gameResult = "Defeat!";
-            return;
-        }
-    }
-
-    private boolean checkWinCondition() {
-        // 检查是否收集了所有宝藏
-        for (TreasureType type : TreasureType.values()) {
-            if (!gameState.isTreasureCollected(type)) {
-                return false;
-            }
-        }
-
-        // 检查是否所有玩家都在Fools' Landing
-        Tile foolsLanding = getFoolsLanding();
-        for (Player player : gameState.getPlayers()) {
-            if (player.getPosition() != foolsLanding) {
-                return false;
-            }
-        }
-
-        // 检查是否有直升机卡
-        boolean hasHelicopterCard = false;
-        for (Player player : gameState.getPlayers()) {
-            for (Card card : player.getHands()) {
-                if (card.getCardType() == CardType.HELICOPTER_LIFT) {
-                    hasHelicopterCard = true;
-                    break;
-                }
-            }
-        }
-
-        return hasHelicopterCard;
-    }
-
-    private boolean checkLoseCondition() {
-        // 检查水位
-        if (gameState.getWaterLevel() >= 10) { // 假设10是最高水位
-            return true;
-        }
-
-        // 检查Fools' Landing是否沉没
-        if (gameState.getMap().isFoolsLandingSunk()) {
-            return true;
-        }
-
-        // 检查是否有玩家被困
-        for (Player player : gameState.getPlayers()) {
-            if (isPlayerTrapped(player)) {
-                return true;
-            }
-        }
-
-        // 检查宝藏是否无法获取
-        for (TreasureType type : TreasureType.values()) {
-            if (gameState.getMap().isTreasureInaccessible(type)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean isValidMove(Player player, Tile targetTile) {
-        // 根据玩家类型检查移动是否合法
-        switch (player.getType()) {
-            case EXPLORER:
-                return isValidExplorerMove(player.getPosition(), targetTile);
-            case PILOT:
-                return true; // Pilot可以飞到任何地方
-            default:
-                return isValidNormalMove(player.getPosition(), targetTile);
-        }
-    }
-
-    private boolean canCollectTreasure(Player player, TreasureType treasureType) {
-        // 检查玩家位置和手牌
-        return player.getPosition().getTreasureType() == treasureType &&
-               hasRequiredCards(player, treasureType);
-    }
-
-    private boolean canGiveCard(Player giver, Player receiver, Card card) {
-        // 检查送卡条件
-        if (giver.getType() == PlayerType.MESSENGER) {
-            return true; // Messenger可以远程送卡
-        }
-        return giver.getPosition() == receiver.getPosition();
-    }
-
-    private boolean usePilotAbility(Player player, Tile targetTile) {
-        player.setPosition(targetTile);
-        return true;
-    }
-
-    private boolean useEngineerAbility(Player player, List<Tile> tiles) {
-        if (tiles.size() > 2) return false;
-        for (Tile tile : tiles) {
-            tile.setSink(false);
-        }
-        return true;
-    }
-
-    private boolean useNavigatorAbility(Player navigator, Player targetPlayer, Tile targetTile) {
-        // Navigator可以让其他玩家移动最多2格
-        if (isValidNormalMove(targetPlayer.getPosition(), targetTile)) {
-            targetPlayer.setPosition(targetTile);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean useExplorerAbility(Player explorer, Tile targetTile) {
-        // Explorer可以斜着移动
-        if (isValidExplorerMove(explorer.getPosition(), targetTile)) {
-            explorer.setPosition(targetTile);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean useDiverAbility(Player diver, Tile targetTile) {
-        // Diver可以穿越连续的沉没/缺失格子
-        if (isValidDiverMove(diver.getPosition(), targetTile)) {
-            diver.setPosition(targetTile);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean useMessengerAbility(Player messenger, Player targetPlayer, Card card) {
-        // Messenger可以远程送卡
-        messenger.removeCard(card);
-        targetPlayer.addCard(card);
-        return true;
-    }
-
-    private boolean isValidDiverMove(Tile current, Tile target) {
-        // 检查目标格子是否有效
-        if (target == null) {
-            return false;
-        }
-        
-        // 计算当前位置和目标位置的距离
-        int dx = Math.abs(current.getX() - target.getX());
-        int dy = Math.abs(current.getY() - target.getY());
-        
-        // 潜水员可以穿越连续的沉没/淹没格子
-        // 这里简化处理，允许潜水员移动到任何相邻格子
-        return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
-    }
-
-    public Player getCurrentPlayer() {
-        return gameState.getPlayers().get(currentPlayerIndex);
-    }
-
-    public int getActionsRemaining() {
-        return actionsRemaining;
-    }
-
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    public String getGameResult() {
-        return gameResult;
-    }
-
-    public GameState getGameState() {
-        return gameState;
-    }
-
-    private void nextPlayer() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % gameState.getPlayers().size();
     }
 
     private void drawTreasureCards() {
@@ -446,8 +204,10 @@ public class GameController {
             Card drawnCard = treasureDeck.remove(0);
             
             // 检查是否是水位上升卡
-            if (drawnCard.getCardType() == CardType.WATERS_RISE) {
-                handleWatersRise();
+            if (drawnCard instanceof ActionCard && drawnCard.getCardType() == CardType.WATERS_RISE) {
+                ActionCard waterRiseCard = (ActionCard) drawnCard;
+                ActionContext context = new ActionContext.Builder().build();
+                waterRiseCard.use(gameState, context);
                 treasureDiscardPile.add(drawnCard);
             } else {
                 // 检查手牌上限
@@ -480,35 +240,244 @@ public class GameController {
             }
             
             Card drawnCard = floodDeck.remove(0);
-            // 随机选择一个岛屿
-            List<Tile> allTiles = gameState.getMap().getAllTiles();
-            Tile targetTile = allTiles.get(random.nextInt(allTiles.size()));
-            
-            // 处理沉没卡效果
-            if (targetTile.isSafe()) {
-                targetTile.flood();
-            } else if (targetTile.isFlooded()) {
-                targetTile.setSink(true);
+            if (drawnCard instanceof FloodCard) {
+                FloodCard floodCard = (FloodCard) drawnCard;
+                floodCard.flood();
             }
             
             floodDiscardPile.add(drawnCard);
         }
     }
 
-    private void handleWatersRise() {
-        // 水位上升
-        gameState.waterRise();
+    public boolean movePlayer(Player player, Tile targetTile) {
+        if (actionsRemaining <= 0) return false;
         
-        // 重洗沉没弃牌堆
-        if (!floodDiscardPile.isEmpty()) {
-            floodDeck.addAll(floodDiscardPile);
-            floodDiscardPile.clear();
-            Collections.shuffle(floodDeck);
+        if (isValidMove(player, targetTile)) {
+            player.setPosition(targetTile);
+            actionsRemaining--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean collectTreasure(Player player, TreasureType treasureType) {
+        if (actionsRemaining <= 0) return false;
+        
+        if (canCollectTreasure(player, treasureType)) {
+            gameState.setTreasureCollected(treasureType, true);
+            actionsRemaining--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean giveCard(Player giver, Player receiver, Card card) {
+        if (actionsRemaining <= 0) return false;
+        
+        if (canGiveCard(giver, receiver, card)) {
+            giver.removeCard(card);
+            receiver.addCard(card);
+            actionsRemaining--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean useSpecialAbility(Player player, Object... params) {
+        if (actionsRemaining <= 0) return false;
+        
+        switch (player.getType()) {
+            case PILOT:
+                return usePilotAbility(player, (Tile) params[0]);
+            case ENGINEER:
+                return useEngineerAbility(player, (List<Tile>) params[0]);
+            case NAVIGATER:
+                return useNavigatorAbility(player, (Player) params[0], (Tile) params[1]);
+            case EXPLORER:
+                return useExplorerAbility(player, (Tile) params[0]);
+            case DRIVE:
+                return useDiverAbility(player, (Tile) params[0]);
+            case MESSENGER:
+                return useMessengerAbility(player, (Player) params[0], (Card) params[1]);
+            default:
+                return false;
         }
     }
 
+    private void checkGameState() {
+        if (checkWinCondition()) {
+            gameOver = true;
+            gameResult = "Victory!";
+            return;
+        }
+
+        if (checkLoseCondition()) {
+            gameOver = true;
+            gameResult = "Defeat!";
+            return;
+        }
+    }
+
+    private boolean checkWinCondition() {
+        // 检查是否收集了所有宝藏
+        for (TreasureType type : TreasureType.values()) {
+            if (!gameState.isTreasureCollected(type)) {
+                return false;
+            }
+        }
+
+        // 检查是否所有玩家都在Fools' Landing
+        Tile foolsLanding = getFoolsLanding();
+        for (Player player : gameState.getPlayers()) {
+            if (player.getPosition() != foolsLanding) {
+                return false;
+            }
+        }
+
+        // 检查是否有直升机卡
+        boolean hasHelicopterCard = false;
+        for (Player player : gameState.getPlayers()) {
+            for (Card card : player.getHands()) {
+                if (card instanceof ActionCard && card.getCardType() == CardType.HELICOPTER_LIFT) {
+                    hasHelicopterCard = true;
+                    break;
+                }
+            }
+        }
+
+        return hasHelicopterCard;
+    }
+
+    private boolean checkLoseCondition() {
+        // 检查水位
+        if (gameState.getWaterLevel() >= 10) {
+            return true;
+        }
+
+        // 检查Fools' Landing是否沉没
+        if (gameState.getMap().isFoolsLandingSunk()) {
+            return true;
+        }
+
+        // 检查是否有玩家被困
+        for (Player player : gameState.getPlayers()) {
+            if (isPlayerTrapped(player)) {
+                return true;
+            }
+        }
+
+        // 检查宝藏是否无法获取
+        for (TreasureType type : TreasureType.values()) {
+            if (gameState.getMap().isTreasureInaccessible(type)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isValidMove(Player player, Tile targetTile) {
+        switch (player.getType()) {
+            case EXPLORER:
+                return isValidExplorerMove(player.getPosition(), targetTile);
+            case PILOT:
+                return true; // Pilot可以飞到任何地方
+            default:
+                return isValidNormalMove(player.getPosition(), targetTile);
+        }
+    }
+
+    private boolean canCollectTreasure(Player player, TreasureType treasureType) {
+        return player.getPosition().getTreasureType() == treasureType &&
+               hasRequiredCards(player, treasureType);
+    }
+
+    private boolean canGiveCard(Player giver, Player receiver, Card card) {
+        if (giver.getType() == PlayerType.MESSENGER) {
+            return true; // Messenger可以远程送卡
+        }
+        return giver.getPosition() == receiver.getPosition();
+    }
+
+    private boolean usePilotAbility(Player player, Tile targetTile) {
+        player.setPosition(targetTile);
+        return true;
+    }
+
+    private boolean useEngineerAbility(Player player, List<Tile> tiles) {
+        if (tiles.size() > 2) return false;
+        for (Tile tile : tiles) {
+            tile.setSink(false);
+        }
+        return true;
+    }
+
+    private boolean useNavigatorAbility(Player navigator, Player targetPlayer, Tile targetTile) {
+        if (isValidNormalMove(targetPlayer.getPosition(), targetTile)) {
+            targetPlayer.setPosition(targetTile);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean useExplorerAbility(Player explorer, Tile targetTile) {
+        if (isValidExplorerMove(explorer.getPosition(), targetTile)) {
+            explorer.setPosition(targetTile);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean useDiverAbility(Player diver, Tile targetTile) {
+        if (isValidDiverMove(diver.getPosition(), targetTile)) {
+            diver.setPosition(targetTile);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean useMessengerAbility(Player messenger, Player targetPlayer, Card card) {
+        messenger.removeCard(card);
+        targetPlayer.addCard(card);
+        return true;
+    }
+
+    private boolean isValidDiverMove(Tile current, Tile target) {
+        if (target == null) {
+            return false;
+        }
+        
+        int dx = Math.abs(current.getX() - target.getX());
+        int dy = Math.abs(current.getY() - target.getY());
+        
+        return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
+    }
+
+    public Player getCurrentPlayer() {
+        return gameState.getPlayers().get(currentPlayerIndex);
+    }
+
+    public int getActionsRemaining() {
+        return actionsRemaining;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public String getGameResult() {
+        return gameResult;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    private void nextPlayer() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % gameState.getPlayers().size();
+    }
+
     private Tile getFoolsLanding() {
-        // 遍历所有格子找到Fools' Landing
         for (Tile tile : gameState.getMap().getAllTiles()) {
             if (tile.isFoolsLanding()) {
                 return tile;
@@ -520,70 +489,56 @@ public class GameController {
     private boolean isPlayerTrapped(Player player) {
         Tile currentTile = player.getPosition();
         
-        // 如果当前格子已经沉没，玩家被困
         if (currentTile.isSink()) {
             return true;
         }
         
-        // 获取所有相邻格子
         List<Tile> adjacentTiles = gameState.getMap().getAdjacentTiles(currentTile);
         
-        // 检查是否有任何可移动到的格子
         for (Tile adjacentTile : adjacentTiles) {
             if (adjacentTile != null && !adjacentTile.isSink()) {
-                // 如果是潜水员，可以移动到被淹没的格子
                 if (player.getType() == PlayerType.DRIVE) {
                     return false;
                 }
-                // 其他角色只能移动到安全的格子
                 if (adjacentTile.isSafe()) {
                     return false;
                 }
             }
         }
         
-        // 如果没有可移动到的格子，玩家被困
         return true;
     }
 
     private boolean hasRequiredCards(Player player, TreasureType type) {
-        // 统计玩家手牌中对应宝藏类型的卡片数量
         int count = 0;
         for (Card card : player.getHands()) {
-            if (card.getCardType() == CardType.TREASURE && 
-                card.getCardName().toString().equals(type.toString())) {
+            if (card instanceof TreasureCard && 
+                ((TreasureCard) card).getTreasureType() == type) {
                 count++;
             }
         }
-        // 需要4张相同类型的宝藏卡才能收集宝藏
         return count >= 4;
     }
 
     private boolean isValidExplorerMove(Tile current, Tile target) {
-        // 检查目标格子是否有效
         if (target == null || target.isSink()) {
             return false;
         }
         
-        // 计算当前位置和目标位置的距离
         int dx = Math.abs(current.getX() - target.getX());
         int dy = Math.abs(current.getY() - target.getY());
         
-        // 探险家可以斜着移动
         return (dx <= 1 && dy <= 1) && !(dx == 0 && dy == 0);
     }
 
     private boolean isValidNormalMove(Tile current, Tile target) {
-        // 检查目标格子是否有效
         if (target == null || target.isSink()) {
             return false;
         }
         
-        // 计算当前位置和目标位置的距离
         int dx = Math.abs(current.getX() - target.getX());
         int dy = Math.abs(current.getY() - target.getY());
         
-        // 只能移动到相邻的格子（上下左右）
         return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
     }
 }
