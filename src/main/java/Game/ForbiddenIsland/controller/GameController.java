@@ -53,7 +53,7 @@ public class GameController {
             players.add(player);
         }
         gameState.setPlayers(players);
-    }
+    } //playerfacotry和gamemap
 
     private void initializeBoard() {
         Tile[][] board = new Tile[6][6];
@@ -100,7 +100,7 @@ public class GameController {
         }
         
         gameState.setMap(new GameMap(board));
-    }
+    }//这个用gamemap
 
     private Tile createTile(int x, int y, TreasureType treasureType, boolean isFoolsLanding) {
         Tile tile = new TileImp();
@@ -109,7 +109,7 @@ public class GameController {
         tile.setFoolsLanding(isFoolsLanding);
         tile.setName(getTileName(x, y, treasureType, isFoolsLanding));
         return tile;
-    }
+    } //这个用map
 
     private String getTileName(int x, int y, TreasureType treasureType, boolean isFoolsLanding) {
         if (isFoolsLanding) return "Fools' Landing";
@@ -156,7 +156,7 @@ public class GameController {
             floodCards.add(new FloodCard(tile));
         }
         gameState.getFloodDeck().initialize(floodCards);
-    }
+    }//这个用deck和cardFactory初始化
 
     public void startTurn() {
         actionsRemaining = 3;
@@ -211,7 +211,7 @@ public class GameController {
                 return;
             }
         }
-    }
+    } //逻辑问题，抽完洪水卡洗回去
 
     public boolean movePlayer(Player player, Tile targetTile) {
         if (actionsRemaining <= 0) return false;
@@ -280,7 +280,7 @@ public class GameController {
             gameResult = "Defeat!";
             return;
         }
-    }
+    }//gamestate里有方法
 
     private boolean isValidMove(Player player, Tile targetTile) {
         switch (player.getType()) {
