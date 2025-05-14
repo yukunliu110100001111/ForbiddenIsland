@@ -2,9 +2,7 @@ package Game.ForbiddenIsland.controller;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import Game.ForbiddenIsland.model.Board.GameMap;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Board.Tiles.TileImp;
@@ -31,15 +29,9 @@ import Game.ForbiddenIsland.util.ActionContext;
 //11
 public class GameController {
     private GameState gameState;
-    private int currentPlayerIndex = 0;
     private int actionsRemaining = 3;
     private boolean gameOver = false;
     private String gameResult = "";
-    private List<Card> treasureDeck;
-    private List<Card> treasureDiscardPile;
-    private List<Card> floodDeck;
-    private List<Card> floodDiscardPile;
-    private Random random = new Random();
 
     public GameController(int playerCount, int difficultyLevel) {
         this.gameState = new GameState();
@@ -107,7 +99,6 @@ public class GameController {
             }
         }
         
-        gameState.setBoard(tiles);
         gameState.setMap(new GameMap(board));
     }
 
@@ -133,45 +124,38 @@ public class GameController {
     }
 
     private void initializeDecks() {
-        // 初始化宝藏卡牌堆
-        treasureDeck = new ArrayList<>();
-        treasureDiscardPile = new ArrayList<>();
+        List<Card> treasureCards = new ArrayList<>();
         
         // 添加宝藏卡（每种宝藏5张）
         for (TreasureType type : TreasureType.values()) {
             for (int i = 0; i < 5; i++) {
-                treasureDeck.add(new TreasureCard(type));
+                treasureCards.add(new TreasureCard(type));
             }
         }
         
         // 添加特殊卡
         // 3张直升机卡
         for (int i = 0; i < 3; i++) {
-            treasureDeck.add(new ActionCard(CardName.HELICOPTER, CardType.HELICOPTER_LIFT, new Helicopter()));
+            treasureCards.add(new ActionCard(CardName.HELICOPTER, CardType.ACTION, new Helicopter()));
         }
         // 2张沙袋卡
         for (int i = 0; i < 2; i++) {
-            treasureDeck.add(new ActionCard(CardName.SANDBAG, CardType.SANDBAGS, new SandBag()));
+            treasureCards.add(new ActionCard(CardName.SANDBAG, CardType.ACTION, new SandBag()));
         }
         // 3张水位上升卡
         for (int i = 0; i < 3; i++) {
-            treasureDeck.add(new ActionCard(CardName.WATERRISE, CardType.WATERS_RISE, new WaterRise()));
+            treasureCards.add(new ActionCard(CardName.WATERRISE, CardType.ACTION, new WaterRise()));
         }
         
-        // 洗牌
-        Collections.shuffle(treasureDeck);
+        // 初始化宝藏牌堆
+        gameState.getTreasureDeck().initialize(treasureCards);
         
-        // 初始化沉没卡牌堆
-        floodDeck = new ArrayList<>();
-        floodDiscardPile = new ArrayList<>();
-        
-        // 为每个岛屿创建一张沉没卡
+        // 初始化沉没牌堆
+        List<FloodCard> floodCards = new ArrayList<>();
         for (Tile tile : gameState.getMap().getAllTiles()) {
-            floodDeck.add(new FloodCard(tile));
+            floodCards.add(new FloodCard(tile));
         }
-        
-        // 洗牌
-        Collections.shuffle(floodDeck);
+        gameState.getFloodDeck().initialize(floodCards);
     }
 
     public void startTurn() {
@@ -183,41 +167,32 @@ public class GameController {
         drawTreasureCards();
         drawFloodCards();
         checkGameState();
-        nextPlayer();
+        gameState.nextPlayer();
     }
 
     private void drawTreasureCards() {
-        Player currentPlayer = getCurrentPlayer();
+        Player currentPlayer = gameState.getCurrentPlayer();
         
         // 抽2张卡
         for (int i = 0; i < 2; i++) {
-            if (treasureDeck.isEmpty()) {
-                // 如果牌堆空了，重洗弃牌堆
-                if (!treasureDiscardPile.isEmpty()) {
-                    treasureDeck.addAll(treasureDiscardPile);
-                    treasureDiscardPile.clear();
-                    Collections.shuffle(treasureDeck);
-                } else {
-                    // 如果弃牌堆也空了，游戏结束
-                    gameOver = true;
-                    gameResult = "No more cards!";
-                    return;
-                }
+            Card drawnCard = gameState.drawTreasureCard();
+            if (drawnCard == null) {
+                gameOver = true;
+                gameResult = "No more cards!";
+                return;
             }
             
-            Card drawnCard = treasureDeck.remove(0);
-            
             // 检查是否是水位上升卡
-            if (drawnCard instanceof ActionCard && drawnCard.getCardType() == CardType.WATERS_RISE) {
-                ActionCard waterRiseCard = (ActionCard) drawnCard;
+            if (drawnCard instanceof ActionCard && drawnCard.getCardType() == CardType.ACTION) {
+                ActionCard actionCard = (ActionCard) drawnCard;
                 ActionContext context = new ActionContext.Builder().build();
-                waterRiseCard.use(gameState, context);
-                treasureDiscardPile.add(drawnCard);
+                actionCard.use(gameState, context);
+                gameState.discardTreasure(drawnCard);
             } else {
                 // 检查手牌上限
                 if (currentPlayer.getHands().size() >= currentPlayer.getHandsSize()) {
                     // 手牌已满，必须弃牌
-                    treasureDiscardPile.add(drawnCard);
+                    gameState.discardTreasure(drawnCard);
                 } else {
                     currentPlayer.addCard(drawnCard);
                 }
@@ -229,27 +204,12 @@ public class GameController {
         int cardsToDraw = gameState.getWaterLevel();
         
         for (int i = 0; i < cardsToDraw; i++) {
-            if (floodDeck.isEmpty()) {
-                // 如果牌堆空了，重洗弃牌堆
-                if (!floodDiscardPile.isEmpty()) {
-                    floodDeck.addAll(floodDiscardPile);
-                    floodDiscardPile.clear();
-                    Collections.shuffle(floodDeck);
-                } else {
-                    // 如果弃牌堆也空了，游戏结束
-                    gameOver = true;
-                    gameResult = "No more flood cards!";
-                    return;
-                }
+            Card drawnCard = gameState.drawFloodCard();
+            if (drawnCard == null) {
+                gameOver = true;
+                gameResult = "No more flood cards!";
+                return;
             }
-            
-            Card drawnCard = floodDeck.remove(0);
-            if (drawnCard instanceof FloodCard) {
-                FloodCard floodCard = (FloodCard) drawnCard;
-                floodCard.flood();
-            }
-            
-            floodDiscardPile.add(drawnCard);
         }
     }
 
@@ -309,75 +269,17 @@ public class GameController {
     }
 
     private void checkGameState() {
-        if (checkWinCondition()) {
+        if (gameState.isGameWon()) {
             gameOver = true;
             gameResult = "Victory!";
             return;
         }
 
-        if (checkLoseCondition()) {
+        if (gameState.isGameLost()) {
             gameOver = true;
             gameResult = "Defeat!";
             return;
         }
-    }
-
-    private boolean checkWinCondition() {
-        // 检查是否收集了所有宝藏
-        for (TreasureType type : TreasureType.values()) {
-            if (!gameState.isTreasureCollected(type)) {
-                return false;
-            }
-        }
-
-        // 检查是否所有玩家都在Fools' Landing
-        Tile foolsLanding = getFoolsLanding();
-        for (Player player : gameState.getPlayers()) {
-            if (player.getPosition() != foolsLanding) {
-                return false;
-            }
-        }
-
-        // 检查是否有直升机卡
-        boolean hasHelicopterCard = false;
-        for (Player player : gameState.getPlayers()) {
-            for (Card card : player.getHands()) {
-                if (card instanceof ActionCard && card.getCardType() == CardType.HELICOPTER_LIFT) {
-                    hasHelicopterCard = true;
-                    break;
-                }
-            }
-        }
-
-        return hasHelicopterCard;
-    }
-
-    private boolean checkLoseCondition() {
-        // 检查水位
-        if (gameState.getWaterLevel() >= 10) {
-            return true;
-        }
-
-        // 检查Fools' Landing是否沉没
-        if (gameState.getMap().isFoolsLandingSunk()) {
-            return true;
-        }
-
-        // 检查是否有玩家被困
-        for (Player player : gameState.getPlayers()) {
-            if (isPlayerTrapped(player)) {
-                return true;
-            }
-        }
-
-        // 检查宝藏是否无法获取
-        for (TreasureType type : TreasureType.values()) {
-            if (gameState.getMap().isTreasureInaccessible(type)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private boolean isValidMove(Player player, Tile targetTile) {
@@ -411,7 +313,7 @@ public class GameController {
     private boolean useEngineerAbility(Player player, List<Tile> tiles) {
         if (tiles.size() > 2) return false;
         for (Tile tile : tiles) {
-            tile.setSink(false);
+            tile.drain();
         }
         return true;
     }
@@ -458,7 +360,7 @@ public class GameController {
     }
 
     public Player getCurrentPlayer() {
-        return gameState.getPlayers().get(currentPlayerIndex);
+        return gameState.getCurrentPlayer();
     }
 
     public int getActionsRemaining() {
@@ -475,10 +377,6 @@ public class GameController {
 
     public GameState getGameState() {
         return gameState;
-    }
-
-    private void nextPlayer() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % gameState.getPlayers().size();
     }
 
     private Tile getFoolsLanding() {

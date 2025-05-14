@@ -1,6 +1,7 @@
 package Game.ForbiddenIsland.model;
 
 import Game.ForbiddenIsland.model.Board.Deck;
+import Game.ForbiddenIsland.model.Board.DeckImp;
 import Game.ForbiddenIsland.model.Board.GameMap;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
@@ -14,7 +15,7 @@ import java.util.Map;
 //GameState 里有所有游戏状态，也就是玩家、地图、两个牌堆、水level
 public class GameState {
     private List<Player> players;
-    private final GameMap map;
+    private GameMap map;
     private final Deck<Card> treasureDeck;
     private final Deck<FloodCard> floodDeck;
     private int currentPlayerIndex;
@@ -27,6 +28,13 @@ public class GameState {
                     TreasureType.WATER, false
             ));
 
+    public GameState() {
+        this.treasureDeck = new DeckImp<>();
+        this.floodDeck = new DeckImp<>();
+        this.waterLevel = 0;
+        this.currentPlayerIndex = 0;
+    }
+
     public GameState(List<Player> players, GameMap map,
                      Deck<Card> treasureDeck, Deck<FloodCard> floodDeck) {
         this.players = players;
@@ -36,7 +44,6 @@ public class GameState {
         this.waterLevel = 0;
         this.currentPlayerIndex = 0;
     }
-
 
     public void waterRise(){
         waterLevel++;
@@ -51,6 +58,10 @@ public class GameState {
 
     public GameMap getMap() {
         return map;
+    }
+
+    public void setMap(GameMap map) {
+        this.map = map;
     }
 
     public boolean isTreasureCollected(TreasureType type) {
@@ -91,8 +102,10 @@ public class GameState {
 
     public Card drawFloodCard() {
         FloodCard card = (FloodCard) floodDeck.drawCard();
-        card.flood();
-        floodDeck.discard(card);
+        if (card != null) {
+            card.flood();
+            floodDeck.discard(card);
+        }
         return card;
     }
 
@@ -112,4 +125,11 @@ public class GameState {
         );
     }
 
+    public Deck<Card> getTreasureDeck() {
+        return treasureDeck;
+    }
+
+    public Deck<FloodCard> getFloodDeck() {
+        return floodDeck;
+    }
 }

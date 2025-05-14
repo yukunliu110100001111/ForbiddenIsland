@@ -3,6 +3,7 @@ package Game.ForbiddenIsland.model.Players;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class PlayerImp implements Player{
     private Tile position;
     private List<Card> hands;
     private int handsSize = 5;
+    private Color color;
     public PlayerImp(PlayerType type) {
         this.type = type;
         this.position = null;
@@ -49,4 +51,11 @@ public class PlayerImp implements Player{
         this.hands.add(card);
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

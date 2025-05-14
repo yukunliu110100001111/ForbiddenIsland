@@ -3,6 +3,7 @@ package Game.ForbiddenIsland.model.Players;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 
+import java.awt.Color;
 import java.util.List;
 
 public interface Player {
@@ -19,4 +20,7 @@ public interface Player {
 
     void addCard(Card card);
     void removeCard(Card card);
+
+    Color getColor();
+    void setColor(Color color);
 }
