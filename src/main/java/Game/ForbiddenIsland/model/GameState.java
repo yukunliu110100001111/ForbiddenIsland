@@ -16,8 +16,8 @@ import java.util.Map;
 public class GameState {
     private List<Player> players;
     private GameMap map;
-    private final Deck<Card> treasureDeck;
-    private final Deck<FloodCard> floodDeck;
+    private Deck<Card> treasureDeck;
+    private Deck<FloodCard> floodDeck;
     private int currentPlayerIndex;
     private int waterLevel;
     private final Map<TreasureType, Boolean> collectedTreasures =
@@ -128,8 +128,14 @@ public class GameState {
     public Deck<Card> getTreasureDeck() {
         return treasureDeck;
     }
+    public void setTreasureDeck(Deck<Card> treasureDeck) {
+        this.treasureDeck = treasureDeck;
+    }
 
     public Deck<FloodCard> getFloodDeck() {
         return floodDeck;
+    }
+    public void setFloodDeck(Deck<FloodCard> floodDeck) {
+        this.floodDeck = floodDeck;
     }
 }

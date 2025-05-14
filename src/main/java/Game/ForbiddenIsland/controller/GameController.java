@@ -20,6 +20,8 @@ import Game.ForbiddenIsland.model.GameState;
 import Game.ForbiddenIsland.model.Players.Player;
 import Game.ForbiddenIsland.model.Players.PlayerType;
 import Game.ForbiddenIsland.model.TreasureType;
+import Game.ForbiddenIsland.util.factory.CardFactory;
+import Game.ForbiddenIsland.util.factory.MapFactory;
 import Game.ForbiddenIsland.util.factory.PlayerFactory;
 import Game.ForbiddenIsland.util.ActionContext;
 
@@ -56,50 +58,11 @@ public class GameController {
     } //playerfacotry和gamemap
 
     private void initializeBoard() {
-        Tile[][] board = new Tile[6][6];
-        List<Tile> tiles = new ArrayList<>();
-        
-        // 创建Fools' Landing
-        Tile foolsLanding = createTile(2, 2, null, true);
-        board[2][2] = foolsLanding;
-        tiles.add(foolsLanding);
-        
-        // 创建宝藏岛屿
-        // Earth Stone (左上)
-        board[0][0] = createTile(0, 0, TreasureType.EARTH, false);
-        board[0][1] = createTile(0, 1, TreasureType.EARTH, false);
-        tiles.add(board[0][0]);
-        tiles.add(board[0][1]);
-        
-        // Wind Statue (右上)
-        board[0][4] = createTile(0, 4, TreasureType.WIND, false);
-        board[0][5] = createTile(0, 5, TreasureType.WIND, false);
-        tiles.add(board[0][4]);
-        tiles.add(board[0][5]);
-        
-        // Fire Crystal (左下)
-        board[4][0] = createTile(4, 0, TreasureType.FIRE, false);
-        board[5][0] = createTile(5, 0, TreasureType.FIRE, false);
-        tiles.add(board[4][0]);
-        tiles.add(board[5][0]);
-        
-        // Water Chalice (右下)
-        board[4][4] = createTile(4, 4, TreasureType.WATER, false);
-        board[5][5] = createTile(5, 5, TreasureType.WATER, false);
-        tiles.add(board[4][4]);
-        tiles.add(board[5][5]);
-        
-        // 创建其他普通岛屿
-        for (int y = 0; y < 6; y++) {
-            for (int x = 0; x < 6; x++) {
-                if (board[y][x] == null) {
-                    board[y][x] = createTile(x, y, null, false);
-                    tiles.add(board[y][x]);
-                }
-            }
+        try {
+            gameState.setMap(MapFactory.loadMaps());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        gameState.setMap(new GameMap(board));
     }//这个用gamemap
 
     private Tile createTile(int x, int y, TreasureType treasureType, boolean isFoolsLanding) {
@@ -124,38 +87,14 @@ public class GameController {
     }
 
     private void initializeDecks() {
-        List<Card> treasureCards = new ArrayList<>();
-        
-        // 添加宝藏卡（每种宝藏5张）
-        for (TreasureType type : TreasureType.values()) {
-            for (int i = 0; i < 5; i++) {
-                treasureCards.add(new TreasureCard(type));
-            }
-        }
-        
-        // 添加特殊卡
-        // 3张直升机卡
-        for (int i = 0; i < 3; i++) {
-            treasureCards.add(new ActionCard(CardName.HELICOPTER, CardType.ACTION, new Helicopter()));
-        }
-        // 2张沙袋卡
-        for (int i = 0; i < 2; i++) {
-            treasureCards.add(new ActionCard(CardName.SANDBAG, CardType.ACTION, new SandBag()));
-        }
-        // 3张水位上升卡
-        for (int i = 0; i < 3; i++) {
-            treasureCards.add(new ActionCard(CardName.WATERRISE, CardType.ACTION, new WaterRise()));
-        }
-        
         // 初始化宝藏牌堆
-        gameState.getTreasureDeck().initialize(treasureCards);
-        
-        // 初始化沉没牌堆
-        List<FloodCard> floodCards = new ArrayList<>();
-        for (Tile tile : gameState.getMap().getAllTiles()) {
-            floodCards.add(new FloodCard(tile));
+        try {
+            gameState.setTreasureDeck(CardFactory.loadTreasureCard());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        gameState.getFloodDeck().initialize(floodCards);
+        // 初始化沉没牌堆
+        gameState.setFloodDeck(CardFactory.loadFloodCard(gameState.getMap().getAllTiles()));
     }//这个用deck和cardFactory初始化
 
     public void startTurn() {
@@ -206,9 +145,7 @@ public class GameController {
         for (int i = 0; i < cardsToDraw; i++) {
             Card drawnCard = gameState.drawFloodCard();
             if (drawnCard == null) {
-                gameOver = true;
-                gameResult = "No more flood cards!";
-                return;
+                gameState.reshuffleFloodDeck();
             }
         }
     } //逻辑问题，抽完洪水卡洗回去
@@ -224,11 +161,24 @@ public class GameController {
         return false;
     }
 
+    public boolean shoreUp(Tile target){
+        if (actionsRemaining <= 0) return false;
+        target.drain();
+        return true;
+    }
     public boolean collectTreasure(Player player, TreasureType treasureType) {
         if (actionsRemaining <= 0) return false;
         
         if (canCollectTreasure(player, treasureType)) {
             gameState.setTreasureCollected(treasureType, true);
+            int i = 0;
+            while (i < 4){
+                List<Card> cards = getCurrentPlayer().getHands();
+                if (cards.contains(treasureType)){
+                    cards.remove(treasureType);
+                    i++;
+                }
+            }
             actionsRemaining--;
             return true;
         }
@@ -278,9 +228,8 @@ public class GameController {
         if (gameState.isGameLost()) {
             gameOver = true;
             gameResult = "Defeat!";
-            return;
         }
-    }//gamestate里有方法
+    }
 
     private boolean isValidMove(Player player, Tile targetTile) {
         switch (player.getType()) {
