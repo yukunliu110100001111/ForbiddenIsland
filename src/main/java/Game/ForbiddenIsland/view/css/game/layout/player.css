@@ -1,0 +1,19 @@
+/* players.css —— 底部玩家区域 */
+footer#players {
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--color-panel-bg);
+    border-radius: var(--radius-lg, 16px);
+    padding: var(--spacing-sm, 0.5rem) 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+.player {
+    text-align: center;
+}
+
+.hand {
+    display: flex;
+    gap: var(--spacing-xs, 5px);
+}

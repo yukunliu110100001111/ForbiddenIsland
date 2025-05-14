@@ -1,0 +1,143 @@
+/* —— room.css —— */
+@import url('../styles/variables-light.css');
+@import url('../styles/variables-dark.css');
+@import url('../components/button-base.css');
+@import url('../components/card-base.css');
+
+/* 房间卡片主体 */
+.slots {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.slot {
+    width: 120px;
+    height: 160px;
+    border: 2px dashed var(--slot-border);
+    border-radius: var(--radius-md);
+    background: var(--slot-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--card-bg);
+}
+
+#btn-room-start {
+    margin-top: var(--spacing-md);
+}
+
+/* —— 地图选择区域 —— */
+.map-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.map-thumbnail {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--color-panel-bg);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-bg);
+}
+
+/* 这里用一个小网格预览地图 */
+.map-thumbnail .tile,
+.map-thumbnail .empty {
+    width: 20px;
+    height: 20px;
+    float: left;
+}
+
+/* 清除浮动 */
+.map-thumbnail::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* 隐藏原有 .card 宽高重写 */
+.card {
+    width: auto;
+    height: auto;
+}
+
+/* 容器左右等高布局 */
+.room-layout {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+/* 左右两栏各占比，等高 */
+.room-left,
+.room-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* 保证左右两侧内部也能撑满高度 */
+.room-left {
+    align-items: center;
+    padding: var(--spacing-md);
+    border-right: 1px solid var(--color-panel-bg);
+}
+
+.room-right {
+    align-items: center;
+    padding: var(--spacing-md);
+}
+
+/* 地图选择区域垂直居中，并与左侧同高 */
+.room-right .map-selector {
+    margin: auto 0; /* 上下自动留白，垂直居中 */
+}
+
+/* 缩略图固定大小 */
+.map-thumbnail {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--color-panel-bg);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-bg);
+    margin: 0 var(--spacing-sm);
+}
+
+/* 地图选择整体：垂直布局，居中对齐 */
+.map-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* 上排导航：水平排列 */
+.map-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* 缩略图下的 Random 按钮 */
+#btn-map-random {
+    margin-top: var(--spacing-sm);
+}
+
+/* 让缩略图里的 tile 可见 */
+.map-thumbnail .tile {
+    background-color: var(--tile-bg-default);
+    border: 1px solid var(--tile-border);
+}
+
+.map-thumbnail .empty {
+    /* 如果想显示网格线，可以加边框，否则保持透明 */
+    /* border: 1px dashed var(--tile-border); */
+}

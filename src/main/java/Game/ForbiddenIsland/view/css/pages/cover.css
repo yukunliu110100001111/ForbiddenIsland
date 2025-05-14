@@ -1,0 +1,69 @@
+@import url("../styles/variables-light.css");
+@import url("../styles/variables-dark.css");
+
+/* —— 呼吸动画：只影响文字透明度 & 阴影 —— */
+@keyframes soft-breath {
+    0%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 15px #fffbb0, 0 0 25px #ffffff;
+    }
+    50% {
+        opacity: 0.9;
+        text-shadow: 0 0 30px #fffbb0, 0 0 40px #ffffff;
+    }
+}
+
+/* —— 爆炸退出动画：文字由正常大小放大并淡出 —— */
+@keyframes explode-out {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(10);
+        opacity: 0;
+    }
+}
+
+/* —— 中央标题容器 —— */
+.view-cover {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-lg);
+    z-index: var(--z-container);
+}
+
+/* —— 标题样式 —— */
+#cover-title {
+    font-size: var(--font-size-tittle);
+    margin: 0;
+    color: var(--cover-title-color, #fff9d2);
+    /* 如果你在主题文件中定义了下面两个变量，就会采用变量值；否则退回到这两个默认阴影 */
+    text-shadow: var(--cover-title-shadow-1, 0 0 15px #fffbb0),
+    var(--cover-title-shadow-2, 0 0 25px #ffffff);
+
+    white-space: nowrap;
+    animation: soft-breath 3.5s ease-in-out infinite;
+    transition: transform var(--transition-medium), opacity var(--transition-medium);
+}
+
+/* —— 点击时给标题加上 .explode —— */
+#cover-title.explode {
+    animation: explode-out 0.8s forwards;
+}
+
+/* —— Start 按钮 —— */
+#start-btn {
+    position: fixed;
+    bottom: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    /* 视觉样式均从 .button-base 中继承，确保在 HTML 中加上 class="button-base" */
+    z-index: var(--z-container);
+}

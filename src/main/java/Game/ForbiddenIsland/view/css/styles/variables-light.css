@@ -94,6 +94,7 @@
     --header-bg: var(--color-panel-bg);
     --card-text: var(--color-text-primary);
 
+    --tile-size: 100px;
     --tile-border: #444444;
     --tile-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), inset 0 -2px 4px rgba(0, 0, 0, 0.1);
     --tile-bg-default: #d4af37;
