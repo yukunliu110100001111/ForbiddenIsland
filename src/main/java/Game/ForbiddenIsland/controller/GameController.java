@@ -3,23 +3,22 @@ package Game.ForbiddenIsland.controller;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import Game.ForbiddenIsland.model.Board.GameMap;
+
+import Game.ForbiddenIsland.model.Board.Deck;
+import Game.ForbiddenIsland.model.Board.DeckImp;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Board.Tiles.TileImp;
-import Game.ForbiddenIsland.model.Cards.CardName;
 import Game.ForbiddenIsland.model.Cards.CardType;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.Cards.cardCategory.TreasureCard;
 import Game.ForbiddenIsland.model.Cards.cardCategory.ActionCard;
-import Game.ForbiddenIsland.model.Cards.cardCategory.FloodCard;
-import Game.ForbiddenIsland.model.Cards.CardActions.CardAction;
-import Game.ForbiddenIsland.model.Cards.CardActions.Helicopter;
-import Game.ForbiddenIsland.model.Cards.CardActions.SandBag;
-import Game.ForbiddenIsland.model.Cards.CardActions.WaterRise;
 import Game.ForbiddenIsland.model.GameState;
 import Game.ForbiddenIsland.model.Players.Player;
 import Game.ForbiddenIsland.model.Players.PlayerType;
 import Game.ForbiddenIsland.model.TreasureType;
+import Game.ForbiddenIsland.model.view.GameStateView;
+import Game.ForbiddenIsland.util.GameStateMapper;
+import Game.ForbiddenIsland.util.JsonUtil;
 import Game.ForbiddenIsland.util.factory.CardFactory;
 import Game.ForbiddenIsland.util.factory.MapFactory;
 import Game.ForbiddenIsland.util.factory.PlayerFactory;
@@ -89,7 +88,11 @@ public class GameController {
     private void initializeDecks() {
         // 初始化宝藏牌堆
         try {
-            gameState.setTreasureDeck(CardFactory.loadTreasureCard());
+            List<Card> cards = CardFactory.loadTreasureCard();
+            Deck<Card> deck = new DeckImp<>();
+            deck.initialize(cards);
+            gameState.setTreasureDeck(deck);
+            gameState.setAllCards(cards);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -172,13 +175,14 @@ public class GameController {
         if (canCollectTreasure(player, treasureType)) {
             gameState.setTreasureCollected(treasureType, true);
             int i = 0;
+            List<Card> cards = getCurrentPlayer().getHands();
             while (i < 4){
-                List<Card> cards = getCurrentPlayer().getHands();
                 if (cards.contains(treasureType)){
                     cards.remove(treasureType);
                     i++;
                 }
             }
+            getCurrentPlayer().setHands(cards);
             actionsRemaining--;
             return true;
         }
@@ -391,5 +395,15 @@ public class GameController {
         int dy = Math.abs(current.getY() - target.getY());
         
         return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
+    }
+
+    public void useCards(ActionCard card, ActionContext actionContext) {
+        card.use(gameState, actionContext);
+        gameState.discardTreasure(card);
+        actionContext.getTargetPlayers().get(0).removeCard(card);
+    }
+    public String getGameStateJson() {
+        GameStateView view = GameStateMapper.fromGameState(this.gameState);
+        return JsonUtil.toJson(view);
     }
 }

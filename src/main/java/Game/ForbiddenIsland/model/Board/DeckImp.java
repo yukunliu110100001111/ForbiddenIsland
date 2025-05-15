@@ -46,5 +46,7 @@ public class DeckImp<T extends Card> implements Deck<T>{
         drawPile.addAll(0,discardPile);
         discardPile.clear();
     }
-
+    public List<T> getDiscardPile() {
+        return new ArrayList<>(discardPile);
+    }
 }

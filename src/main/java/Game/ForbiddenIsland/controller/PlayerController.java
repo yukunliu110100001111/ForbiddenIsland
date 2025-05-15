@@ -6,18 +6,70 @@ import Game.ForbiddenIsland.model.Cards.cardCategory.ActionCard;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.GameState;
 import Game.ForbiddenIsland.model.Players.Player;
+import Game.ForbiddenIsland.model.Players.PlayerChoice;
 import Game.ForbiddenIsland.model.TreasureType;
 import Game.ForbiddenIsland.util.ActionContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerController {
     GameController  gameController;
-    StringHandler stringHandler;
+
     public PlayerController(GameController gameController)
     {
         this.gameController = gameController;
     }
-    private ActionContext HandleStrng(String str){
-        return stringHandler.HandleStrng(str);
+    public ActionContext parseJsonToActionContext(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode root = mapper.readTree(json);
+            //  0. Choice
+            PlayerChoice choice = PlayerChoice.valueOf(root.get("playerChoice").asText());
+            // 1. Players. the 0 position will be the player who start the action
+            List<Player> players = new ArrayList<>();
+            for (JsonNode nameNode : root.get("targetPlayers")) {
+                Player p = gameController.getGameState().findPlayerByName(nameNode.asInt());
+                if (p != null) players.add(p);
+            }
+
+            // 2. Tile
+            String string = root.get("targetTile").asText();
+            Tile tile;
+            if (!string.equals("null")) {
+                String[] parts = string.split(",");
+                int x = Integer.parseInt(parts[0].trim());
+                int y = Integer.parseInt(parts[1].trim());
+                tile = gameController.getGameState().getTileAt(x, y);
+            } else tile = null;
+
+            // 3. Card
+            Card card;
+            if (!string.equals("null")) {
+                card = gameController.getGameState().getCardById(root.get("targetCard").asInt());
+            } else card = null;
+            // 4. TreasureType
+            TreasureType treasureType;
+            if (root.get("treasureType") == null) {
+                treasureType = null;
+            } else {
+                treasureType = TreasureType.valueOf(root.get("treasureType").asText());
+            }
+
+            return new ActionContext.Builder()
+                    .setPlayerChoice(choice)
+                    .setTargetPlayers(players)
+                    .setTargetTile(tile)
+                    .setTargetCard(card)
+                    .setTreasureType(treasureType)
+                    .build();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     public boolean movePlayer(ActionContext actionContext)
     {
@@ -42,9 +94,15 @@ public class PlayerController {
         Card card = actionContext.getTargetCard();
         return gameController.giveCard(giver, receiver, card);
     }
-    public boolean useCard(ActionContext actionContext,ActionCard card)
+    public boolean useCard(ActionContext actionContext)
     {
-        card.use(gameController.getGameState(), actionContext);
+        ActionCard card = (ActionCard) actionContext.getTargetCard();
+        gameController.useCards(card, actionContext);
+        return true;
+    }
+    public boolean endTurn()
+    {
+        gameController.endTurn();
         return true;
     }
 }

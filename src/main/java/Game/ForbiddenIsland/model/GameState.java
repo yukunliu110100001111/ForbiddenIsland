@@ -7,6 +7,8 @@ import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.Cards.cardCategory.FloodCard;
 import Game.ForbiddenIsland.model.Players.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -14,12 +16,26 @@ import java.util.Map;
 
 //GameState 里有所有游戏状态，也就是玩家、地图、两个牌堆、水level
 public class GameState {
+    @Setter
+    @Getter
     private List<Player> players;
+    @Setter
+    @Getter
     private GameMap map;
+    @Setter
+    @Getter
     private Deck<Card> treasureDeck;
+    @Getter
+    @Setter
     private Deck<FloodCard> floodDeck;
+    @Setter
+    @Getter
+    private List<Card> allCards;
     private int currentPlayerIndex;
+    @Setter
+    @Getter
     private int waterLevel;
+    @Getter
     private final Map<TreasureType, Boolean> collectedTreasures =
             new EnumMap<>(Map.of(
                     TreasureType.EARTH, false,
@@ -49,21 +65,6 @@ public class GameState {
         waterLevel++;
     }
 
-    public int getWaterLevel() {
-        return waterLevel;
-    }
-    public void setWaterLevel(int difficultyLevel) {
-        waterLevel  = difficultyLevel;
-    }
-
-    public GameMap getMap() {
-        return map;
-    }
-
-    public void setMap(GameMap map) {
-        this.map = map;
-    }
-
     public boolean isTreasureCollected(TreasureType type) {
         return collectedTreasures.getOrDefault(type, false);
     }
@@ -71,6 +72,7 @@ public class GameState {
     public void setTreasureCollected(TreasureType type, boolean value) {
         collectedTreasures.replace(type, value);
     }
+
     public boolean allTreasuresCollected() {
         return collectedTreasures.values().stream().allMatch(Boolean::booleanValue);
     }
@@ -81,12 +83,6 @@ public class GameState {
 
     public void nextPlayer() {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-    }
-    public List<Player> getPlayers() {
-        return players;
-    }
-    public void setPlayers(List<Player> players) {
-        this.players = players;
     }
 
     public Tile getTileAt(int x, int y) {
@@ -125,17 +121,18 @@ public class GameState {
         );
     }
 
-    public Deck<Card> getTreasureDeck() {
-        return treasureDeck;
+    public Card getCardById(int targetCard) {
+        return allCards.get(targetCard);
     }
-    public void setTreasureDeck(Deck<Card> treasureDeck) {
-        this.treasureDeck = treasureDeck;
+    public Player findPlayerByName(int name) {
+        return this.players.get(name);
     }
 
-    public Deck<FloodCard> getFloodDeck() {
-        return floodDeck;
+    //getter for frontier
+    public List<Card> getPlayerHand(int playerIndex){
+        return players.get(playerIndex).getHands();
     }
-    public void setFloodDeck(Deck<FloodCard> floodDeck) {
-        this.floodDeck = floodDeck;
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
     }
 }
