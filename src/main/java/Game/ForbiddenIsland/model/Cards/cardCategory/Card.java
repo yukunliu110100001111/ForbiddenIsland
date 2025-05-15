@@ -5,13 +5,18 @@ import Game.ForbiddenIsland.model.Cards.CardType;
 
 //This is an abstract of card class, every card has a name and a type
 public class Card {
+    int cardId;
     CardName cardName;
     CardType cardType;
-    public Card(CardName name, CardType cardType) {
+    public Card(int id,CardName name, CardType cardType) {
+        this.cardId = id;
         this.cardName = name;
         this.cardType = cardType;
     }
 
+    public int getCardId() {
+        return cardId;
+    }
     public CardName getCardName() {
         return cardName;
     }

@@ -29,7 +29,7 @@ public class CardFactory {
             CardName.WATERRISE, new WaterRise()
     );
 
-    public static Deck<Card> loadTreasureCard() throws IOException {
+    public static List<Card> loadTreasureCard() throws IOException {
         String jsonPath = "src/main/resources/cards.json";
         ObjectMapper mapper = new ObjectMapper();
         List<CardData> cardDefinitions = mapper.readValue(new File(jsonPath), new TypeReference<>() {});
@@ -39,26 +39,23 @@ public class CardFactory {
             CardName name = CardName.valueOf(def.name());
             CardType type = CardType.valueOf(def.type());
 
-            for (int i = 0; i < def.quantity(); i++) {
+            for (int i = 1; i <= def.quantity(); i++) {
                 Card card;
                 switch (type) {
                     case TREASURE -> {
                         TreasureType treasureType = TreasureType.valueOf(def.treasure());
-                        card = new TreasureCard(treasureType);
+                        card = new TreasureCard(i,treasureType);
                     }
                     case ACTION, EVENT -> {
                         CardAction action = actionRegistry.getOrDefault(name, null);
-                        card = new ActionCard(name, type, action);
+                        card = new ActionCard(i,name, type, action);
                     }
                     default -> throw new IllegalArgumentException("Unsupported card type: " + type);
                 }
                 cards.add(card);
             }
         }
-        DeckImp<Card> deck = new DeckImp<>();
-        deck.initialize(cards);
-
-        return deck;
+        return cards;
     }
     public static Deck<FloodCard> loadFloodCard(List<Tile> tiles) {
         List<FloodCard> cards = new ArrayList<>(tiles.stream()
