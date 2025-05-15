@@ -22,6 +22,29 @@ public class PlayerController {
     {
         this.gameController = gameController;
     }
+    public void receiveAndAllocate (String json)
+    {
+        ActionContext actionContext = parseJsonToActionContext(json);
+        switch (actionContext.getPlayerChoice()){
+            case MOVE:
+                movePlayer(actionContext);
+                break;
+            case SHORE_UP:
+                shoreUp(actionContext);
+                break;
+            case COLLECT_TREASURE:
+                collectTreasure(actionContext);
+                break;
+            case GIVE_CARD:
+                giveCard(actionContext);
+                break;
+            case USE_CARD:
+                useCard(actionContext);
+                break;
+            case END_TURN:
+                endTurn();
+        }
+    }
     public ActionContext parseJsonToActionContext(String json) {
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -71,6 +94,7 @@ public class PlayerController {
             return null;
         }
     }
+
     public boolean movePlayer(ActionContext actionContext)
     {
         Player player = actionContext.getTargetPlayers().get(0);
