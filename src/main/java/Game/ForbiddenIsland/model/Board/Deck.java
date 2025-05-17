@@ -10,4 +10,6 @@ public interface Deck<T extends Card> {
     T drawCard();
     void discard(T card);
     void reshuffleDiscardsIntoDrawPile();
+
+    List<T> getDiscardPile();
 }

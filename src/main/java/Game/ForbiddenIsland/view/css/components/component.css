@@ -1,2 +1,2 @@
-@import '../common.css';
-@import './button.css';
+@import 'button-base.css';
+@import 'card-base.css';

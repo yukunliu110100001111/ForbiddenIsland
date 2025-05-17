@@ -1,28 +1,26 @@
-/* lobby.css */
-body {
-    background: url('Images/coverbg.png') center/cover no-repeat;
+@import url('../styles/variables-light.css');
+@import url('../styles/variables-dark.css');
+@import url('../components/button-base.css');
+@import url('../components/card-base.css');
+
+.lobby-buttons {
+    display: flex; /* 启用 Flex 布局 */
+    flex-direction: row; /* 默认即为横向，也可省略 */
+    justify-content: center; /* 水平居中（或改为 space-between / flex-start） */
+    align-items: center; /* 垂直居中对齐 */
+    gap: var(--spacing-md); /* 按钮之间的间距 */
 }
 
-.container {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
+.lobby-buttons .button-base {
+    font: var(--font-size-base) var(--font-family-base);
+    min-height: 100px;
+    min-width: max-content;
 }
 
-.btn {
-    padding: 1rem 2rem;
-    font-size: 1.5rem;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #fff;
-    border-radius: 8px;
-}
-
+/* —— 状态文字 —— */
 .status {
-    margin-top: 1rem;
-    font-size: 1rem;
-    height: 1.2rem;
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    min-height: 1.2em;
+    text-align: center;
 }

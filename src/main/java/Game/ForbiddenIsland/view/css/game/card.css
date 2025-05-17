@@ -1,0 +1,51 @@
+/* —— card.css —— */
+/* 默认纸牌尺寸与比例 */
+:root {
+    --card-aspect-ratio: 5 / 7; /* 5:7 宽高比 */
+    --card-width: 80px; /* 默认宽度 */
+    --card-face-url: none; /* 卡面图 URL 接口 */
+}
+
+/* 纸牌容器 */
+.card {
+    width: var(--card-width);
+    aspect-ratio: var(--card-aspect-ratio);
+
+    /* 白底 + 黑轮廓 */
+    background-color: #ffffff;
+    border: 1px solid #000000;
+
+    /* 卡面图覆盖在白底之上 */
+    background-image: var(--card-face-url);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    border-radius: var(--radius-sm, 6px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: var(--spacing-sm, 4px);
+
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform var(--transition-fast, 0.2s) ease,
+    box-shadow var(--transition-fast, 0.2s) ease;
+}
+
+.card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.card:active {
+    transform: translateY(0) scale(1);
+}
+
+/* 可选：右上角角标 */
+.card__corner {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    font-size: 0.6rem;
+    color: #000;
+}

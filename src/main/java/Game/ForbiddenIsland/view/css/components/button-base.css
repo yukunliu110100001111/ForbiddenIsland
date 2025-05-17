@@ -1,0 +1,34 @@
+@import url('../styles/variables-light.css');
+@import url('../styles/variables-dark.css');
+
+.button-base {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+
+    background: var(--button-bg);
+    color: var(--button-text);
+    border: 1px solid var(--button-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: 0 4px 12px var(--button-shadow);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    cursor: pointer;
+    transition: background var(--transition-medium),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+
+    white-space: nowrap;
+    z-index: var(--z-container);
+}
+
+.button-base:hover {
+    background: var(--button-bg-hover);
+    transform: scale(1.05);
+}

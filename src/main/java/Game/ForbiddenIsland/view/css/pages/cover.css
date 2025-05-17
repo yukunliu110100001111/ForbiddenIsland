@@ -1,66 +1,69 @@
-@import url(../components/component.css);
+@import url("../styles/variables-light.css");
+@import url("../styles/variables-dark.css");
 
-
-body {
-    background: url(../../Images/coverbg.png) center/cover no-repeat;
-    position: relative;
-}
-
-.blur-bar {
-    position: absolute;
-    top: 42%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100vw;
-    height: 160px;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.1);
-    animation: pulse-glow 4s ease-in-out infinite;
-    z-index: 1;
-}
-
-h1 {
-    font-size: 96px;
-    letter-spacing: 4px;
-    color: #fff9d2;
-    text-shadow: 0 0 20px #fffbb0, 0 0 30px #ffffff;
-    margin-bottom: 50px;
-    animation: soft-breath 3.5s ease-in-out infinite;
-    z-index: 2;
-}
-
+/* —— 呼吸动画：只影响文字透明度 & 阴影 —— */
 @keyframes soft-breath {
     0%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 15px #fffbb0, 0 0 25px #ffffff;
+    }
+    50% {
+        opacity: 0.9;
+        text-shadow: 0 0 30px #fffbb0, 0 0 40px #ffffff;
+    }
+}
+
+/* —— 爆炸退出动画：文字由正常大小放大并淡出 —— */
+@keyframes explode-out {
+    0% {
         transform: scale(1);
         opacity: 1;
     }
-    50% {
-        transform: scale(1.02);
-        opacity: 0.95;
+    100% {
+        transform: scale(10);
+        opacity: 0;
     }
 }
 
-@keyframes pulse-glow {
-    0%, 100% {
-        box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
-    }
-    50% {
-        box-shadow: 0 0 80px rgba(255, 255, 255, 0.35);
-    }
+/* —— 中央标题容器 —— */
+.view-cover {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-lg);
+    z-index: var(--z-container);
 }
 
+/* —— 标题样式 —— */
+#cover-title {
+    font-size: var(--font-size-tittle);
+    margin: 0;
+    color: var(--cover-title-color, #fff9d2);
+    /* 如果你在主题文件中定义了下面两个变量，就会采用变量值；否则退回到这两个默认阴影 */
+    text-shadow: var(--cover-title-shadow-1, 0 0 15px #fffbb0),
+    var(--cover-title-shadow-2, 0 0 25px #ffffff);
+
+    white-space: nowrap;
+    animation: soft-breath 3.5s ease-in-out infinite;
+    transition: transform var(--transition-medium), opacity var(--transition-medium);
+}
+
+/* —— 点击时给标题加上 .explode —— */
+#cover-title.explode {
+    animation: explode-out 0.8s forwards;
+}
+
+/* —— Start 按钮 —— */
 #start-btn {
-    font-size: 28px;
-    padding: 15px 40px;
-    color: #fff;
-    border: 2px solid #ffffffaa;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
-    z-index: 2;
-}
-
-#start-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    position: fixed;
+    bottom: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    /* 视觉样式均从 .button-base 中继承，确保在 HTML 中加上 class="button-base" */
+    z-index: var(--z-container);
 }
