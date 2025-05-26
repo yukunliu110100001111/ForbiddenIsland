@@ -2,13 +2,18 @@ package Game.ForbiddenIsland.WebReceiveServlet;
 
 import Game.ForbiddenIsland.controller.GameController;
 import Game.ForbiddenIsland.controller.PlayerController;
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
+import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.GameState;
+import Game.ForbiddenIsland.model.Players.Player;
+import Game.ForbiddenIsland.model.TreasureType;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 @WebServlet("/data")
 public class WebReceiveServlet extends HttpServlet {
@@ -111,7 +116,7 @@ public class WebReceiveServlet extends HttpServlet {
 
              */
 
-            case "send_action": {
+            case "player_action": {
                 if (!gameStarted || playerController == null) {
                     out.println("{\"error\": \"Game not started or controller unavailable.\"}");
                     break;
@@ -134,30 +139,86 @@ public class WebReceiveServlet extends HttpServlet {
                 break;
             }
 
-            // 分配玩家number
+            // allocate number to player
             case "get_player_num": {
                 out.println("{\"players\": " + currentPeopleCount + ", \"max\": " + maxPeopleCount + "}");
                 break;
             }
 
-            case "get_current_round": {
-                out.println("{\"current\":"+gameController.getGameState().getCurrentPlayerIndex()+"}");
-            }
-
-            case "get_action_remaining": {
-
-            }
-
-            case "get_result": {
-
-            }
-
-            case "get_game_isOver": {
-
-            }
-
             case "useSpecialAbility": {
                 gameController.useSpecialAbility(gameController.getCurrentPlayer());
+                break;
+            }
+
+            // Update everything to frontend
+            case "update_element": {
+                GameState state = gameController.getGameState();
+                StringBuilder json = new StringBuilder();
+                json.append("{");
+
+                // Tiles
+                json.append("\"tiles\":[");
+                for (Tile tile : state.getMap().getAllTiles()) {
+                    json.append("{\"x\":").append(tile.getX())
+                            .append(",\"y\":").append(tile.getY())
+                            .append(",\"treasureType\":\"").append(tile.getTreasureType()).append("\"")
+                            .append(",\"isFoolsLanding\":").append(tile.isFoolsLanding())
+                            .append(",\"tileState\":\"").append(tile.getState()).append("\"},");
+                }
+                if (json.charAt(json.length() - 1) == ',') json.setLength(json.length() - 1);
+                json.append("],");
+
+                // Players
+                json.append("\"players\":[");
+                for (Player p : state.getPlayers()) {
+                    json.append("{\"x\":").append(p.getPosition().getX())
+                            .append(",\"y\":").append(p.getPosition().getY())
+                            .append(",\"type\":\"").append(p.getType()).append("\"")
+                            .append(",\"color\":\"").append(p.getColor()).append("\"},");
+                }
+                if (json.charAt(json.length() - 1) == ',') json.setLength(json.length() - 1);
+                json.append("],");
+
+                // Current Player
+                Player curr = state.getCurrentPlayer();
+                json.append("\"currentPlayer\":{");
+                json.append("\"x\":").append(curr.getPosition().getX())
+                        .append(",\"y\":").append(curr.getPosition().getY())
+                        .append(",\"type\":\"").append(curr.getType()).append("\"")
+                        .append(",\"color\":\"").append(curr.getColor()).append("\"")
+                        .append(",\"actionRemain\":").append(gameController.getActionsRemaining())
+                        .append(",\"hand\":[");
+                for (Card card : curr.getHands()) {
+                    json.append("{\"id\":").append(card.getCardId())
+                            .append(",\"name\":\"").append(card.getCardName())
+                            .append(",\"type\":\"").append(card.getCardType()).append("\"},");
+                }
+                if (json.charAt(json.length() - 1) == ',') json.setLength(json.length() - 1);
+                json.append("]},");
+
+                // Treasure Collected
+                Map<TreasureType, Boolean> treasureCollected = state.getCollectedTreasures();
+                json.append("\"treasureCollected\":[");
+                for (Map.Entry<TreasureType, Boolean> entry : treasureCollected.entrySet()) {
+                    json.append("[")
+                            .append("{\"type\":").append(entry.getKey()).append("}")
+                            .append("{\"isGet\":").append(entry.getValue()).append("}");
+                }
+                json.append("],");
+
+                // Water Level
+                json.append("\"currentWaterLevel\":{").append(state.getWaterLevel()).append("},");
+
+                // Is Game Over
+                json.append("\"isGameWon\":{").append(state.isGameWon()).append("},");
+                json.append("\"isGameLost\":{").append(state.isGameLost()).append("},");
+
+                // Game Result?
+                json.append("\"gameResult\":{").append(gameController.getGameResult()).append("}");
+
+                json.append("}");
+                out.println(json);
+                break;
             }
 
             default: {

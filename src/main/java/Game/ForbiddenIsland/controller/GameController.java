@@ -25,9 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-// 11111
 
-//11
 public class GameController {
     private GameState gameState;
     private int actionsRemaining = 3;
