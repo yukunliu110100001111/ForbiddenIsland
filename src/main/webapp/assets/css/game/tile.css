@@ -1,0 +1,30 @@
+#tile-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);  /* 每列等分，随父容器宽度变化 */
+    grid-template-rows:    repeat(6, 1fr);  /* 每行等分 */
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    justify-items: center;
+    align-items: center;
+}
+
+.tile, .empty {
+    width: 100%;
+    aspect-ratio: 1 / 1;  /* 保持正方形 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .75rem;
+    text-align: center;
+    border: 2px solid #ccc;
+    box-sizing: border-box;
+    transition: background .2s, color .2s;
+}
+.tile   { background: #0a74da; color: #fff; }
+.empty  { background: transparent; border: none; }
+
+/* 状态色 */
+.tile.safe    { background: #0a74da; }
+.tile.flooded { background: #3fa8ff; }
+.tile.sink    { background: #555; }

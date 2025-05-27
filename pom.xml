@@ -11,8 +11,8 @@
     <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source> <!-- 修改为你的 JDK 版本 -->
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -33,20 +33,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.30</version>
+            <scope>provided</scope>  <!-- Lombok 只在编译期需要 -->
         </dependency>
 
     </dependencies>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/resource</directory>
-                <includes>
-                    <include>**/*.json</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
 
 </project>
