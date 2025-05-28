@@ -164,3 +164,35 @@
     font-weight: bold;
 }
 
+/* 槽位默认样式 */
+.slot {
+    width: 48px;
+    height: 48px;
+    line-height:48px;
+    text-align:center;
+    background:#f0f0f0;
+    border:2px dashed #ccc;
+    border-radius:4px;
+    transition:
+            background-color 0.4s ease,
+            border-color 0.4s ease,
+            transform 0.3s ease;
+}
+
+/* 占用态 */
+.slot.occupied {
+    background: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+    transform: scale(1.1); /* 微微放大 */
+}
+
+/* 可选：加个闪光动画 */
+@keyframes glow {
+    from { box-shadow: 0 0 0 rgba(76,174,76,0); }
+    to   { box-shadow: 0 0 15px rgba(76,174,76,0.8); }
+}
+.slot.occupied {
+    animation: glow 0.5s ease-in-out;
+}
+

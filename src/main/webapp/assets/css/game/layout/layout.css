@@ -138,3 +138,18 @@ body::before {
     from { transform: scale(0); opacity: 0.5; }
     to   { transform: scale(1.5); opacity: 0; }
 }
+
+#map-container {
+    width: max-content;
+    margin: auto;
+}
+.tile {
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    transition: background-image 0.3s ease, border 0.3s ease;
+}
+.tile.fools-landing {
+    border: 3px solid gold;
+}
+

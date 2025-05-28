@@ -34,8 +34,8 @@ public class GameController {
 
     public GameController(int playerCount, int difficultyLevel) {
         this.gameState = new GameState();
-        initializePlayers(playerCount);
         initializeBoard();
+        initializePlayers(playerCount);
         initializeWaterLevel(difficultyLevel);
         initializeDecks();
     }
@@ -58,9 +58,9 @@ public class GameController {
         try {
             gameState.setMap(MapFactory.loadMaps());
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("地图加载失败", e);
         }
-    }//这个用gamemap
+    }
 
     private Tile createTile(int x, int y, TreasureType treasureType, boolean isFoolsLanding) {
         Tile tile = new TileImp();

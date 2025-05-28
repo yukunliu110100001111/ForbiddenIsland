@@ -1,139 +1,144 @@
 // assets/js/preGameBinder.js
+
 import * as api     from './api/preGameApi.js';
 import { loadView } from './app.js';
 
 let roomInterval = null;
 
 export function bindPreGame(view) {
-    // 每次切页先清除上一次的轮询
+    // 切换视图前清除上一次的轮询
     if (roomInterval) {
         clearInterval(roomInterval);
         roomInterval = null;
     }
 
-    // 1) COVER 视图
-    if (view === 'cover') {
-        document.getElementById('start-btn')
-            ?.addEventListener('click', () => loadView('lobby'));
-    }
-
-// assets/js/preGameBinder.js
-
-    if (view === 'lobby') {
-        const createBtn = document.getElementById('go-create-room');
-        const joinBtn   = document.getElementById('go-join-room');
-
-        // 先拉一次当前房间人数
-        api.getPlayerCount().then(({ players, max }) => {
-            if (players > 0) {
-                // 房间已被创建，禁用或隐藏“创建房间”按钮
-                if (createBtn) {
-                    createBtn.disabled = true;
-                    createBtn.textContent = 'The room has been created.';
-                }
-            }
-        }).catch(console.error);
-
-        // 绑定加入房间
-        joinBtn?.addEventListener('click', async () => {
-            const res = await api.joinRoom();
-            if (res.error) return alert(res.error);
-            loadView('room');
-        });
-
-        // 绑定前往创建房间视图（只有 players===0 时才有效）
-        createBtn?.addEventListener('click', () => {
-            if (createBtn.disabled) return;  // 双保险
-            loadView('creation');
-        });
-    }
-
-
-    // 3) CREATION 视图：处理滑块 & 发 create_room 请求
-    if (view === 'creation') {
-        // 滑块同步显示
-        const sliderP = document.getElementById('players');
-        const labelP  = document.getElementById('player-count');
-        sliderP?.addEventListener('input', () => {
-            labelP.textContent = sliderP.value;
-        });
-
-        const sliderD = document.getElementById('difficulty');
-        const labelD  = document.getElementById('difficulty-label');
-        sliderD?.addEventListener('input', () => {
-            labelD.textContent = sliderD.value;
-        });
-
-        // 点击确认创建
-        document.getElementById('create-room')
-            ?.addEventListener('click', async () => {
-                const count = +sliderP.value;
-                const level = +sliderD.value;
-                const res   = await api.createRoom(level, count);
-                if (res.error) return alert(res.error);
-                // 保存到 localStorage 以备 room 视图取用
-                localStorage.setItem('playerCount', count);
-                localStorage.setItem('difficulty', level);
-                loadView('room');
-            });
-    }
-
-// preGameBinder.js 里的 ROOM 分支
-    if (view === 'room') {
-        // 1) 渲染卡槽（依据创建时选择的最大玩家数）
-        const container = document.getElementById('slots-container');
-        if (container) {
-            container.innerHTML = '';
-            const maxCount = +localStorage.getItem('playerCount') || 0;
-            for (let i = 0; i < maxCount; i++) {
-                const slot = document.createElement('div');
-                slot.className = 'slot';
-                slot.textContent = `P${i + 1}`;  // 可选：显示玩家编号
-                container.appendChild(slot);
-            }
+    switch (view) {
+        // 1) COVER 视图
+        case 'cover': {
+            const startBtn = document.getElementById('start-btn');
+            startBtn?.addEventListener('click', () => loadView('lobby'));
+            break;
         }
 
-        // 2) 轮询房间状态并更新 UI
-        const status = document.getElementById('room-status');
-        roomInterval = setInterval(async () => {
-            try {
-                const { players, max } = await api.getPlayerCount();
-                // 更新等待人数文字
-                if (status) {
-                    status.textContent = `Waiting ${players}/${max}`;
-                }
-                // 根据当前玩家数高亮前面几个槽位
-                if (container) {
-                    const slots = container.querySelectorAll('.slot');
-                    slots.forEach((slot, idx) => {
-                        if (idx < players) {
-                            slot.classList.add('occupied');
-                        } else {
-                            slot.classList.remove('occupied');
-                        }
-                    });
-                }
-            } catch (err) {
-                console.error('轮询玩家数失败', err);
-            }
-        }, 1000);
+        // 2) LOBBY 视图
+        case 'lobby': {
+            const createBtn = document.getElementById('go-create-room');
+            const joinBtn   = document.getElementById('go-join-room');
 
-        // 3) “开始游戏”按钮
-        document.getElementById('btn-room-start')
-            ?.addEventListener('click', async () => {
-                const res = await api.startGame();
-                if (res.error) return alert(res.error);
-                // 跳转到主游戏页面
-                window.location.href = `${window.contextPath}page/game.html`;
+            // 初始化：如果已有人创建房间，就禁用“创建房间”
+            (async () => {
+                try {
+                    const { players } = await api.getPlayerCount();
+                    if (players > 0) {
+                        createBtn.disabled    = true;
+                        createBtn.textContent = 'The room has been created.';
+                    }
+                } catch (e) {
+                    console.error('Failed to obtain room status.', e);
+                }
+            })();
+
+            createBtn?.addEventListener('click', () => {
+                if (!createBtn.disabled) loadView('creation');
+            });
+            joinBtn?.addEventListener('click', async () => {
+                try {
+                    await api.joinRoom();
+                    loadView('room');
+                } catch (e) {
+                    alert(e.message);
+                }
+            });
+            break;
+        }
+
+        // 3) CREATION 视图
+        case 'creation': {
+            const sliderP   = document.getElementById('players');
+            const labelP    = document.getElementById('player-count');
+            const sliderD   = document.getElementById('difficulty');
+            const labelD    = document.getElementById('difficulty-label');
+            const createBtn = document.getElementById('create-room');
+
+            // 滑块→文本 同步
+            if (sliderP && labelP) {
+                labelP.textContent = sliderP.value;
+                sliderP.oninput    = () => labelP.textContent = sliderP.value;
+            }
+            if (sliderD && labelD) {
+                labelD.textContent = sliderD.value;
+                sliderD.oninput    = () => labelD.textContent = sliderD.value;
+            }
+
+            // 确认创建
+            createBtn?.addEventListener('click', async () => {
+                const count = sliderP ? +sliderP.value : 0;
+                const level = sliderD ? +sliderD.value : 1;
+                try {
+                    await api.createRoom(level, count);
+                    localStorage.setItem('playerCount', count);
+                    localStorage.setItem('difficulty', level);
+                    loadView('room');
+                } catch (e) {
+                    alert(e.message);
+                }
+            });
+            break;
+        }
+
+        // 4) ROOM 视图
+        case 'room': {
+            const container = document.getElementById('slots-container');
+            const status    = document.getElementById('room-status');
+            const startBtn  = document.getElementById('btn-room-start');
+            const prevBtn   = document.getElementById('btn-map-prev');
+            const nextBtn   = document.getElementById('btn-map-next');
+            const randBtn   = document.getElementById('btn-map-random');
+
+            // ① 首次渲染“空槽”
+            if (container && container.children.length === 0) {
+                const maxCount = +localStorage.getItem('playerCount') || 0;
+                for (let i = 0; i < maxCount; i++) {
+                    const slot = document.createElement('div');
+                    slot.className   = 'slot';
+                    slot.textContent = `P${i+1}`;
+                    container.appendChild(slot);
+                }
+            }
+
+            // ② 平滑轮询并更新 occupied 状态
+            roomInterval = setInterval(async () => {
+                try {
+                    const { players, max } = await api.getPlayerCount();
+                    status && (status.textContent = `Waiting ${players}/${max}`);
+                    if (container) {
+                        container.querySelectorAll('.slot').forEach((slot, idx) => {
+                            slot.classList.toggle('occupied', idx < players);
+                        });
+                    }
+                } catch (e) {
+                    console.error('轮询玩家数失败', e);
+                }
+            }, 1000);
+
+            // ③ 开始游戏
+            startBtn?.addEventListener('click', async () => {
+                try {
+                    await api.startGame();
+                    window.location.href = `${window.contextPath}page/game.html`;
+                } catch (e) {
+                    alert(e.message);
+                }
             });
 
-        // 4) 地图导航按钮（如果有）
-        document.getElementById('btn-map-prev')
-            ?.addEventListener('click', () => mapLoader.prev());
-        document.getElementById('btn-map-next')
-            ?.addEventListener('click', () => mapLoader.next());
-        document.getElementById('btn-map-random')
-            ?.addEventListener('click', () => mapLoader.random());
-    }
+            // ④ 地图导航（可选）
+            prevBtn?.addEventListener('click', () => mapLoader.prev());
+            nextBtn?.addEventListener('click', () => mapLoader.next());
+            randBtn?.addEventListener('click', () => mapLoader.random());
+            break;
+        }
 
+        default:
+            break;
+    }
 }

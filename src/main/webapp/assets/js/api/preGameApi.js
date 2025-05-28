@@ -1,31 +1,48 @@
-// assets/js/api/preGame.js
-const BASE = `${window.contextPath}data`
+// assets/js/api/preGameApi.js
 
-/**
- * 创建房间
- * @param {number} hardLevel 难度等级
- * @param {number} playerNumber 玩家数量
- * @returns {Promise<object>} { message } or { error }
- */
+function getDataUrl() {
+    const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
+    const ctx = baseHref.endsWith('/') ? baseHref.slice(0, -1) : baseHref;
+    return `${ctx}/data`;
+}
+
+
 export async function createRoom(hardLevel, playerNumber) {
-    const res = await fetch(`${BASE}?type=create_room&hardLevel=${hardLevel}&playerNumber=${playerNumber}`);
+    const url = `${getDataUrl()}?type=create_room&hardLevel=${hardLevel}&playerNumber=${playerNumber}`;
+    const res = await fetch(url);
+    if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`创建房间失败 ${res.status}: ${err}`);
+    }
     return res.json();
 }
 
-/** 加入房间 */
 export async function joinRoom() {
-    const res = await fetch(`${BASE}?type=join_room`);
+    const url = `${getDataUrl()}?type=join_room`;
+    const res = await fetch(url);
+    if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`加入房间失败 ${res.status}: ${err}`);
+    }
     return res.json();
 }
 
-/** 开始游戏 */
-export async function startGame() {
-    const res = await fetch(`${BASE}?type=start_game`);
-    return res.json();
-}
-
-/** 查询当前房间人数 */
 export async function getPlayerCount() {
-    const res = await fetch(`${BASE}?type=get_player_num`);
-    return res.json(); // { players: n, max: m }
+    const url = `${getDataUrl()}?type=get_player_num`;
+    const res = await fetch(url);
+    if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`查询玩家数失败 ${res.status}: ${err}`);
+    }
+    return res.json();
+}
+
+export async function startGame() {
+    const url = `${getDataUrl()}?type=start_game`;
+    const res = await fetch(url);
+    if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`启动游戏失败 ${res.status}: ${err}`);
+    }
+    return res.json();
 }
