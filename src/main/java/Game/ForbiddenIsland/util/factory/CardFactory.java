@@ -17,8 +17,8 @@ import Game.ForbiddenIsland.model.TreasureType;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 public class CardFactory {
@@ -30,9 +30,13 @@ public class CardFactory {
     );
 
     public static List<Card> loadTreasureCard() throws IOException {
-        String jsonPath = "src/main/resources/cards.json";
+        String path = "model/cards.json";  // 路径和 MapFactory 一致
+        InputStream is = CardFactory.class.getClassLoader().getResourceAsStream(path);
+        if (is == null) {
+            throw new IOException("找不到 " + path + "，请确保它在 resources/model/ 下！");
+        }
         ObjectMapper mapper = new ObjectMapper();
-        List<CardData> cardDefinitions = mapper.readValue(new File(jsonPath), new TypeReference<>() {});
+        List<CardData> cardDefinitions = mapper.readValue(is, new TypeReference<>() {});
         List<Card> cards = new ArrayList<>();
 
         for (CardData def : cardDefinitions) {
@@ -44,11 +48,11 @@ public class CardFactory {
                 switch (type) {
                     case TREASURE -> {
                         TreasureType treasureType = TreasureType.valueOf(def.treasure());
-                        card = new TreasureCard(i,treasureType);
+                        card = new TreasureCard(i, treasureType);
                     }
                     case ACTION, EVENT -> {
                         CardAction action = actionRegistry.getOrDefault(name, null);
-                        card = new ActionCard(i,name, type, action);
+                        card = new ActionCard(i, name, type, action);
                     }
                     default -> throw new IllegalArgumentException("Unsupported card type: " + type);
                 }
@@ -57,6 +61,8 @@ public class CardFactory {
         }
         return cards;
     }
+
+
     public static Deck<FloodCard> loadFloodCard(List<Tile> tiles) {
         List<FloodCard> cards = new ArrayList<>(tiles.stream()
                 .map(FloodCard::new)
@@ -68,8 +74,6 @@ public class CardFactory {
         deck.initialize(cards);
         return deck;
     }
-
-
 
     // JSON 数据模型，用于 Jackson 解析
     public record CardData(

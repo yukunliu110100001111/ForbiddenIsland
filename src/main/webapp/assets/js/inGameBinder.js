@@ -1,140 +1,105 @@
 // assets/js/binder/inGameBinder.js
 
-import * as api from './api/inGameApi.js';
+/* 路径修正：binder → ../api */
+import * as api from '../js/api/inGameApi.js';
 
 let gameInterval = null;
-let currentAction = null; // 当前等待执行的行动类型
+let currentAction = null;
 
-export async function bindInGame(view) {
-  if (view !== 'game') return;
+/* 不再接收 view 参数，直接绑定 */
+export async function bindInGame() {
 
-  // 清除之前的轮询
-  if (gameInterval) {
-    clearInterval(gameInterval);
-    gameInterval = null;
-  }
+  // 清除旧轮询
+  if (gameInterval) clearInterval(gameInterval);
 
-  // 容器引用
-  const mapContainer    = document.getElementById('map-container');
-  const handContainer   = document.getElementById('hand-container');
-  const statusContainer = document.getElementById('action-status');
-  const controls        = {
-    moveBtn:   document.getElementById('btn-move'),
-    shoreBtn:  document.getElementById('btn-shore'),
-    takeBtn:   document.getElementById('btn-take'),
-    specialBtn:document.getElementById('btn-special'),
-    endTurnBtn:document.getElementById('btn-end-turn'),
+  /* DOM 引用 */
+  const mapContainer  = document.getElementById('map-container');
+  const tilesLayer    = document.getElementById('tiles-layer');   // ← 新增
+  const handContainer = document.getElementById('hand-container');
+  const statusEl      = document.getElementById('action-status');
+
+  const controls = {
+    moveBtn:    document.getElementById('btn-move'),
+    shoreBtn:   document.getElementById('btn-shore'),
+    takeBtn:    document.getElementById('btn-take'),
+    specialBtn: document.getElementById('btn-special'),
+    endTurnBtn: document.getElementById('btn-end-turn'),
   };
 
-  // 点击地图执行当前 action
-  mapContainer.addEventListener('click', async e => {
+  /* 地图点击 */
+  mapContainer?.addEventListener('click', async e => {
     if (!currentAction) return;
     const tileEl = e.target.closest('.tile');
     if (!tileEl) return;
-
-    const x = parseInt(tileEl.dataset.x, 10);
-    const y = parseInt(tileEl.dataset.y, 10);
+    const x = +tileEl.dataset.x;
+    const y = +tileEl.dataset.y;
     await doAction({ action: currentAction, x, y });
     currentAction = null;
-    updateControlHighlight();
+    updateCtrlHL();
   });
 
-  // 绑定控制面板按钮
-  controls.moveBtn.addEventListener('click', () => selectAction('MOVE'));
-  controls.shoreBtn.addEventListener('click', () => selectAction('SHORE'));
-  controls.takeBtn.addEventListener('click', () => selectAction('TAKE'));
-  controls.specialBtn.addEventListener('click', async () => {
-    selectAction(null);
-    await api.useSpecialAbility();
-    await refreshGameState();
+  /* 控制按钮 */
+  controls.moveBtn   ?.addEventListener('click', () => sel('MOVE'));
+  controls.shoreBtn  ?.addEventListener('click', () => sel('SHORE'));
+  controls.takeBtn   ?.addEventListener('click', () => sel('TAKE'));
+  controls.specialBtn?.addEventListener('click', async () => {
+    sel(null); await api.useSpecialAbility(); await refresh();
   });
-  controls.endTurnBtn.addEventListener('click', async () => {
-    selectAction(null);
-    await doAction({ action: 'END_TURN' });
+  controls.endTurnBtn?.addEventListener('click', async () => {
+    sel(null); await doAction({ action: 'END_TURN' });
   });
 
-  // 选中某个操作模式，更新 UI 高亮
-  function selectAction(action) {
-    currentAction = action;
-    updateControlHighlight();
-  }
-  function updateControlHighlight() {
-    Object.entries(controls).forEach(([key, btn]) => {
-      const matches = key.toUpperCase().includes(currentAction);
-      btn.classList.toggle('active', matches);
+  function sel(a){ currentAction=a; updateCtrlHL(); }
+  function updateCtrlHL(){
+    Object.entries(controls).forEach(([k,btn])=>{
+      btn?.classList.toggle('active', k.toUpperCase().includes(currentAction||''));
     });
   }
 
-  // 发送动作，然后立即刷新状态
-  async function doAction(actionObj) {
-    try {
-      const res = await api.sendAction(actionObj);
-      if (res.error) {
-        alert(`操作失败：${res.error}`);
-      }
-    } catch (err) {
-      console.error('sendAction 出错', err);
-    } finally {
-      await refreshGameState();
+  async function doAction(obj){
+    try{
+      const res = await api.sendAction(obj);
+      if(res.error) alert(res.error);
+    }finally{ await refresh(); }
+  }
+
+  /* ---------- 渲染 ---------- */
+    function render(state){
+        if(state.error){
+            alert(state.error);
+            return;
+        }
+        // 只改这一行！
+        renderTiles(state.map?.allTiles ?? []);
+        renderPlayers(state.players ?? []);
+        renderHand((state.currentPlayer?.hand) ?? []);
+        statusEl.textContent = `玩家${state.currentPlayerIndex+1} 剩余行动:${state.actionsLeft}`;
     }
-  }
 
-  // 渲染整个游戏界面
-  function render(state) {
-    renderTiles(state.board.tiles);
-    renderPlayers(state.players);
-    renderHand(state.players.find(p => p.id === state.currentPlayer).hand);
-    statusContainer.textContent =
-        `玩家${state.currentPlayer + 1} 回合，剩余行动点：${state.actionsLeft}`;
-  }
-
-  // 地图渲染
-  function renderTiles(tiles) {
-    tilesLayer.innerHTML = '';
-    tiles.forEach(t => {
-      const div = document.createElement('div');
-      div.className = `tile ${t.state}`;
-      div.style.left = `${t.x * TILE_SIZE}px`;
-      div.style.top  = `${t.y * TILE_SIZE}px`;
-      tilesLayer.appendChild(div);
+  function renderTiles(tiles){
+    if(!tilesLayer) return;
+    tilesLayer.innerHTML='';
+    tiles.forEach(t=>{
+      const d=document.createElement('div');
+      d.className=`tile ${t.state}`;
+      d.dataset.x=t.x; d.dataset.y=t.y;
+      d.style.left=`${t.x*100}px`; d.style.top=`${t.y*100}px`; // 100px 可提常量
+      tilesLayer.appendChild(d);
     });
   }
+  function renderPlayers(players){ /* 省略，和之前一样… */ }
+  function renderHand(hand){ /* 省略 … */ }
 
-  // 玩家渲染（在地图上加 pawn）
-  function renderPlayers(players) {
-    // 先移除旧的 pawn
-    mapContainer.querySelectorAll('.pawn').forEach(el => el.remove());
-    players.forEach(p => {
-      const el = document.createElement('div');
-      el.className = `pawn pawn-role-${p.role.toLowerCase()}`;
-      el.style.left = `${p.x * TILE_SIZE + 10}px`;
-      el.style.top  = `${p.y * TILE_SIZE + 10}px`;
-      mapContainer.appendChild(el);
-    });
-  }
-
-  // 手牌渲染
-  function renderHand(hand) {
-    handContainer.innerHTML = '';
-    hand.forEach(card => {
-      const el = document.createElement('div');
-      el.className = `card card-${card.type.toLowerCase()}`;
-      el.textContent = card.type;
-      handContainer.appendChild(el);
-    });
-  }
-
-  // 刷新游戏状态
-  async function refreshGameState() {
-    try {
-      const state = await api.updateGameState();
-      render(state);
-    } catch (err) {
-      console.error('updateGameState 出错', err);
+  /* -------- 轮询 -------- */
+    async function refresh() {
+        try {
+            const state = await api.updateGameState();
+            console.log("后端返回 state =", state);
+            render(state);
+        } catch(e) { console.error("updateGameState 失败", e); }
     }
-  }
 
-  // 立刻刷新一次，然后每 1s 自动轮询
-  await refreshGameState();
-  gameInterval = setInterval(refreshGameState, 1000);
+
+  await refresh();
+  gameInterval=setInterval(refresh,1000);
 }

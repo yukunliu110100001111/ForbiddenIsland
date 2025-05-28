@@ -1,9 +1,11 @@
+// assets/js/preGameBinder.js
+
 import * as api     from './api/preGameApi.js';
 import { loadView } from './app.js';
 
 let roomInterval = null;
 
-// 简易 toast 占位函数（可替换为更美观的 UI）
+// Toast 显示（同前）
 function showToast(msg, type = "info") {
     let toast = document.getElementById('global-toast');
     if (!toast) {
@@ -22,7 +24,7 @@ function showToast(msg, type = "info") {
 }
 
 export function bindPreGame(view) {
-    // 切换视图前清除上一次的轮询
+    // 清除旧的 interval
     if (roomInterval) {
         clearInterval(roomInterval);
         roomInterval = null;
@@ -116,10 +118,12 @@ export function bindPreGame(view) {
             const container = document.getElementById('slots-container');
             const status    = document.getElementById('room-status');
             const readyBtn  = document.getElementById('btn-room-ready');
+            const exitBtn   = document.getElementById('btn-room-exit');    // 新增：退出按钮
+            const destroyBtn = document.getElementById('btn-room-destroy');
             const tipEl     = document.getElementById('start-tip');
             let isReady     = false;
 
-            // ① 首次渲染“空槽”
+            // ① 卡槽首次渲染
             if (container && container.children.length === 0) {
                 const maxCount = +localStorage.getItem('playerCount') || 0;
                 for (let i = 0; i < maxCount; i++) {
@@ -130,11 +134,11 @@ export function bindPreGame(view) {
                 }
             }
 
-            // ② Ready/Cancel Ready 按钮绑定（初始状态）
-            readyBtn.textContent           = 'Ready';
+            // ② Ready/Unready
+            readyBtn.textContent = 'Ready';
             readyBtn.classList.remove('ready');
             readyBtn.setAttribute('aria-pressed', 'false');
-            readyBtn.addEventListener('click', async () => {
+            readyBtn.onclick = async () => {
                 try {
                     if (!isReady) {
                         const res = await api.setReady();
@@ -142,7 +146,6 @@ export function bindPreGame(view) {
                             showToast(res.error, "error");
                             return;
                         }
-                        // 切换到“已准备”
                         isReady = true;
                         readyBtn.textContent = 'Cancel Ready';
                         readyBtn.classList.add('ready');
@@ -153,7 +156,6 @@ export function bindPreGame(view) {
                             showToast(res.error, "error");
                             return;
                         }
-                        // 切换到“未准备”
                         isReady = false;
                         readyBtn.textContent = 'Ready';
                         readyBtn.classList.remove('ready');
@@ -162,15 +164,59 @@ export function bindPreGame(view) {
                 } catch (e) {
                     showToast(e.message, "error");
                 }
-            });
+            };
 
-            // ③ 轮询函数
+            // ③ 新增：退出房间
+            if (exitBtn) {
+                exitBtn.onclick = async () => {
+                    try {
+                        const res = await api.exitRoom();
+                        if (res.error) {
+                            showToast(res.error, "error");
+                        } else {
+                            showToast("You left the room.", "info");
+                            // 回到 lobby 或 cover
+                            setTimeout(() => loadView('lobby'), 500);
+                        }
+                    } catch (e) {
+                        showToast(e.message, "error");
+                    }
+                };
+            }
+
+            // ④ 如果当前是房主，再给加个销毁按钮（示例，实际你可根据用户身份/逻辑判断）
+            // 推荐：房主才能见到（不然也可以在服务端多判断一次）
+            // 页面加一个 <button id="btn-room-destroy">Destroy Room</button>（可选）
+            if (destroyBtn) {
+                // 这里用 localStorage 判断，真实项目推荐用后端 session 校验
+                if (localStorage.getItem('isHost') === 'true') {
+                    destroyBtn.style.display = '';
+                } else {
+                    destroyBtn.style.display = 'none';
+                }
+                destroyBtn.onclick = async () => {
+                    if (!window.confirm("Are you sure to destroy the room?")) return;
+                    try {
+                        const res = await api.destroyRoom();
+                        if (res.error) {
+                            showToast(res.error, "error");
+                        } else {
+                            showToast("Room destroyed.", "info");
+                            setTimeout(() => loadView('lobby'), 500);
+                        }
+                    } catch (e) {
+                        showToast(e.message, "error");
+                    }
+                };
+            }
+
+            // ⑤ 轮询房间状态（不变）
             const pollRoomStatus = async () => {
                 try {
                     const { players, max, ready } = await api.getRoomStatus();
                     status.textContent = `Players: ${players}/${max}, Ready: ${ready}/${max}`;
 
-                    // 更新卡槽 occupied & ready 样式
+                    // 卡槽样式
                     if (container) {
                         container.querySelectorAll('.slot').forEach((slot, idx) => {
                             slot.classList.toggle('occupied', idx < players);
@@ -178,7 +224,6 @@ export function bindPreGame(view) {
                         });
                     }
 
-                    // 更新提示文字
                     if (tipEl) {
                         if (ready < max) {
                             tipEl.textContent = `Waiting for ${max - ready} more to be ready…`;
@@ -189,7 +234,6 @@ export function bindPreGame(view) {
                         }
                     }
 
-                    // 全员 ready 且玩家数已满，自动启动游戏
                     if (players === max && ready === max) {
                         clearInterval(roomInterval);
                         try {
@@ -211,14 +255,11 @@ export function bindPreGame(view) {
                     showToast('Failed to poll room status', "error");
                 }
             };
-
-            // 启动第一次轮询，并开启定时
             pollRoomStatus();
             roomInterval = setInterval(pollRoomStatus, 1000);
 
             break;
         }
-
 
         default:
             break;

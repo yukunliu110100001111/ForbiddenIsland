@@ -8,32 +8,49 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
 public class MapFactory {
     public static GameMap loadMaps() throws Exception {
-        String mapPath = "src/main/resources/model/map.json";
+        String mapJsonPath  = "model/map_layout_classical.json";
+        String tilesJsonPath = "model/tiles.json";
+
+        System.out.println("[DEBUG] 尝试加载 tiles.json：" + tilesJsonPath);
+        InputStream tilesStream = MapFactory.class.getClassLoader().getResourceAsStream(tilesJsonPath);
+        if (tilesStream == null) throw new RuntimeException("tiles.json 文件找不到：" + tilesJsonPath);
+        System.out.println("[DEBUG] tiles.json 已找到");
+
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addAbstractTypeMapping(Tile.class, TileImp.class);
         mapper.registerModule(module);
-        List<Tile> tiles = mapper.readValue(new File("src/main/resources/model/tiles.json"), new TypeReference<>() {});
+
+        List<Tile> tiles = mapper.readValue(tilesStream, new TypeReference<>() {});
         Collections.shuffle(tiles);
-        return new GameMap(assignPositions(tiles,mapPath));
+
+        System.out.println("[DEBUG] 尝试加载 map_layout_classical.json：" + mapJsonPath);
+        InputStream mapStream = MapFactory.class.getClassLoader().getResourceAsStream(mapJsonPath);
+        if (mapStream == null) throw new RuntimeException("map_layout_classical.json 文件找不到：" + mapJsonPath);
+        System.out.println("[DEBUG] map_layout_classical.json 已找到");
+
+        JsonNode mapRoot = mapper.readTree(mapStream);
+
+        System.out.println("[DEBUG] 地图和 tile 文件全部加载完毕，准备 assignPositions");
+
+        return new GameMap(assignPositions(tiles, mapRoot));
     }
 
-    //load a map file to initialize a list to a two-dimensional array
-    private static Tile[][] assignPositions(List<Tile> tiles, String jsonPath) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File(jsonPath));
+
+    // 传 JsonNode，不再用文件路径
+    private static Tile[][] assignPositions(List<Tile> tiles, JsonNode root) throws Exception {
         JsonNode positions = root.get("validPositions");
         int width = root.get("width").asInt();
         int height = root.get("height").asInt();
 
         if (positions == null || !positions.isArray()) {
-            throw new IllegalArgumentException("JSON format error：validPositions should be array");
+            throw new IllegalArgumentException("JSON format error: validPositions should be array");
         }
 
         if (tiles.size() > positions.size()) {
@@ -46,10 +63,10 @@ public class MapFactory {
             int y = pair.get(1).asInt();
             tiles.get(i).setPosition(x, y);
         }
-        return toGrid(tiles,width,height);
+        return toGrid(tiles, width, height);
     }
 
-    //Fill the Tile[][] use the list<Tile>
+    // Fill the Tile[][] using the list<Tile>
     private static Tile[][] toGrid(List<Tile> tiles, int width, int height) {
         Tile[][] grid = new Tile[width][height];
 

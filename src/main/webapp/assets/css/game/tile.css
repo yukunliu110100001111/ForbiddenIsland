@@ -23,3 +23,19 @@
     background-position: center;
     background-size: 50%;
 }
+
+.tile {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border: 1px solid #999;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 60px;
+}
+#tiles-layer {
+    position: relative;
+    width: 360px; /* 6*60 */
+    height: 360px;
+}

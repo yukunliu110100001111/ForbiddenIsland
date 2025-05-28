@@ -4,12 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Forbidden Island – Game UI</title>
-
-    <!-- 设置资源查找基准为应用上下文根 -->
     <base href="/ForbiddenIsland_war_exploded/">
-
-    <!-- 全局与游戏专用样式 -->
     <link rel="stylesheet" href="assets/css/game/game.css">
+
 </head>
 <body>
 <div id="main-container">
@@ -22,17 +19,11 @@
                 <div class="drawn-card"></div>
                 <div class="drawn-card"></div>
             </aside>
-
-            <!-- 中央地图区（含格子与道路层） -->
-            <div id="map-container" style="position: relative; flex:1; min-width:600px; height:600px;">
-                <!-- Tile 层 -->
-                <div id="tiles-layer" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>
-                <!-- Road 层 -->
-                <svg id="roads-layer"
-                     style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"
-                     xmlns="http://www.w3.org/2000/svg"></svg>
+            <!-- 地图区 -->
+            <div id="map-container">
+                <div id="tiles-layer"></div>
+                <svg id="roads-layer" xmlns="http://www.w3.org/2000/svg"></svg>
             </div>
-
             <!-- 右侧水位表 -->
             <aside id="right-panel">
                 <div id="water-meter">
@@ -46,51 +37,32 @@
             </aside>
         </div>
 
-        <!-- 操作状态提示 -->
-        <div id="action-status" style="margin:12px; font-weight:bold;"></div>
-
-        <!-- 控制按钮面板 -->
-        <div id="control-panel" style="display:flex; gap:8px; margin:12px;">
-            <button id="btn-move">Move</button>
-            <button id="btn-shore">Shore Up</button>
-            <button id="btn-take">Capture</button>
-            <button id="btn-special">Special</button>
-            <button id="btn-end-turn">End Turn</button>
+        <!-- 操作区、手牌、底栏的竖向组合 -->
+        <div class="bottom-panel-group">
+            <div id="action-status" style="margin:8px; font-weight:bold; text-align:center;"></div>
+            <div id="control-panel">
+                <button id="btn-move">Move</button>
+                <button id="btn-shore">Shore Up</button>
+                <button id="btn-take">Capture</button>
+                <button id="btn-special">Special</button>
+                <button id="btn-end-turn">End Turn</button>
+            </div>
+            <div id="hand-container"></div>
+            <footer id="players-footer">
+                <div class="player"><div class="avatar"></div><div class="hand"></div></div>
+                <div class="player"><div class="avatar"></div><div class="hand"></div></div>
+                <div class="player"><div class="avatar"></div><div class="hand"></div></div>
+                <div class="player"><div class="avatar"></div><div class="hand"></div></div>
+            </footer>
         </div>
-
-        <!-- 当前玩家手牌容器 -->
-        <div id="hand-container" style="display:flex; gap:8px; margin:12px;"></div>
     </div>
-
-    <!-- 底部玩家栏 -->
-    <footer id="players-footer">
-        <div class="player">
-            <div class="avatar"></div>
-            <div class="hand"></div>
-        </div>
-        <div class="player">
-            <div class="avatar"></div>
-            <div class="hand"></div>
-        </div>
-        <div class="player">
-            <div class="avatar"></div>
-            <div class="hand"></div>
-        </div>
-        <div class="player">
-            <div class="avatar"></div>
-            <div class="hand"></div>
-        </div>
-    </footer>
-
 </div>
 
-<!-- UI 插件或第三方库 -->
 <script src="assets/js/ui-plugins.js"></script>
-<!-- 入口模块：绑定 In-Game 逻辑 -->
 <script type="module">
     import { bindInGame } from './assets/js/inGameBinder.js';
     document.addEventListener('DOMContentLoaded', () => {
-        bindInGame('game');
+        bindInGame();
     });
 </script>
 </body>
