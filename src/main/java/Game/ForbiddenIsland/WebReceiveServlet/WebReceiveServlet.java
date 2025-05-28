@@ -22,6 +22,7 @@ public class WebReceiveServlet extends HttpServlet {
     private PlayerController playerController;
 
     private int maxPeopleCount;
+    private int readyNumber;
     private int currentPeopleCount = 0;
     private int difficultyLevel;
     private boolean hasRoom = false;
@@ -41,11 +42,18 @@ public class WebReceiveServlet extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+
+        try {
+
+
         String type = request.getParameter("type");
         if (type == null) {
             out.println("{\"error\": \"Missing request type.\"}");
             return;
         }
+
+
+
 
         switch (type) {
             case "create_room": {
@@ -66,6 +74,7 @@ public class WebReceiveServlet extends HttpServlet {
                     break;
                 }
 
+                readyNumber = 1;
                 hasRoom = true;
                 currentPeopleCount = 1;
                 out.println("{\"message\": \"Room created successfully.\"}");
@@ -87,20 +96,64 @@ public class WebReceiveServlet extends HttpServlet {
                 break;
             }
 
+            case "exit_room": {
+                if (!hasRoom) {
+                    out.println("{\"error\": \"Room not created yet.\"}");
+                    break;
+                }
+
+                currentPeopleCount --;
+                out.println("{\"message\": \"Room left successfully.\"}");
+                break;
+            }
+
+            case "destroy_room": {
+                if (!hasRoom) {
+                    out.println("{\"error\": \"Room not created yet.\"}");
+                    break;
+                }
+
+                hasRoom = false;
+                currentPeopleCount = 0;
+                out.println("{\"message\": \"Room destroyed successfully.\"}");
+                break;
+            }
+
+            case "is_ready": {
+                readyNumber++;
+                break;
+            }
+
+            case "is_unready": {
+                readyNumber--;
+                break;
+            }
+
+            case "get_room_status": {
+                out.println("{"
+                        + "\"players\":" + currentPeopleCount + ","
+                        + "\"max\":"     + maxPeopleCount     + ","
+                        + "\"ready\":"   + readyNumber
+                        + "}");
+                break;
+            }
+
             case "start_game": {
                 if (currentPeopleCount < maxPeopleCount) {
                     out.println("{\"error\": \"Not enough players to start the game.\"}");
                     break;
                 }
-
+                if (readyNumber < maxPeopleCount) {
+                    out.println("{\"error\": \"Not enough players are ready.\"}");
+                    break;
+                }
                 gameController = new GameController(maxPeopleCount, difficultyLevel);
                 playerController = new PlayerController(gameController);
-                gameController.startTurn();
                 gameStarted = true;
-
                 out.println("{\"message\": \"Game started successfully.\"}");
                 break;
             }
+
 
             /*
             case "get_game_state": {
@@ -121,6 +174,8 @@ public class WebReceiveServlet extends HttpServlet {
                     out.println("{\"error\": \"Game not started or controller unavailable.\"}");
                     break;
                 }
+
+                gameController.initializeIfNeeded();
 
                 StringBuilder jsonBuilder = new StringBuilder();
                 try (BufferedReader reader = request.getReader()) {
@@ -152,7 +207,16 @@ public class WebReceiveServlet extends HttpServlet {
 
             // Update everything to frontend
             case "update_element": {
+                // 1. 懒加载初始化（只会初始化一次）
+                if (gameController == null) {
+                    gameController = new GameController(difficultyLevel,maxPeopleCount);
+                }
+                // 2. 再做“只初始化一次”的懒加载
+                gameController.initializeIfNeeded();
+
+                // 3. 真正取出状态
                 GameState state = gameController.getGameState();
+                // 4. 组装 JSON 响应
                 StringBuilder json = new StringBuilder();
                 json.append("{");
 
@@ -201,30 +265,43 @@ public class WebReceiveServlet extends HttpServlet {
                 json.append("\"treasureCollected\":[");
                 for (Map.Entry<TreasureType, Boolean> entry : treasureCollected.entrySet()) {
                     json.append("[")
-                            .append("{\"type\":").append(entry.getKey()).append("}")
-                            .append("{\"isGet\":").append(entry.getValue()).append("}");
+                            .append("{\"type\":\"").append(entry.getKey()).append("\"},")
+                            .append("{\"isGet\":").append(entry.getValue()).append("}],");
                 }
+                if (json.charAt(json.length() - 1) == ',') json.setLength(json.length() - 1);
                 json.append("],");
 
                 // Water Level
-                json.append("\"currentWaterLevel\":{").append(state.getWaterLevel()).append("},");
+                json.append("\"currentWaterLevel\":").append(state.getWaterLevel()).append(",");
 
                 // Is Game Over
-                json.append("\"isGameWon\":{").append(state.isGameWon()).append("},");
-                json.append("\"isGameLost\":{").append(state.isGameLost()).append("},");
+                json.append("\"isGameWon\":").append(state.isGameWon()).append(",");
+                json.append("\"isGameLost\":").append(state.isGameLost()).append(",");
 
-                // Game Result?
-                json.append("\"gameResult\":{").append(gameController.getGameResult()).append("}");
+                // Game Result
+                json.append("\"gameResult\":\"").append(gameController.getGameResult()).append("\"");
 
                 json.append("}");
                 out.println(json);
                 break;
             }
 
+
             default: {
                 out.println("{\"error\": \"Unknown type: " + type + "\"}");
                 break;
             }
         }
+
+        } catch (Exception e) {
+            // —— 1) 先把完整堆栈打印到服务器日志
+            e.printStackTrace();
+            // —— 2) 然后给前端一个干净的 JSON 错误响应
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            String msg = e.getClass().getSimpleName()+": "+e.getMessage();
+            msg = msg.replace("\"", "\\\"");  // 转义双引号
+            out.println("{\"error\":\"Internal server error: "+msg+"\"}");
+            }
+
     }
 }

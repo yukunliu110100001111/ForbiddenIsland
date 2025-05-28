@@ -1,0 +1,11 @@
+[
+  { "name": "EARTH_STONE", "type": "TREASURE", "treasure": "EARTH", "quantity": 5 },
+  { "name": "STATUE_OF_WIND", "type": "TREASURE", "treasure": "AIR", "quantity": 5 },
+  { "name": "CRYSTAL_OF_FIRE", "type": "TREASURE", "treasure": "FIRE", "quantity": 5 },
+  { "name": "OCEAN_CHALICE", "type": "TREASURE", "treasure": "WATER", "quantity": 5 },
+
+  { "name": "HELICOPTER", "type": "ACTION", "treasure": null, "quantity": 3 },
+  { "name": "SANDBAG", "type": "ACTION", "treasure": null, "quantity": 2 },
+
+  { "name": "WATERRISE", "type": "EVENT", "treasure": null, "quantity": 3 }
+]

@@ -1,0 +1,104 @@
+@import url(../css/components/component.css);
+
+/* —— 全局基础 —— */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    /* webapp/assets/css/pages/sub/cover.css */
+    background: url("../Images/bg/coverbg.png") center center / cover no-repeat;
+
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* —— 动画 —— */
+@keyframes soft-breath {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.03);
+        opacity: 0.9;
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 60px rgba(255, 255, 255, 0.35);
+    }
+}
+
+/* —— 全局 blur-bar 控制 —— */
+.blur-bar {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 200px;
+    backdrop-filter: blur(20px);
+    z-index: 1;
+    transition: top 0.5s ease, height 0.5s ease, background 0.3s ease;
+}
+
+body.cover .blur-bar {
+    animation: pulse-glow 4s ease-in-out infinite;
+}
+
+body:not(.cover) .blur-bar {
+    /*top: 0;*/
+    /*left: 0;*/
+    /*transform: none;*/
+    /*width: 100vw;*/
+    height: 100vh;
+    /*animation: none;*/
+    /*backdrop-filter: blur(30px);*/
+}
+
+/* —— app 页面容器 —— */
+#app {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 3;
+}
+
+
+/* —— 卡片容器通用样式 —— */
+.container {
+    width: calc(100% - 80px);
+    max-width: 1000px;
+    box-sizing: border-box;
+}
+
+.card {
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: center center;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+/* —— 入场动画：放大到正常大小 —— */
+.card.entering {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* —— 退场动画：继续放大 + 淡出 —— */
+.card.exiting {
+    opacity: 0;
+    transform: scale(10);
+    pointer-events: none;
+}
+

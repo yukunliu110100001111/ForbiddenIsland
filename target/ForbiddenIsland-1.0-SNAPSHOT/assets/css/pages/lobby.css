@@ -1,0 +1,26 @@
+@import url('../styles/variables-light.css');
+@import url('../styles/variables-dark.css');
+@import url('../components/button-base.css');
+@import url('../components/card-base.css');
+
+.lobby-buttons {
+    display: flex; /* 启用 Flex 布局 */
+    flex-direction: row; /* 默认即为横向，也可省略 */
+    justify-content: center; /* 水平居中（或改为 space-between / flex-start） */
+    align-items: center; /* 垂直居中对齐 */
+    gap: var(--spacing-md); /* 按钮之间的间距 */
+}
+
+.lobby-buttons .button-base {
+    font: var(--font-size-base) var(--font-family-base);
+    min-height: 100px;
+    min-width: max-content;
+}
+
+/* —— 状态文字 —— */
+.status {
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    min-height: 1.2em;
+    text-align: center;
+}

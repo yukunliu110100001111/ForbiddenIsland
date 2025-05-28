@@ -1,0 +1,50 @@
+@import url('../styles/variables-light.css');
+@import url('../styles/variables-dark.css');
+@import url('../components/card-base.css');
+@import url('../components/button-base.css');
+
+/* —— 滑块容器 —— */
+.slider-group {
+    width: 100%;
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* —— 滑块标签 —— */
+label {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-primary);
+}
+
+/* —— 滑块基础 —— */
+input[type="range"] {
+    width: 100%;
+    margin: var(--spacing-sm) 0;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* 滑轨 */
+input[type="range"]::-webkit-slider-runnable-track,
+input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: var(--slider-track-bg);
+    border-radius: 3px;
+}
+
+/* 滑块拇指 */
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--slider-thumb-bg);
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* —— 创建房间按钮 —— */
+#make-room {
+    margin-top: var(--spacing-md);
+}

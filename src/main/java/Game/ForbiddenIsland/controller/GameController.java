@@ -27,17 +27,30 @@ import java.util.List;
 
 
 public class GameController {
-    private GameState gameState;
+    private GameState gameState = new GameState();
     private int actionsRemaining = 3;
     private boolean gameOver = false;
     private String gameResult = "";
 
+    private int playerCount;
+    private int difficultyLevel;
+    private boolean initialized = false; // 懒加载标志
+
+
     public GameController(int playerCount, int difficultyLevel) {
-        this.gameState = new GameState();
-        initializeBoard();
-        initializePlayers(playerCount);
-        initializeWaterLevel(difficultyLevel);
-        initializeDecks();
+        this.playerCount = playerCount;
+        this.difficultyLevel = difficultyLevel;
+    }
+
+    public void initializeIfNeeded() {
+        if (!initialized) {
+            initializeBoard();
+            initializePlayers(playerCount);
+            initializeWaterLevel(difficultyLevel);
+            initializeDecks();
+            initialized = true;
+            startTurn();
+        }
     }
 
     private void initializePlayers(int playerCount) {

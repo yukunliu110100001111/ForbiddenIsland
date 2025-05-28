@@ -1,0 +1,109 @@
+/* variables-dark.css */
+:root {
+    /* —— 色彩 —— */
+    --color-bg: #121212;
+    --color-surface: #1E1E1E;
+    --color-text-primary: #E0E0E0;
+    --color-text-secondary: #AAAAAA;
+    --color-text-inverse: #000000;
+    --color-primary: #3399FF;
+    --color-primary-hover: #2187E0;
+    --color-secondary: #66BB6A;
+    --color-secondary-hover: #559C5A;
+    --color-accent: #FF79C6;
+    --color-accent-hover: #FF69B4;
+    --color-success: #2ECC71;
+    --color-warning: #F1C40F;
+    --color-danger: #E74C3C;
+    --color-panel-bg: rgba(255, 255, 255, 0.1);
+    --color-overlay-bg: rgba(0, 0, 0, 0.7);
+
+    /* —— 排版 —— */
+    --font-family-base: 'Helvetica Neue', Arial, sans-serif;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 2rem;
+
+    /* —— 间距 —— */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    /* —— 圆角 —— */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* —— 过渡 —— */
+    --transition-fast: 150ms;
+    --transition-medium: 300ms;
+    --transition-slow: 500ms;
+
+    /* —— 层级 —— */
+    --z-bg: 0;
+    --z-overlay: 10;
+    --z-container: 20;
+    --z-modal: 30;
+
+    /* —— 断点 —— */
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+
+    --button-bg: rgba(0, 0, 0, 0.3);
+    --button-bg-hover: rgba(0, 0, 0, 0.4);
+    --button-text: #FFFFFF;
+    --button-border: rgba(255, 255, 255, 0.2);
+    --button-shadow: rgba(0, 0, 0, 0.5);
+
+    /* —— 卡片 —— */
+    --card-bg: rgba(30, 30, 30, 0.4);
+    --card-border: rgba(255, 255, 255, 0.2);
+    --card-shadow: rgba(0, 0, 0, 0.6);
+    --card-blur: 16px;
+
+    /* —— 滑块 —— */
+    --slider-track-bg: rgba(200, 200, 200, 0.2);
+    --slider-thumb-bg: var(--color-text-primary);
+
+    /* —— 插槽（Room 页面） —— */
+    --slot-bg: rgba(255, 255, 255, 0.1);
+    --slot-border: rgba(255, 255, 255, 0.5);
+
+    /* —— 封面标题 —— */
+    --cover-title-color: #fff9d2;
+    --cover-title-shadow-1: 0 0 15px #fffbb0;
+    --cover-title-shadow-2: 0 0 25px #ffffff;
+
+    --bg-gradient: linear-gradient(
+            to bottom,
+            rgba(10, 10, 30, 0.9),
+            rgba(0, 0, 0, 0.9)
+    );
+
+    /* game 专属 */
+    --bg-image: url('../Images/Cards/seabg.png');
+    --status-bar-bg: var(--color-panel-bg);
+    --header-bg: var(--color-panel-bg);
+    --card-text: var(--color-text-primary);
+
+    --tile-border: #222222;
+    --tile-shadow: 0 8px 15px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+    --tile-bg-default: #8b6f2f; /* 更暗的金色 */
+    --tile-bg-flooded: #005577;
+    --tile-bg-sunk: #111111;
+    --tile-hover-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+
+    --meter-bg: #003355;
+    --meter-active-bg: #aa0000;
+
+    --anim-fast: var(--transition-fast);
+    --anim-medium: var(--transition-medium);
+    --anim-slow: var(--transition-slow);
+    --anim-del: 0.3s;
+}
