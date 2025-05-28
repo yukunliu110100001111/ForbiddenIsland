@@ -4,12 +4,19 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Forbidden Island – Game UI</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jolly+Lodger&display=swap">
-    <link rel="stylesheet" href="../css/game/game.css">
+
+    <!-- 设置资源查找的基准为 应用上下文 根 -->
+    <base href="/ForbiddenIsland_war_exploded/">
+
+    <!-- 字体 -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Jolly+Lodger&display=swap">
+
+    <!-- Game 专用样式，放在 assets/css/game/game.css -->
+    <link rel="stylesheet" href="assets/css/game/game.css">
 </head>
 <body>
 <div id="main-container">
-    <div id="status-bar">欢迎来到禁闭岛！</div>
 
     <div class="main-content">
         <div id="game-wrapper">
@@ -47,11 +54,11 @@
         </div>
     </footer>
 
-    <svg id="svg-wave" viewBox="0 0 1440 320">
-        <!-- 波浪SVG -->
-    </svg>
 </div>
 
-<script src="../js/mapLoader.js"></script>
+<!-- 脚本也放到 assets/js 里 -->
+<script src="assets/js/mapLoader.js"></script>
+<!-- 如果需要其他插件，继续加在这里 -->
+<script src="assets/js/ui-plugins.js"></script>
 </body>
 </html>

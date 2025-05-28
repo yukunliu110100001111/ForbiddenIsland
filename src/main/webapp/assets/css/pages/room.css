@@ -141,3 +141,26 @@
     /* 如果想显示网格线，可以加边框，否则保持透明 */
     /* border: 1px dashed var(--tile-border); */
 }
+
+/* room.css */
+#slots-container {
+    display: flex;
+    gap: 8px;
+}
+.slot {
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    background: #f0f0f0;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    transition: background 0.3s, border-color 0.3s;
+}
+.slot.occupied {
+    background: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+    font-weight: bold;
+}
+

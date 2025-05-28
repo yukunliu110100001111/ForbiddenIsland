@@ -1,30 +1,28 @@
-// room.js: 地图选择与房间启动逻辑
-// 依赖：MAPS、MapManager 已在 maps.js 中定义
+// room.js（已在 page/sub/room.html 中通过 <script> 引入）
+// … 上面省略 init preview 逻辑 …
 
-document.addEventListener('DOMContentLoaded', () => {
-    // 初始化地图预览
-    const preview = new MapManager(MapLoader, '#map-preview');
-    preview.render(0);
+document.getElementById('btn-room-start')
+    .addEventListener('click', async () => {
+        // 保存选中的地图索引
+        sessionStorage.setItem('selectedMapIndex', preview.currentIndex);
 
-    // 上一张地图
-    document.getElementById('btn-map-prev')
-        .addEventListener('click', () => preview.prev());
+        // 退场动画（可选）
+        animateCardExit();
+        updateBlurBar('game');
+        await new Promise(r => setTimeout(r, 300));
 
-    // 下一张地图
-    document.getElementById('btn-map-next')
-        .addEventListener('click', () => preview.next());
-
-    // 随机地图
-    document.getElementById('btn-map-random')
-        .addEventListener('click', () => {
-            const randIndex = Math.floor(Math.random() * MapLoader.length);
-            preview.render(randIndex);
+        const html = await fetch('/ForbiddenIsland_war_exploded/page/game.html')
+            .then(r => {
+                if (!r.ok) throw new Error(`加载失败: ${r.status}`);
+                return r.text();
+            });
+        // 渲染并绑定事件
+        app.innerHTML = html;
+        requestAnimationFrame(() => {
+            document.querySelectorAll('.card').forEach(c => {
+                c.classList.remove('exiting');
+                c.classList.add('entering');
+            });
         });
-
-    // START GAME 按钮：保存选择并跳转
-    document.getElementById('btn-room-start')
-        .addEventListener('click', () => {
-            sessionStorage.setItem('selectedMapIndex', preview.currentIndex);
-            window.location.href = 'game.html';
-        });
-});
+        bindViewEvents('game');
+    });
