@@ -1,5 +1,7 @@
 /* 首先加载主题变量 */
 @import url('../styles/style.css');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
 
 /* 然后按依赖顺序加载模块 */
 @import url('./game.components.css');
@@ -12,5 +14,6 @@
 @import url('layout/layout.css');
 
 /* 组件模块 */
-@import url('../game/tile.css');
+@import url('layout/tile.css');
 @import url('./card.css');
+@import url('./layout/left-panel/left_panel.css');

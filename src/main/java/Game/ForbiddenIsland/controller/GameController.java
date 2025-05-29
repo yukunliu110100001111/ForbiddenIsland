@@ -312,6 +312,7 @@ public class GameController {
         return true;
     }
 
+
     private boolean isValidDiverMove(Tile current, Tile target) {
         if (target == null) {
             return false;

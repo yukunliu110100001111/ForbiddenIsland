@@ -1,6 +1,6 @@
 // assets/js/app.js
-import { bindPreGame }  from './preGameBinder.js';
-import { bindInGame }   from './inGameBinder.js';
+import { bindPreGame }  from './binders/preGameBinder.js';
+import { bindInGame }   from './binders/inGameBinder.js';
 
 // 从 <base> 标签读取上下文路径（如 "/ForbiddenIsland_war_exploded/"）
 const contextPath = document.querySelector('base')?.getAttribute('href') || '';

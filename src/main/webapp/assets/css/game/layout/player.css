@@ -1,19 +1,139 @@
-/* players.css —— 底部玩家区域 */
-footer#players {
+#players-footer {
     display: flex;
-    justify-content: space-around;
-    background-color: var(--color-panel-bg);
-    border-radius: var(--radius-lg, 16px);
-    padding: var(--spacing-sm, 0.5rem) 0;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-    z-index: 5;
+    justify-content: center; /* 更改为 center */
+    align-items: flex-end;    /* 更改为 center */
+    gap: 12px;              /* 在 media query 中调整为 6px 和 18px */
+    min-height: 120px;      /* 在 media query 中调整为 88px */
+    padding: 10px 16px;     /* 在 media query 中调整为 8px 4px 和 8px 0 */
+    background: #222b;      /* 在 media query 中调整为 rgba(255,255,255,0.18) */
+    width: 100%;
+    box-sizing: border-box;
+    border-top: 1.5px solid rgba(255,255,255,0.22); /* 在 media query 中添加 */
+    border-left: none; /* 在 media query 中添加 */
+    border-right: none; /* 在 media query 中添加 */
+    border-radius: 12px 12px 0 0; /* 在 media query 中添加 */
+    height: 100%; /* 在 .player.me 中调整为 100% */
+    z-index: 10; /* 在 media query 中添加 */
 }
 
 .player {
-    text-align: center;
+    height: 85%; /* 在 .player.me 中调整为 100% */
+    display: flex;
+    flex-direction: row; /* 在 media query 中添加 */
+    align-items: center; /* 在 media query 中添加 */
+    background: #222c;
+    border-radius: 16px; /* 在 media query 中调整为 12px */
+    border: 3px solid transparent; /* 在 .player.me 和 .player.active-player 中调整 */
+    box-shadow: 0 2px 8px #0007; /* 在 .player.me 和 .player.active-player 中调整 */
+    min-width: 100px; /* 在 media query 中调整为 64px 和 120px */
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin: 0; /* 用gap代替外边距 */
+    padding: 12px 10px 8px 10px; /* 在 media query 中调整为 8px 4px 6px 4px 和 8px 0 */
+    position: relative;
+    box-sizing: border-box;
+    flex: 1 1 0; /* 在 .player.me 中调整为 2 1 0 */
+    gap: 6px; /* 在 .player 中添加，在 media query 中调整为 4px */
 }
 
-.hand {
+.player .avatar {
+    margin-right: 8px;
     display: flex;
-    gap: var(--spacing-xs, 5px);
+    flex-direction: column;
+    align-items: center;
+}
+
+.player .role-icon {
+    width: 52px; height: 52px; /* 在 media query 中调整为 40px */
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: #888;
+    border: 2.5px solid #fff8;
+    box-shadow: 0 1px 5px #0005;
+}
+
+.player .role-icon img {
+    width: 40px; height: 40px; object-fit: contain; /* 在 media query 中调整为 28px */
+}
+
+.player .role-label {
+    font-size: 0.96rem;
+    color: #fff;
+    margin-top: 5px;
+    text-shadow: 1px 1px 3px #0008;
+}
+
+.player .hand {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px; /* 在 media query 中调整为 4px */
+    align-items: flex-end;
+    min-height: 48px;
+}
+
+.player.me {
+    flex: 2 1 0 !important;
+    min-width: 180px; /* 在 media query 中调整为 120px */
+    height: 100%;
+    border-color: #ffd700 !important;
+    box-shadow: 0 2px 20px #ffd70088;
+    z-index: 2;
+    background: #222c;
+    outline: 0;
+}
+
+.player.active-player {
+    border-color: #5ccfff;
+    background: #223655;
+    box-shadow: 0 2px 8px #0007; /* 添加以保持一致性 */
+}
+
+.hand-empty {
+    color: #999;
+    font-size: 0.92rem;
+    padding: 8px;
+}
+
+@media (max-width: 900px) {
+    #players-footer {
+        gap: 6px;
+        padding: 8px 4px;
+        min-height: 88px;
+        border-top: 1.5px solid rgba(255,255,255,0.22);
+        border-left: none;
+        border-right: none;
+        background: rgba(255,255,255,0.18);
+        border-radius: 12px 12px 0 0;
+        height: 100%;
+        z-index: 10;
+    }
+    .player {
+        min-width: 64px;
+        padding: 8px 4px 6px 4px;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+    }
+    .player.me {
+        min-width: 120px;
+        height: 100%;
+        flex: 2 1 0 !important;
+        border-color: #ffd700 !important;
+        box-shadow: 0 2px 20px #ffd70088;
+        z-index: 2;
+        background: #222c;
+        outline: 0;
+    }
+    .player .role-icon {
+        width: 40px;
+        height: 40px;
+    }
+    .player .role-icon img {
+        width: 28px;
+        height: 28px;
+    }
+    .player .hand {
+        gap: 4px;
+    }
 }

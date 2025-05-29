@@ -1,0 +1,16 @@
+.water-meter {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 4px;               /* 格子间隔 */
+    width: 80px;            /* 占位宽度，可根据实际改 */
+    height: 360px;          /* 占位高度，可根据实际改 */
+    background: white;/* 后续你可替换为背景图 */
+    position: relative;
+    margin: 0 auto;
+}
+
+.water-meter .level {
+    /* 纯占位格子，后面 renderer 会给 .active 的 level 上色 */
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+}

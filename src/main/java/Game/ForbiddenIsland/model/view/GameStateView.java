@@ -19,5 +19,6 @@ public class GameStateView {
     private List<Card> treasureDiscardPile;
     private List<FloodCard> floodDiscardPile;
 
+
     // Getters and setters omitted for brevity — you can generate with IDE or Lombok
 }
