@@ -170,9 +170,7 @@ public class WebReceiveServlet extends HttpServlet {
 
                     // 只需这行，不需要 isInitialized 判断
                     gc.initializeIfNeeded();
-
-                    GameState state = gc.getGameState();
-                    out.println(JSON.toJSONString(state));
+                    out.println(gc.getGameStateJson());
                     break;
                 }
 

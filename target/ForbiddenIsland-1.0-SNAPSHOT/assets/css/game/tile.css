@@ -38,7 +38,6 @@
 }
 
 .tile {
-    /* ... */
     display: flex;
     align-items: flex-end;      /* 垂直底部 */
     justify-content: center;    /* 水平居中 */

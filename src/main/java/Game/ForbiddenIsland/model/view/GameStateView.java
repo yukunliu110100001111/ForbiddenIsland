@@ -14,14 +14,10 @@ public class GameStateView {
     private int waterLevel;
     private int currentPlayerIndex;
     private List<PlayerView> players;
-    private Tile[][] board;
+    private TileView[][] board;
     private Map<TreasureType, Boolean> collectedTreasures;
     private List<Card> treasureDiscardPile;
     private List<FloodCard> floodDiscardPile;
-
-    public void setCurrentPlayerIndex(int currentPlayerIndex) {
-        this.currentPlayerIndex = currentPlayerIndex;
-    }
 
     // Getters and setters omitted for brevity — you can generate with IDE or Lombok
 }

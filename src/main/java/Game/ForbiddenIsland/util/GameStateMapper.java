@@ -1,21 +1,46 @@
 package Game.ForbiddenIsland.util;
 
+import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.GameState;
 import Game.ForbiddenIsland.model.Players.Player;
 import Game.ForbiddenIsland.model.view.GameStateView;
 import Game.ForbiddenIsland.model.view.PlayerView;
+import Game.ForbiddenIsland.model.view.TileView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameStateMapper {
+    public static TileView fromTile(Tile tile) {
+        if (tile == null) return null;
+        TileView view = new TileView();
+        view.setName(tile.getName());
+        view.setFoolsLanding(tile.isFoolsLanding());
+        view.setX(tile.getX());
+        view.setY(tile.getY());
+        view.setState(tile.getState().name());
+        view.setTreasureType(tile.getTreasureType());
+        return view;
+    }
 
     public static GameStateView fromGameState(GameState state) {
         GameStateView view = new GameStateView();
 
         view.setWaterLevel(state.getWaterLevel());
         view.setCurrentPlayerIndex(state.getPlayers().indexOf(state.getCurrentPlayer()));
-        view.setBoard(state.getMap().getBoard());
+
+        // 转换地图
+        Tile[][] srcBoard = state.getMap().getBoard();
+        int w = srcBoard.length, h = srcBoard[0].length;
+        TileView[][] board = new TileView[w][h];
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
+                if (srcBoard[i][j] != null)
+                    board[i][j] = fromTile(srcBoard[i][j]);
+            }
+        }
+        view.setBoard(board);
+
         view.setCollectedTreasures(state.getCollectedTreasures());
 
         // 转换玩家列表

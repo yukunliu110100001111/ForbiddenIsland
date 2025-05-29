@@ -2,10 +2,12 @@ package Game.ForbiddenIsland.model.Board;
 
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.TreasureType;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class GameMap {
     // This class is a gameMap, containing all the tiles in the game.
     private Tile[][] board;
@@ -71,8 +73,5 @@ public class GameMap {
         return false;
     }
 
-    public Tile[][] getBoard() {
-        return board;
-    }
 }
 

@@ -85,9 +85,9 @@ export async function bindInGame() {
         if (!tilesLayer) return;
         tilesLayer.innerHTML = '';
 
-        tiles = tiles.filter(t =>
-            t && typeof t.x === 'number' && typeof t.y === 'number' && t.name
-        );
+        // tiles = tiles.filter(t =>
+        //     t && typeof t.x === 'number' && typeof t.y === 'number' && t.name
+        // );
 
         // 1. 动态确定行列数
         const xs = tiles.map(t => +t.x);
