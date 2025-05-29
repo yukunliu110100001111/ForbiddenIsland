@@ -1,2 +1,2 @@
-@import 'button-base.css';
-@import 'card-base.css';
+@import url('card-base.css');
+@import url('button-base.css');

@@ -74,28 +74,24 @@ export async function bindInGame() {
             alert(state.error);
             return;
         }
-        renderTiles(state.map?.allTiles ?? []);
+        // 用 board 渲染地图
+        renderTiles(state.board ?? []);
         renderPlayers(state.players ?? []);
         renderHand(state.currentPlayer?.hand ?? []);
         statusEl.textContent = `玩家${state.currentPlayerIndex + 1} 剩余行动:${state.actionsLeft}`;
     }
 
-    /** 核心：自适应渲染地图格子 **/
-    function renderTiles(tiles) {
+    /** 适配二维数组的地图格子渲染 **/
+    function renderTiles(board) {
         if (!tilesLayer) return;
         tilesLayer.innerHTML = '';
 
-        // tiles = tiles.filter(t =>
-        //     t && typeof t.x === 'number' && typeof t.y === 'number' && t.name
-        // );
-
-        // 1. 动态确定行列数
-        const xs = tiles.map(t => +t.x);
-        const ys = tiles.map(t => +t.y);
-        const minX = Math.min(...xs), maxX = Math.max(...xs);
-        const minY = Math.min(...ys), maxY = Math.max(...ys);
-        const cols = maxX - minX + 1;
-        const rows = maxY - minY + 1;
+        if (!Array.isArray(board) || !Array.isArray(board[0])) {
+            console.error("board 不是二维数组", board);
+            return;
+        }
+        const rows = board.length;
+        const cols = board[0].length;
 
         // 2. 获取父容器大小
         const parentW = tilesLayer.offsetWidth;
@@ -105,27 +101,28 @@ export async function bindInGame() {
         const tileH = (parentH - (rows - 1) * gap) / rows;
         const tileSize = Math.min(tileW, tileH);
 
-        // 3. 居中偏移
+        // 居中偏移
         const offsetX = (parentW - (cols * tileSize + (cols - 1) * gap)) / 2;
         const offsetY = (parentH - (rows * tileSize + (rows - 1) * gap)) / 2;
 
-        // 4. 渲染每个 tile
-        tiles.forEach(t => {
-            const x = +t.x, y = +t.y;
-            const d = document.createElement('div');
-            d.className = `tile ${t.state || ''}`;
-            d.dataset.x = x;
-            d.dataset.y = y;
-            d.textContent = t.name || '';
-            d.style.width  = `${tileSize}px`;
-            d.style.height = `${tileSize}px`;
-            d.style.left   = `${offsetX + (x - minX) * (tileSize + gap)}px`;
-            d.style.top    = `${offsetY + (y - minY) * (tileSize + gap)}px`;
-            tilesLayer.appendChild(d);
-        });
-
-        console.log(tiles.map(t => ({x: t.x, y: t.y, name: t.name})));
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const t = board[row][col];
+                if (!t) continue;
+                const d = document.createElement('div');
+                d.className = `tile ${t.state || ''}`;
+                d.dataset.x = t.x;
+                d.dataset.y = t.y;
+                d.textContent = t.name || '';
+                d.style.width  = `${tileSize}px`;
+                d.style.height = `${tileSize}px`;
+                d.style.left   = `${offsetX + col * (tileSize + gap)}px`;
+                d.style.top    = `${offsetY + row * (tileSize + gap)}px`;
+                tilesLayer.appendChild(d);
+            }
+        }
     }
+
 
 
 

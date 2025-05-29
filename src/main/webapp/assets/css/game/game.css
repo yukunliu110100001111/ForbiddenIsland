@@ -3,18 +3,14 @@
 
 /* 然后按依赖顺序加载模块 */
 @import url('./game.components.css');
-@import url('./card.css');
+@import url('../components/component.css');
 
 /* 布局模块 */
 @import url('./layout/header.css');
 @import url('./layout/panel.css');
-@import url('./layout/map.css');
-@import url('./layout/grid.css');
 @import url('./layout/player.css');
 @import url('layout/layout.css');
 
 /* 组件模块 */
 @import url('../game/tile.css');
-/*@import url('./components/tile-states.css');*/
-/*@import url('./components/empty.css');*/
 @import url('./card.css');

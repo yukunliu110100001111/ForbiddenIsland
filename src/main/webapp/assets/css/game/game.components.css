@@ -37,3 +37,7 @@
     pointer-events: none;
     z-index: 10;
 }
+
+.color-btn {
+    width: 8%;
+}
