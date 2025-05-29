@@ -10,7 +10,16 @@
 </head>
 <body>
 <div id="main-container">
-
+    <header id="header">
+        <div id="action-status" style="margin:8px; font-weight:bold; text-align:center;"></div>
+        <div id="control-panel">
+            <button id="btn-move">Move</button>
+            <button id="btn-shore">Shore Up</button>
+            <button id="btn-take">Capture</button>
+            <button id="btn-special">Special</button>
+            <button id="btn-end-turn">End Turn</button>
+        </div>
+    </header>
     <div class="main-content">
         <div id="game-wrapper">
             <!-- 左侧牌堆与抓牌区 -->
@@ -39,14 +48,6 @@
 
         <!-- 操作区、手牌、底栏的竖向组合 -->
         <div class="bottom-panel-group">
-            <div id="action-status" style="margin:8px; font-weight:bold; text-align:center;"></div>
-            <div id="control-panel">
-                <button id="btn-move">Move</button>
-                <button id="btn-shore">Shore Up</button>
-                <button id="btn-take">Capture</button>
-                <button id="btn-special">Special</button>
-                <button id="btn-end-turn">End Turn</button>
-            </div>
             <div id="hand-container"></div>
             <footer id="players-footer">
                 <div class="player"><div class="avatar"></div><div class="hand"></div></div>

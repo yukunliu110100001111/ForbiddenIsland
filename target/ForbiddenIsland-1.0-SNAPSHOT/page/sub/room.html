@@ -1,21 +1,14 @@
-<!-- page/sub/room.html -->
 <div class="container">
     <div class="card card-base room-layout">
-        <!-- 左侧：角色卡槽 + 等待文字 + Ready/取消 Ready 按钮 + 提示 -->
         <div class="room-left">
-            <!-- 玩家槽位 -->
             <div class="slots" id="slots-container"></div>
-            <!-- 当前房间状态 -->
             <h2 id="room-status">Waiting for other players to join...</h2>
-            <!-- Ready / Cancel Ready 按钮 -->
             <button id="btn-room-ready" class="button-base">Ready</button>
-            <!-- 退出房间按钮 -->
             <button id="btn-room-exit" class="button-base">Exit Room</button>
-            <!-- 全员 Ready 提示 -->
-            <span id="start-tip" class="start-tip"></span>
+            <!-- 只有房主可见 -->
+            <button id="btn-room-destroy" class="button-base" style="background:#f45c5c;display:none;">Destroy Room</button>
+            <span id="start-tip"></span>
         </div>
-
-        <!-- 右侧：地图选择 -->
         <div class="room-right">
             <div class="map-selector">
                 <div class="map-nav">
@@ -28,6 +21,6 @@
         </div>
     </div>
 </div>
-
-<!-- 全局 Toast 容器（第一次 showToast 时会自动添加样式和文本） -->
+<!-- Toast 容器 -->
 <div id="global-toast" style="display:none;"></div>
+<script src="../../js/room.js"></script>

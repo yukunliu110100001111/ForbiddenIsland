@@ -94,8 +94,9 @@ body::before {
     position: absolute;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
-    max-width: 680px;
+
+    width: 800px;   /* 先写死保证排版 */
+    height: 800px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,6 +123,7 @@ body::before {
 /* --- 下方竖向排列（按钮+手牌+底栏） --- */
 .bottom-panel-group {
     width: 100vw;
+    height: 15%;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -164,7 +166,7 @@ body::before {
     border-right: none;
     background: rgba(255,255,255,0.18);
     border-radius: 12px 12px 0 0;
-    min-height: 60px;
+    height: 100%;
     gap: 18px;
     z-index: 10;
 }
@@ -176,30 +178,7 @@ body::before {
     min-width: 90px;
 }
 
-/* --- 地图格子 tile 基础样式 --- */
-.tile {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: #fff;
-    border: 2px solid #9fd1ff;
-    border-radius: 8px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    font-size: 1.04rem;
-    color: #1b2a4e;
-    box-shadow: 0 2px 12px #0002;
-    transition: background 0.2s, border 0.2s;
-    cursor: pointer;
-    user-select: none;
-}
-.tile.fools-landing {
-    border: 3px solid gold;
-    background: #fffbe3;
-}
+
 
 /* 响应式适配 */
 @media (max-width: 900px) {
@@ -213,5 +192,4 @@ body::before {
         min-width: 280px; min-height: 280px;
         max-width: 90vw; max-height: 50vw;
     }
-    .tile { width: 38px; height: 38px; font-size: 0.75rem; }
 }

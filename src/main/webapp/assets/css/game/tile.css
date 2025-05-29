@@ -1,41 +1,49 @@
-/* 只渲染一个白色方块 + 边框 */
-#tiles-layer .tile {
+#tiles-layer {
     position: absolute;
-    width: 100px;   /* TILE_SIZE */
-    height: 100px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* 无需写死宽高，直接填满父容器 */
 }
 
-/* “类型覆盖”——不同状态下再加一个半透明遮罩或背景图 */
-#tiles-layer .tile.dry {
-    /* 干燥：保持白底，不额外覆盖 */
+#tiles-layer .tile {
+    position: absolute;
+    background: #fff;
+    border: 2px solid #9fd1ff;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 1.04rem;
+    color: #1b2a4e;
+    box-shadow: 0 2px 12px #0002;
+    transition: background 0.2s, border 0.2s;
+    cursor: pointer;
+    user-select: none;
+    /* 宽高、left、top 全部 JS 控制 */
 }
-#tiles-layer .tile.flooded {
-    /* 洪水：在白底上加个浅蓝半透明 */
-    background-color: rgba(100, 149, 237, 0.5);
-}
-#tiles-layer .tile.special {
-    /* 特殊地形：下面再加一张小图标 */
+
+/* 干燥/洪水/特殊地形状态（可按需要加 class 控制） */
+.tile.dry { /* 干燥：无变化 */ }
+.tile.flooded { background-color: rgba(100, 149, 237, 0.5); }
+.tile.special {
     background-image: url('../images/special-icon.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 50%;
 }
+.tile.fools-landing {
+    border: 3px solid gold;
+    background: #fffbe3;
+}
 
 .tile {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: #fff;
-    border: 1px solid #999;
-    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;      /* 垂直底部 */
+    justify-content: center;    /* 水平居中 */
+    padding-bottom: 6px;
     text-align: center;
-    line-height: 60px;
 }
-#tiles-layer {
-    position: relative;
-    width: 360px; /* 6*60 */
-    height: 360px;
-}
+
+
+
