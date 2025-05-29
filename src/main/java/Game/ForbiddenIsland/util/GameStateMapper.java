@@ -27,7 +27,7 @@ public class GameStateMapper {
         GameStateView view = new GameStateView();
 
         view.setWaterLevel(state.getWaterLevel());
-        view.setCurrentPlayerIndex(state.getPlayers().indexOf(state.getCurrentPlayer()));
+        view.setCurrentPlayerIndex(state.getCurrentPlayerIndex()); // index-based
 
         // 转换地图
         Tile[][] srcBoard = state.getMap().getBoard();
@@ -46,26 +46,33 @@ public class GameStateMapper {
         // 转换玩家列表
         List<Player> players = state.getPlayers();
         List<PlayerView> playerViews = new ArrayList<>();
-
         for (int i = 0; i < players.size(); i++) {
             Player p = players.get(i);
             PlayerView pv = new PlayerView();
-
             pv.setPlayerIndex(i);
             pv.setType(p.getType());
             pv.setCurrentTile(p.getPosition());
             pv.setHand(p.getHands());
-
             playerViews.add(pv);
         }
-
         view.setPlayers(playerViews);
-        view.setCurrentPlayerIndex(state.getCurrentPlayerIndex()); // index-based
 
-        // 获取两个弃牌堆（你需要在 DeckImp 中添加 getDiscardPile 方法）
+        // 弃牌堆
         view.setTreasureDiscardPile(state.getTreasureDeck().getDiscardPile());
         view.setFloodDiscardPile(state.getFloodDeck().getDiscardPile());
 
+        // ========= 新增关键字段 ==========
+        view.setActionsLeft(state.getActionsLeft());                   // 剩余行动数
+        view.setGameWon(state.isGameWon());
+        view.setGameLost(state.isGameLost());
+        // 如有 recentXXX 字段就加上，否则先不用
+        if (state.getRecentTreasureDraws() != null)
+            view.setRecentTreasureDraws(state.getRecentTreasureDraws());
+        if (state.getRecentFloodDraws() != null)
+            view.setRecentFloodDraws(state.getRecentFloodDraws());
+        // ========= END ==========
+
         return view;
     }
+
 }

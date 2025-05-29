@@ -1,10 +1,10 @@
 package Game.ForbiddenIsland.model.Players;
 
 public enum PlayerType {
-    DRIVE,
+    DIVER,
     EXPLORER,
     ENGINEER,
-    NAVIGATER,
+    NAVIGATOR,
     PILOT,
     MESSENGER
 }

@@ -69,6 +69,10 @@ export function bindPreGame(view) {
                         showToast(res.error, "error");
                         return;
                     }
+                    // 保存自己的 playerIndex，以后用来判断自己是不是房主
+                    sessionStorage.setItem('myPlayerIndex', res.playerIndex);
+                    // 可选：也可在 localStorage 上挂一个 isHost 标识
+                    localStorage.setItem('isHost', (res.playerIndex === 0).toString());
                     loadView('room');
                 } catch (e) {
                     showToast(e.message, "error");

@@ -2,6 +2,29 @@
 import { bindPreGame }  from './binders/preGameBinder.js';
 import { bindInGame }   from './binders/inGameBinder.js';
 
+/** --------------------------------------------------
+ *  全局 fetch 拦截：自动捕获 { playerIndex: N }
+ *  并写入 sessionStorage，供 in-game 使用
+ * -------------------------------------------------- */
+(function patchFetchForPlayerIndex() {
+    const rawFetch = window.fetch;
+    window.fetch = async (...args) => {
+        const resp = await rawFetch(...args);
+        try {
+            // clone() 以免消费掉原 body
+            const clone = resp.clone();
+            clone.json().then(data => {
+                if (data && typeof data.playerIndex === 'number') {
+                    sessionStorage.setItem('myPlayerIndex', String(data.playerIndex));
+                    console.log('[playerIndex] set to', data.playerIndex);
+                }
+            }).catch(() => {/* 不是 json 或解析失败 → 忽略 */});
+        } catch (e) {/* 网络错误 / 非 json → 忽略 */}
+        return resp;
+    };
+})();
+
+
 // 从 <base> 标签读取上下文路径（如 "/ForbiddenIsland_war_exploded/"）
 const contextPath = document.querySelector('base')?.getAttribute('href') || '';
 // 暴露给 binder 脚本使用

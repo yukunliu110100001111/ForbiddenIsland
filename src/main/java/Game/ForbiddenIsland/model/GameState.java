@@ -10,30 +10,25 @@ import Game.ForbiddenIsland.model.Players.Player;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 //GameState 里有所有游戏状态，也就是玩家、地图、两个牌堆、水level
 public class GameState {
-    @Setter
-    @Getter
+    @Setter @Getter
     private List<Player> players;
-    @Setter
-    @Getter
+    @Setter @Getter
     private GameMap map;
-    @Setter
-    @Getter
+    @Setter @Getter
     private Deck<Card> treasureDeck;
-    @Getter
-    @Setter
+    @Getter @Setter
     private Deck<FloodCard> floodDeck;
-    @Setter
-    @Getter
+    @Setter @Getter
     private List<Card> allCards;
     private int currentPlayerIndex;
-    @Setter
-    @Getter
+    @Setter @Getter
     private int waterLevel;
     @Getter
     private final Map<TreasureType, Boolean> collectedTreasures =
@@ -43,6 +38,12 @@ public class GameState {
                     TreasureType.FIRE, false,
                     TreasureType.WATER, false
             ));
+
+    // ==== 新增字段 ====
+    private int actionsLeft = 3; // 每回合剩余行动数，默认3
+    private List<Card> recentTreasureDraws = new ArrayList<>();
+    private List<FloodCard> recentFloodDraws = new ArrayList<>();
+    // ==================
 
     public GameState() {
         this.treasureDeck = new DeckImp<>();
@@ -61,7 +62,7 @@ public class GameState {
         this.currentPlayerIndex = 0;
     }
 
-    public void waterRise(){
+    public void waterRise() {
         waterLevel++;
     }
 
@@ -83,13 +84,22 @@ public class GameState {
 
     public void nextPlayer() {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        // 新回合时行动数重置为3，抽牌记录清空
+        actionsLeft = 3;
+        recentTreasureDraws.clear();
+        recentFloodDraws.clear();
     }
 
     public Tile getTileAt(int x, int y) {
         return map.getTileAt(x, y);
     }
+
     public Card drawTreasureCard() {
-        return treasureDeck.drawCard();
+        Card card = treasureDeck.drawCard();
+        if (card != null) {
+            recentTreasureDraws.add(card);
+        }
+        return card;
     }
 
     public void discardTreasure(Card card) {
@@ -101,6 +111,7 @@ public class GameState {
         if (card != null) {
             card.flood();
             floodDeck.discard(card);
+            recentFloodDraws.add(card);
         }
         return card;
     }
@@ -129,12 +140,26 @@ public class GameState {
     }
 
     //getter for frontier
-    public List<Card> getPlayerHand(int playerIndex){
+    public List<Card> getPlayerHand(int playerIndex) {
         return players.get(playerIndex).getHands();
     }
     public int getCurrentPlayerIndex() {
         return currentPlayerIndex;
     }
 
+    // ==== 新增 getter/setter ====
+    public int getActionsLeft() { return actionsLeft; }
+    public void setActionsLeft(int actionsLeft) { this.actionsLeft = actionsLeft; }
+
+    public List<Card> getRecentTreasureDraws() { return recentTreasureDraws; }
+    public void setRecentTreasureDraws(List<Card> draws) {
+        this.recentTreasureDraws = (draws == null) ? new ArrayList<>() : draws;
+    }
+
+    public List<FloodCard> getRecentFloodDraws() { return recentFloodDraws; }
+    public void setRecentFloodDraws(List<FloodCard> draws) {
+        this.recentFloodDraws = (draws == null) ? new ArrayList<>() : draws;
+    }
+    // ===========================
 
 }

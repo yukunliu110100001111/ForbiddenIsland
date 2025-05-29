@@ -3,6 +3,7 @@ package Game.ForbiddenIsland.WebReceiveServlet;
 import Game.ForbiddenIsland.controller.GameController;
 import Game.ForbiddenIsland.controller.PlayerController;
 import Game.ForbiddenIsland.model.GameState;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import com.alibaba.fastjson.JSON;
@@ -78,15 +79,32 @@ public class WebReceiveServlet extends HttpServlet {
 
                 /* ---------- 2. 加入/退出/准备 ---------- */
                 case "join_room": {
-                    if (!hasRoom) { out.println("{\"error\":\"Room not created yet.\"}"); break; }
+                    if (!hasRoom) {
+                        out.println("{\"error\":\"Room not created yet.\"}");
+                        break;
+                    }
                     if (currentPeopleCount >= maxPeopleCount) {
                         out.println("{\"error\":\"Room is full.\"}");
                     } else {
                         currentPeopleCount++;
-                        out.println("{\"message\":\"Player joined successfully.\",\"current\":"+currentPeopleCount+"}");
+                        // 计算并保存本次加入玩家的索引（从 0 开始）
+                        HttpSession sess = request.getSession();
+                        int assignedIndex = currentPeopleCount - 1;
+                        sess.setAttribute("playerIndex", assignedIndex);
+                        sess.setAttribute("difficultyLevel", this.difficultyLevel);
+                        sess.setAttribute("maxPeopleCount",  this.maxPeopleCount);
+                        System.out.println("Session " + sess.getId() + " has playerIndex=" + sess.getAttribute("playerIndex"));
+
+                        // 返回当前人数和分配给前端的 playerIndex
+                        out.println("{"
+                                + "\"message\":\"Player joined successfully.\","
+                                + "\"current\":" + currentPeopleCount + ","
+                                + "\"playerIndex\":" + assignedIndex
+                                + "}");
                     }
                     break;
                 }
+
                 case "exit_room": {
                     if (!hasRoom) { out.println("{\"error\":\"Room not created yet.\"}"); break; }
                     currentPeopleCount--;
@@ -126,25 +144,39 @@ public class WebReceiveServlet extends HttpServlet {
                     HttpSession sess = request.getSession();
                     Integer lvl   = (Integer) sess.getAttribute("difficultyLevel");
                     Integer count = (Integer) sess.getAttribute("maxPeopleCount");
+                    System.out.println("Session " + sess.getId() + " has playerIndex=" + sess.getAttribute("playerIndex"));
+
                     if (lvl == null || count == null) {
                         out.println("{\"error\":\"Session missing parameters.\"}");
                         break;
                     }
 
-                    // 只 new，**不要**调用 initializeIfNeeded()！
-                    GameController gc = new GameController(count, lvl);
-                    sess.setAttribute("gameController", gc);
-                    sess.setAttribute("playerController", new PlayerController(gc));
+                    // 确保房主也有 playerIndex，默认 0
+                    if (sess.getAttribute("playerIndex") == null) {
+                        sess.setAttribute("playerIndex", 0);
+                    }
+                    int myIdx = (Integer) sess.getAttribute("playerIndex");
 
-                    out.println("{\"message\":\"Game started successfully.\"}");
+                    // **改动：把 GameController 放到应用级别，而不是 Session**
+                    GameController gc = new GameController(count, lvl);
+                    ServletContext ctx = request.getServletContext();
+                    ctx.setAttribute("gameController", gc);
+                    ctx.setAttribute("playerController", new PlayerController(gc));
+
+                    // 返回时仍然告诉前端它自己的 playerIndex
+                    out.println("{\"message\":\"Game started successfully.\",\"playerIndex\":" + myIdx + "}");
                     break;
                 }
+
+
+
 
                 /* ---------- 4. in-game：玩家操作 ---------- */
                 case "player_action": {
                     HttpSession sess = request.getSession();
-                    GameController  gc = (GameController)  sess.getAttribute("gameController");
-                    PlayerController pc = (PlayerController) sess.getAttribute("playerController");
+                    ServletContext ctx = request.getServletContext();
+                    GameController  gc = (GameController)  ctx.getAttribute("gameController");
+                    PlayerController pc = (PlayerController) ctx.getAttribute("playerController");
                     if (gc == null || pc == null) {
                         out.println("{\"error\":\"Game not started.\"}");
                         break;
@@ -159,27 +191,53 @@ public class WebReceiveServlet extends HttpServlet {
                     break;
                 }
 
+
                 /* ---------- 5. update_element：前端轮询游戏状态 ---------- */
                 case "update_element": {
                     HttpSession sess = request.getSession();
-                    GameController gc = (GameController) sess.getAttribute("gameController");
+                    ServletContext ctx = request.getServletContext();
+                    GameController gc = (GameController) ctx.getAttribute("gameController");
                     if (gc == null) {
                         out.println("{\"error\":\"Game not started.\"}");
                         break;
                     }
 
-                    // 只需这行，不需要 isInitialized 判断
+                    // 确保游戏数据已初始化
                     gc.initializeIfNeeded();
-                    out.println(gc.getGameStateJson());
+
+                    // 获取当前 session 的玩家索引
+                    Integer myIdx = (Integer) sess.getAttribute("playerIndex");
+                    if (myIdx == null) {
+                        // 如果没有，说明是非法访问或未正常 join_room，默认兜底 0
+                        myIdx = 0;
+                    }
+
+                    // 获取游戏状态 JSON
+                    String gsJson = gc.getGameStateJson();
+
+                    // 在最外层插入 myPlayerIndex 字段（防止多次插入/空对象兼容性更好）
+                    String withMine;
+                    int braceIdx = gsJson.indexOf('{');
+                    if (braceIdx >= 0) {
+                        withMine = gsJson.substring(0, braceIdx + 1)
+                                + "\"myPlayerIndex\":" + myIdx + ","
+                                + gsJson.substring(braceIdx + 1);
+                    } else {
+                        // 绝不会发生，除非代码出错
+                        withMine = "{\"myPlayerIndex\":" + myIdx + "}";
+                    }
+
+                    out.println(withMine);
                     break;
                 }
 
 
 
+
                 /* ---------- 6. 其它 ---------- */
                 case "useSpecialAbility": {
-                    HttpSession sess = request.getSession();
-                    GameController gc = (GameController) sess.getAttribute("gameController");
+                    ServletContext ctx = request.getServletContext();
+                    GameController gc = (GameController) ctx.getAttribute("gameController");
                     if (gc != null) {
                         gc.useSpecialAbility(gc.getCurrentPlayer());
                         out.println("{\"message\":\"Special ability used.\"}");
@@ -188,6 +246,7 @@ public class WebReceiveServlet extends HttpServlet {
                     }
                     break;
                 }
+
 
                 case "get_player_num": {
                     out.println("{\"players\":"+currentPeopleCount+",\"max\":"+maxPeopleCount+"}");

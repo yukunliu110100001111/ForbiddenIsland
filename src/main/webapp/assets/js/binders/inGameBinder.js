@@ -96,10 +96,9 @@ export async function bindInGame() {
             gs.legalMoves, gs.legalShores, gs.legalCaptures,
             dom.mapLayer
         );
-
         // 3. 其它渲染
-        renderFooter(gs.players, myPlayerIndex, gs.currentPlayerIndex, dom.footer);
-        renderHand(gs.players[myPlayerIndex]?.hand || [], dom.hand);
+        renderFooter(gs.players, gs.myPlayerIndex, gs.currentPlayerIndex, dom.footer);
+        renderHand(gs.players[gs.myPlayerIndex]?.hand || [], dom.hand);
         renderWaterMeter(gs.waterLevel, document.getElementById('water-meter'));
         renderDeckCounts(gs.treasureDeckRemaining, gs.floodDeckRemaining);
         renderDrawnCards(gs.recentTreasureDraws, gs.recentFloodDraws, dom.drawnCards);
@@ -110,7 +109,7 @@ export async function bindInGame() {
         renderTreasureProgress(gs.collectedTreasures, dom.progress);
 
         // 4. 按钮启停 & 状态栏
-        const isMyTurn = gs.currentPlayerIndex === myPlayerIndex;
+        const isMyTurn = gs.currentPlayerIndex === gs.myPlayerIndex;
         Object.values(dom.btns).forEach(btn => {
             btn.disabled = !isMyTurn;
             btn.classList.remove('active');

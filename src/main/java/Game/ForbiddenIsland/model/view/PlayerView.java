@@ -16,8 +16,4 @@ public class PlayerView {
     private List<Card> hand;
     private int x;
     private int y;
-
-
-
-    // getters/setters
 }

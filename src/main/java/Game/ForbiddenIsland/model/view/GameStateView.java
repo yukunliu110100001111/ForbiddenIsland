@@ -19,6 +19,11 @@ public class GameStateView {
     private List<Card> treasureDiscardPile;
     private List<FloodCard> floodDiscardPile;
 
-
-    // Getters and setters omitted for brevity — you can generate with IDE or Lombok
+    // --- 推荐增加的字段 ---
+    private int actionsLeft;                // 当前回合剩余行动数
+    private boolean gameWon;
+    private boolean gameLost;
+    private List<Card> recentTreasureDraws; // 最近抽到的宝藏牌
+    private List<FloodCard> recentFloodDraws; // 最近抽到的洪水牌
+    // 你也可以加其他前端状态需要的字段
 }

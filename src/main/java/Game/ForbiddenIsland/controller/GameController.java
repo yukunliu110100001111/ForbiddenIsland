@@ -220,11 +220,11 @@ public class GameController {
                 return usePilotAbility(player, (Tile) params[0]);
             case ENGINEER:
                 return useEngineerAbility(player, (List<Tile>) params[0]);
-            case NAVIGATER:
+            case NAVIGATOR:
                 return useNavigatorAbility(player, (Player) params[0], (Tile) params[1]);
             case EXPLORER:
                 return useExplorerAbility(player, (Tile) params[0]);
-            case DRIVE:
+            case DIVER:
                 return useDiverAbility(player, (Tile) params[0]);
             case MESSENGER:
                 return useMessengerAbility(player, (Player) params[0], (Card) params[1]);
@@ -364,7 +364,7 @@ public class GameController {
         
         for (Tile adjacentTile : adjacentTiles) {
             if (adjacentTile != null && !adjacentTile.isSink()) {
-                if (player.getType() == PlayerType.DRIVE) {
+                if (player.getType() == PlayerType.DIVER) {
                     return false;
                 }
                 if (adjacentTile.isSafe()) {
