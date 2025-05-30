@@ -93,5 +93,23 @@
     user-select: none;
 }
 
+/* 基础tile样式不变，这里只加滤镜部分 */
+.tile.flooded {
+    position: relative;
+    /* 可选：让被淹格看起来明显带有蓝色 */
+}
+
+.tile.flooded::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30, 106, 204, 0.36); /* 半透明淡蓝色 */
+    mix-blend-mode: lighten;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 8px; /* 跟你的tile圆角一致 */
+}
+
+
 
 

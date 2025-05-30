@@ -208,4 +208,14 @@ public class GameState {
     }
     // ===========================
 
+    // GameState.java
+    public void syncDeckRemaining() {
+        if (treasureDeck instanceof DeckImp<?> d) {
+            this.treasureDeckRemaining = d.getDrawPileSize();
+        }
+        if (floodDeck instanceof DeckImp<?> d) {
+            this.floodDeckRemaining = d.getDrawPileSize();
+        }
+    }
+
 }

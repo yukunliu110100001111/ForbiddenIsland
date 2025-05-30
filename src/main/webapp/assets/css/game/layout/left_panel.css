@@ -35,10 +35,19 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: url('../../../../assets/Images/Cards/back/flood-back.png');
+
     background-size: cover;
     border-radius: inherit;
     pointer-events: none;
+}
+
+#treasure-deck {
+    background-image: url('../../../../assets/Images/Cards/back/flood-back.png');
+}
+
+
+#flood-deck {
+    background-image: url('../../../../assets/Images/Cards/back/treasure-back.png');
 }
 
 /* 牌堆计数显示 */

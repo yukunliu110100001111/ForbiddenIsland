@@ -34,6 +34,7 @@ public class WebReceiveServlet extends HttpServlet {
         handlerMap.put("is_ready", new ReadyHandler(roomState, true));
         handlerMap.put("is_unready", new ReadyHandler(roomState, false));
         handlerMap.put("log_history", new LogHistoryHandler(roomState));
+        handlerMap.put("DeckHandler", new DeckHandler());
 
 
         handlerMap.put("reset_room", new ExperimentHandler(roomState));

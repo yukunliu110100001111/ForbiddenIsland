@@ -71,6 +71,8 @@ public class GameStateMapper {
         if (state.getRecentFloodDraws() != null)
             view.setRecentFloodDraws(state.getRecentFloodDraws());
         // ========= END ==========
+        view.setTreasureDeckRemaining(state.getTreasureDeckRemaining());
+        view.setFloodDeckRemaining(state.getFloodDeckRemaining());
 
         return view;
     }

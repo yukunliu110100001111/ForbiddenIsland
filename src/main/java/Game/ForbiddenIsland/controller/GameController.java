@@ -131,6 +131,7 @@ public class GameController {
         drawFloodCards();
         checkGameState();
         gameState.nextPlayer();
+        actionsRemaining = 3; // ⭐ 每次新回合重置剩余行动数
     }
 
     private void drawTreasureCards() {

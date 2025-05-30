@@ -19,11 +19,17 @@ public class GameStateView {
     private List<Card> treasureDiscardPile;
     private List<FloodCard> floodDiscardPile;
 
-    // --- 推荐增加的字段 ---
-    private int actionsLeft;                // 当前回合剩余行动数
+    // --- 新增字段 ---
+    private int actionsLeft;                    // 当前回合剩余行动数
     private boolean gameWon;
     private boolean gameLost;
-    private List<Card> recentTreasureDraws; // 最近抽到的宝藏牌
-    private List<FloodCard> recentFloodDraws; // 最近抽到的洪水牌
+    private List<Card> recentTreasureDraws;     // 最近抽到的宝藏牌
+    private List<FloodCard> recentFloodDraws;   // 最近抽到的洪水牌
+
+    // ====== 你要加的两个字段 ======
+    private int treasureDeckRemaining;          // 宝藏牌堆剩余数量
+    private int floodDeckRemaining;             // 洪水牌堆剩余数量
+
     // 你也可以加其他前端状态需要的字段
 }
+
