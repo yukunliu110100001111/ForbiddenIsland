@@ -28,18 +28,23 @@ public class PlayerImp implements Player{
     public PlayerType getType() {
         return type;
     }
+
     public void setType(PlayerType type) {
         this.type = type;
     }
+
     public Tile getPosition() {
         return position;
     }
+
     public void setPosition(Tile position) {
         this.position = position;
     }
+
     public List<Card> getHands() {
         return hands;
     }
+
     public void setHands(List<Card> hands) {
         this.hands = hands;
     }
@@ -51,6 +56,7 @@ public class PlayerImp implements Player{
     public void removeCard(Card card){
         this.hands.remove(card);
     }
+
     public void addCard(Card card){
         this.hands.add(card);
     }
@@ -62,4 +68,7 @@ public class PlayerImp implements Player{
     public void setColor(Color color) {
         this.color = color;
     }
+
+
 }
+
