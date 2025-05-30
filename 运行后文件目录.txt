@@ -7,7 +7,7 @@ C:\USERS\20544\DESKTOP\SE\SEP\ASSIGNMENT\FORBIDDENISLAND_
 |   pom.xml
 |   qodana.yaml
 |   README.md
-|   
+|
 +---.idea
 |   |   .gitignore
 |   |   compiler.xml
@@ -306,1525 +306,721 @@ C:\USERS\20544\DESKTOP\SE\SEP\ASSIGNMENT\FORBIDDENISLAND_
 |               |   |               |   |   |   workspace.xml
 |               |   |               |   |   |
 |               |   |               |   |   \---artifacts
-|               |   |               |   |           ForbiddenIsland_war_exploded.xml
-|               |   |               |   |
-|               |   |               |   +---model
-|               |   |               |   |       cards.json
-|               |   |               |   |       map_layout_classical.json
-|               |   |               |   |       tiles.json
-|               |   |               |   |
-|               |   |               |   +---out
-|               |   |               |   |   \---artifacts
-|               |   |               |   |       \---ForbiddenIsland_war_exploded
-|               |   |               |   |           |   debug.jsp
-|               |   |               |   |           |   index.jsp
-|               |   |               |   |           |
-|               |   |               |   |           +---assets
-|               |   |               |   |           |   +---css
-|               |   |               |   |           |   |   |   index.css
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   +---components
-|               |   |               |   |           |   |   |       button-base.css
-|               |   |               |   |           |   |   |       card-base.css
-|               |   |               |   |           |   |   |       component.css
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   +---game
-|               |   |               |   |           |   |   |   |   card.css
-|               |   |               |   |           |   |   |   |   game.components.css
-|               |   |               |   |           |   |   |   |   game.css
-|               |   |               |   |           |   |   |   |   tile.css
-|               |   |               |   |           |   |   |   |   water-level.css
-|               |   |               |   |           |   |   |   |
-|               |   |               |   |           |   |   |   \---layout
-|               |   |               |   |           |   |   |           grid.css
-|               |   |               |   |           |   |   |           header.css
-|               |   |               |   |           |   |   |           layout.css
-|               |   |               |   |           |   |   |           map.css
-|               |   |               |   |           |   |   |           panel.css
-|               |   |               |   |           |   |   |           player.css
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   +---pages
-|               |   |               |   |           |   |   |       cover.css
-|               |   |               |   |           |   |   |       creation.css
-|               |   |               |   |           |   |   |       lobby.css
-|               |   |               |   |           |   |   |       room.css
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   \---styles
-|               |   |               |   |           |   |           style.css
-|               |   |               |   |           |   |           variables-dark.css
-|               |   |               |   |           |   |           variables-light.css
-|               |   |               |   |           |   |
-|               |   |               |   |           |   +---Images
-|               |   |               |   |           |   |   +---bg
-|               |   |               |   |           |   |   |       coverbg.png
-|               |   |               |   |           |   |   |       coverbg2.png
-|               |   |               |   |           |   |   |       seabg.png
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   +---Cards
-|               |   |               |   |           |   |   \---icon
-|               |   |               |   |           |   |           appicon.ico
-|               |   |               |   |           |   |
-|               |   |               |   |           |   \---js
-|               |   |               |   |           |       |   app.js
-|               |   |               |   |           |       |   inGameBinder.js
-|               |   |               |   |           |       |   mapLoader.js
-|               |   |               |   |           |       |   preGameBinder.js
-|               |   |               |   |           |       |   room.js
-|               |   |               |   |           |       |   ui-plugins.js
-|               |   |               |   |           |       |   water-level.js
-|               |   |               |   |           |       |
-|               |   |               |   |           |       \---api
-|               |   |               |   |           |               inGameApi.js
-|               |   |               |   |           |               preGameApi.js
-|               |   |               |   |           |
-|               |   |               |   |           +---META-INF
-|               |   |               |   |           |       MANIFEST.MF
-|               |   |               |   |           |
-|               |   |               |   |           +---page
-|               |   |               |   |           |   |   game.html
-|               |   |               |   |           |   |   index.html
-|               |   |               |   |           |   |
-|               |   |               |   |           |   \---sub
-|               |   |               |   |           |           cover.html
-|               |   |               |   |           |           creation.html
-|               |   |               |   |           |           lobby.html
-|               |   |               |   |           |           room.html
-|               |   |               |   |           |
-|               |   |               |   |           \---WEB-INF
-|               |   |               |   |               |   web.xml
-|               |   |               |   |               |
-|               |   |               |   |               +---classes
-|               |   |               |   |               |   |   forbidden-island.drawio
-|               |   |               |   |               |   |   ForbiddenIsland.iml
-|               |   |               |   |               |   |   pom.xml
-|               |   |               |   |               |   |   qodana.yaml
-|               |   |               |   |               |   |   README.md
-|               |   |               |   |               |   |
-|               |   |               |   |               |   +---.idea
-|               |   |               |   |               |   |   |   .gitignore
-|               |   |               |   |               |   |   |   compiler.xml
-|               |   |               |   |               |   |   |   misc.xml
-|               |   |               |   |               |   |   |   modules.xml
-|               |   |               |   |               |   |   |   uiDesigner.xml
-|               |   |               |   |               |   |   |   vcs.xml
-|               |   |               |   |               |   |   |   webContexts.xml
-|               |   |               |   |               |   |   |   workspace.xml
-|               |   |               |   |               |   |   |
-|               |   |               |   |               |   |   \---artifacts
-|               |   |               |   |               |   +---model
-|               |   |               |   |               |   |       cards.json
-|               |   |               |   |               |   |       tiles.json
-|               |   |               |   |               |   |
-|               |   |               |   |               |   \---src
-|               |   |               |   |               |       \---main
-|               |   |               |   |               |           |   shabi.puml
-|               |   |               |   |               |           |
-|               |   |               |   |               |           +---resources
-|               |   |               |   |               |           |   \---model
-|               |   |               |   |               |           \---webapp
-|               |   |               |   |               |               +---assets
-|               |   |               |   |               |               +---page
-|               |   |               |   |               |               |   \---sub
-|               |   |               |   |               |               \---WEB-INF
-|               |   |               |   |               \---lib
-|               |   |               |   |                       jackson-core-2.15.2.jar
-|               |   |               |   |                       jackson-databind-2.15.2.jar
-|               |   |               |   |
-|               |   |               |   +---src
-|               |   |               |   |   \---main
-|               |   |               |   |       |   shabi.puml
-|               |   |               |   |       |
-|               |   |               |   |       +---resources
-|               |   |               |   |       |   \---model
-|               |   |               |   |       |           cards.json
-|               |   |               |   |       |           map_layout_classical.json
-|               |   |               |   |       |           tiles.json
-|               |   |               |   |       |
-|               |   |               |   |       \---webapp
-|               |   |               |   |           |   debug.jsp
-|               |   |               |   |           |   index.jsp
-|               |   |               |   |           |
-|               |   |               |   |           +---assets
-|               |   |               |   |           |   +---css
-|               |   |               |   |           |   |   |   index.css
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   +---components
-|               |   |               |   |           |   |   |       button-base.css
-|               |   |               |   |           |   |   |       card-base.css
-|               |   |               |   |           |   |   |       component.css
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   +---game
-|               |   |               |   |           |   |   |   |   card.css
-|               |   |               |   |           |   |   |   |   game.components.css
-|               |   |               |   |           |   |   |   |   game.css
-|               |   |               |   |           |   |   |   |   tile.css
-|               |   |               |   |           |   |   |   |   water-level.css
-|               |   |               |   |           |   |   |   |
-|               |   |               |   |           |   |   |   \---layout
-|               |   |               |   |           |   |   |           grid.css
-|               |   |               |   |           |   |   |           header.css
-|               |   |               |   |           |   |   |           layout.css
-|               |   |               |   |           |   |   |           map.css
-|               |   |               |   |           |   |   |           panel.css
-|               |   |               |   |           |   |   |           player.css
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   +---pages
-|               |   |               |   |           |   |   |       cover.css
-|               |   |               |   |           |   |   |       creation.css
-|               |   |               |   |           |   |   |       lobby.css
-|               |   |               |   |           |   |   |       room.css
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   \---styles
-|               |   |               |   |           |   |           style.css
-|               |   |               |   |           |   |           variables-dark.css
-|               |   |               |   |           |   |           variables-light.css
-|               |   |               |   |           |   |
-|               |   |               |   |           |   +---Images
-|               |   |               |   |           |   |   +---bg
-|               |   |               |   |           |   |   |       coverbg.png
-|               |   |               |   |           |   |   |       coverbg2.png
-|               |   |               |   |           |   |   |       seabg.png
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   +---Cards
-|               |   |               |   |           |   |   |       The Ocean’s Chalice.png
-|               |   |               |   |           |   |   |
-|               |   |               |   |           |   |   \---icon
-|               |   |               |   |           |   |           appicon.ico
-|               |   |               |   |           |   |
-|               |   |               |   |           |   \---js
-|               |   |               |   |           |       |   app.js
-|               |   |               |   |           |       |   inGameBinder.js
-|               |   |               |   |           |       |   mapLoader.js
-|               |   |               |   |           |       |   preGameBinder.js
-|               |   |               |   |           |       |   room.js
-|               |   |               |   |           |       |   ui-plugins.js
-|               |   |               |   |           |       |   water-level.js
-|               |   |               |   |           |       |
-|               |   |               |   |           |       \---api
-|               |   |               |   |           |               inGameApi.js
-|               |   |               |   |           |               preGameApi.js
-|               |   |               |   |           |
-|               |   |               |   |           +---page
-|               |   |               |   |           |   |   game.html
-|               |   |               |   |           |   |   index.html
-|               |   |               |   |           |   |
-|               |   |               |   |           |   \---sub
-|               |   |               |   |           |           cover.html
-|               |   |               |   |           |           creation.html
-|               |   |               |   |           |           lobby.html
-|               |   |               |   |           |           room.html
-|               |   |               |   |           |
-|               |   |               |   |           \---WEB-INF
-|               |   |               |   |                   web.xml
-|               |   |               |   |
-|               |   |               |   \---target
-|               |   |               |       \---classes
-|               |   |               |           |   forbidden-island.drawio
-|               |   |               |           |   ForbiddenIsland.iml
-|               |   |               |           |   pom.xml
-|               |   |               |           |   qodana.yaml
-|               |   |               |           |   README.md
-|               |   |               |           |
-|               |   |               |           +---.idea
-|               |   |               |           |   |   .gitignore
-|               |   |               |           |   |   compiler.xml
-|               |   |               |           |   |   ForbiddenIsland.iml
-|               |   |               |           |   |   jarRepositories.xml
-|               |   |               |           |   |   misc.xml
-|               |   |               |           |   |   modules.xml
-|               |   |               |           |   |   uiDesigner.xml
-|               |   |               |           |   |   vcs.xml
-|               |   |               |           |   |   webContexts.xml
-|               |   |               |           |   |   workspace.xml
-|               |   |               |           |   |
-|               |   |               |           |   \---artifacts
-|               |   |               |           |           ForbiddenIsland_war_exploded.xml
-|               |   |               |           |
-|               |   |               |           +---model
-|               |   |               |           |       cards.json
-|               |   |               |           |       map_layout_classical.json
-|               |   |               |           |       tiles.json
-|               |   |               |           |
-|               |   |               |           \---src
-|               |   |               |               \---main
-|               |   |               |                   |   shabi.puml
-|               |   |               |                   |
-|               |   |               |                   +---resources
-|               |   |               |                   |   \---model
-|               |   |               |                   |           cards.json
-|               |   |               |                   |           map_layout_classical.json
-|               |   |               |                   |           tiles.json
-|               |   |               |                   |
-|               |   |               |                   \---webapp
-|               |   |               |                       |   debug.jsp
-|               |   |               |                       |   index.jsp
-|               |   |               |                       |
-|               |   |               |                       +---assets
-|               |   |               |                       |   +---css
-|               |   |               |                       |   |   |   index.css
-|               |   |               |                       |   |   |
-|               |   |               |                       |   |   +---components
-|               |   |               |                       |   |   |       button-base.css
-|               |   |               |                       |   |   |       card-base.css
-|               |   |               |                       |   |   |       component.css
-|               |   |               |                       |   |   |
-|               |   |               |                       |   |   +---game
-|               |   |               |                       |   |   |   |   card.css
-|               |   |               |                       |   |   |   |   game.components.css
-|               |   |               |                       |   |   |   |   game.css
-|               |   |               |                       |   |   |   |   tile.css
-|               |   |               |                       |   |   |   |   water-level.css
-|               |   |               |                       |   |   |   |
-|               |   |               |                       |   |   |   \---layout
-|               |   |               |                       |   |   |           grid.css
-|               |   |               |                       |   |   |           header.css
-|               |   |               |                       |   |   |           layout.css
-|               |   |               |                       |   |   |           map.css
-|               |   |               |                       |   |   |           panel.css
-|               |   |               |                       |   |   |           player.css
-|               |   |               |                       |   |   |
-|               |   |               |                       |   |   +---pages
-|               |   |               |                       |   |   |       cover.css
-|               |   |               |                       |   |   |       creation.css
-|               |   |               |                       |   |   |       lobby.css
-|               |   |               |                       |   |   |       room.css
-|               |   |               |                       |   |   |
-|               |   |               |                       |   |   \---styles
-|               |   |               |                       |   |           style.css
-|               |   |               |                       |   |           variables-dark.css
-|               |   |               |                       |   |           variables-light.css
-|               |   |               |                       |   |
-|               |   |               |                       |   +---Images
-|               |   |               |                       |   |   +---bg
-|               |   |               |                       |   |   |       coverbg.png
-|               |   |               |                       |   |   |       coverbg2.png
-|               |   |               |                       |   |   |       seabg.png
-|               |   |               |                       |   |   |
-|               |   |               |                       |   |   +---Cards
-|               |   |               |                       |   |   |       The Ocean’s Chalice.png
-|               |   |               |                       |   |   |
-|               |   |               |                       |   |   \---icon
-|               |   |               |                       |   |           appicon.ico
-|               |   |               |                       |   |
-|               |   |               |                       |   \---js
-|               |   |               |                       |       |   app.js
-|               |   |               |                       |       |   inGameBinder.js
-|               |   |               |                       |       |   mapLoader.js
-|               |   |               |                       |       |   preGameBinder.js
-|               |   |               |                       |       |   room.js
-|               |   |               |                       |       |   ui-plugins.js
-|               |   |               |                       |       |   water-level.js
-|               |   |               |                       |       |
-|               |   |               |                       |       \---api
-|               |   |               |                       |               inGameApi.js
-|               |   |               |                       |               preGameApi.js
-|               |   |               |                       |
-|               |   |               |                       +---page
-|               |   |               |                       |   |   game.html
-|               |   |               |                       |   |   index.html
-|               |   |               |                       |   |
-|               |   |               |                       |   \---sub
-|               |   |               |                       |           cover.html
-|               |   |               |                       |           creation.html
-|               |   |               |                       |           lobby.html
-|               |   |               |                       |           room.html
-|               |   |               |                       |
-|               |   |               |                       \---WEB-INF
-|               |   |               |                               web.xml
-|               |   |               |
-|               |   |               \---lib
-|               |   |                       jackson-annotations-2.15.2.jar
-|               |   |                       jackson-core-2.15.2.jar
-|               |   |                       jackson-databind-2.15.2.jar
-|               |   |
-|               |   +---src
-|               |   |   \---main
-|               |   |       |   shabi.puml
-|               |   |       |
-|               |   |       +---resources
-|               |   |       |   \---model
-|               |   |       |           cards.json
-|               |   |       |           map_layout_classical.json
-|               |   |       |           tiles.json
-|               |   |       |
-|               |   |       \---webapp
-|               |   |           |   debug.jsp
-|               |   |           |   index.jsp
-|               |   |           |
-|               |   |           +---assets
-|               |   |           |   +---css
-|               |   |           |   |   |   index.css
-|               |   |           |   |   |
-|               |   |           |   |   +---components
-|               |   |           |   |   |       button-base.css
-|               |   |           |   |   |       card-base.css
-|               |   |           |   |   |       component.css
-|               |   |           |   |   |
-|               |   |           |   |   +---game
-|               |   |           |   |   |   |   card.css
-|               |   |           |   |   |   |   game.components.css
-|               |   |           |   |   |   |   game.css
-|               |   |           |   |   |   |   tile.css
-|               |   |           |   |   |   |   water-level.css
-|               |   |           |   |   |   |
-|               |   |           |   |   |   \---layout
-|               |   |           |   |   |           grid.css
-|               |   |           |   |   |           header.css
-|               |   |           |   |   |           layout.css
-|               |   |           |   |   |           map.css
-|               |   |           |   |   |           panel.css
-|               |   |           |   |   |           player.css
-|               |   |           |   |   |
-|               |   |           |   |   +---pages
-|               |   |           |   |   |       cover.css
-|               |   |           |   |   |       creation.css
-|               |   |           |   |   |       lobby.css
-|               |   |           |   |   |       room.css
-|               |   |           |   |   |
-|               |   |           |   |   \---styles
-|               |   |           |   |           style.css
-|               |   |           |   |           variables-dark.css
-|               |   |           |   |           variables-light.css
-|               |   |           |   |
-|               |   |           |   +---Images
-|               |   |           |   |   +---bg
-|               |   |           |   |   |       coverbg.png
-|               |   |           |   |   |       coverbg2.png
-|               |   |           |   |   |       seabg.png
-|               |   |           |   |   |
-|               |   |           |   |   +---Cards
-|               |   |           |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-|               |   |           |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-|               |   |           |   |   |       The Ocean’s Chalice.png
-|               |   |           |   |   |
-|               |   |           |   |   \---icon
-|               |   |           |   |           appicon.ico
-|               |   |           |   |
-|               |   |           |   \---js
-|               |   |           |       |   app.js
-|               |   |           |       |   inGameBinder.js
-|               |   |           |       |   mapLoader.js
-|               |   |           |       |   preGameBinder.js
-|               |   |           |       |   room.js
-|               |   |           |       |   ui-plugins.js
-|               |   |           |       |   water-level.js
-|               |   |           |       |
-|               |   |           |       \---api
-|               |   |           |               inGameApi.js
-|               |   |           |               preGameApi.js
-|               |   |           |
-|               |   |           +---page
-|               |   |           |   |   game.html
-|               |   |           |   |   index.html
-|               |   |           |   |
-|               |   |           |   \---sub
-|               |   |           |           cover.html
-|               |   |           |           creation.html
-|               |   |           |           lobby.html
-|               |   |           |           room.html
-|               |   |           |
-|               |   |           \---WEB-INF
-|               |   |                   web.xml
-|               |   |
-|               |   \---target
-|               |       \---classes
-|               |           |   forbidden-island.drawio
-|               |           |   ForbiddenIsland.iml
-|               |           |   pom.xml
-|               |           |   qodana.yaml
-|               |           |   README.md
-|               |           |
-|               |           +---.idea
-|               |           |   |   .gitignore
-|               |           |   |   compiler.xml
-|               |           |   |   ForbiddenIsland.iml
-|               |           |   |   jarRepositories.xml
-|               |           |   |   misc.xml
-|               |           |   |   modules.xml
-|               |           |   |   uiDesigner.xml
-|               |           |   |   vcs.xml
-|               |           |   |   webContexts.xml
-|               |           |   |   workspace.xml
-|               |           |   |
-|               |           |   \---artifacts
-|               |           |           ForbiddenIsland_war_exploded.xml
-|               |           |
-|               |           +---model
-|               |           |       cards.json
-|               |           |       map_layout_classical.json
-|               |           |       tiles.json
-|               |           |
-|               |           \---src
-|               |               \---main
-|               |                   |   shabi.puml
-|               |                   |
-|               |                   +---resources
-|               |                   |   \---model
-|               |                   |           cards.json
-|               |                   |           map_layout_classical.json
-|               |                   |           tiles.json
-|               |                   |
-|               |                   \---webapp
-|               |                       |   debug.jsp
-|               |                       |   index.jsp
-|               |                       |
-|               |                       +---assets
-|               |                       |   +---css
-|               |                       |   |   |   index.css
-|               |                       |   |   |
-|               |                       |   |   +---components
-|               |                       |   |   |       button-base.css
-|               |                       |   |   |       card-base.css
-|               |                       |   |   |       component.css
-|               |                       |   |   |
-|               |                       |   |   +---game
-|               |                       |   |   |   |   card.css
-|               |                       |   |   |   |   game.components.css
-|               |                       |   |   |   |   game.css
-|               |                       |   |   |   |   tile.css
-|               |                       |   |   |   |   water-level.css
-|               |                       |   |   |   |
-|               |                       |   |   |   \---layout
-|               |                       |   |   |           grid.css
-|               |                       |   |   |           header.css
-|               |                       |   |   |           layout.css
-|               |                       |   |   |           map.css
-|               |                       |   |   |           panel.css
-|               |                       |   |   |           player.css
-|               |                       |   |   |
-|               |                       |   |   +---pages
-|               |                       |   |   |       cover.css
-|               |                       |   |   |       creation.css
-|               |                       |   |   |       lobby.css
-|               |                       |   |   |       room.css
-|               |                       |   |   |
-|               |                       |   |   \---styles
-|               |                       |   |           style.css
-|               |                       |   |           variables-dark.css
-|               |                       |   |           variables-light.css
-|               |                       |   |
-|               |                       |   +---Images
-|               |                       |   |   +---bg
-|               |                       |   |   |       coverbg.png
-|               |                       |   |   |       coverbg2.png
-|               |                       |   |   |       seabg.png
-|               |                       |   |   |
-|               |                       |   |   +---Cards
-|               |                       |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-|               |                       |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-|               |                       |   |   |       The Ocean’s Chalice.png
-|               |                       |   |   |
-|               |                       |   |   \---icon
-|               |                       |   |           appicon.ico
-|               |                       |   |
-|               |                       |   \---js
-|               |                       |       |   app.js
-|               |                       |       |   inGameBinder.js
-|               |                       |       |   mapLoader.js
-|               |                       |       |   preGameBinder.js
-|               |                       |       |   room.js
-|               |                       |       |   ui-plugins.js
-|               |                       |       |   water-level.js
-|               |                       |       |
-|               |                       |       \---api
-|               |                       |               inGameApi.js
-|               |                       |               preGameApi.js
-|               |                       |
-|               |                       +---page
-|               |                       |   |   game.html
-|               |                       |   |   index.html
-|               |                       |   |
-|               |                       |   \---sub
-|               |                       |           cover.html
-|               |                       |           creation.html
-|               |                       |           lobby.html
-|               |                       |           room.html
-|               |                       |
-|               |                       \---WEB-INF
-|               |                               web.xml
-|               |
-|               \---lib
-|                       jackson-annotations-2.15.2.jar
-|                       jackson-core-2.15.2.jar
-|                       jackson-databind-2.15.2.jar
-|
-+---src
-|   \---main
-|       |   shabi.puml
-|       |
-|       +---java
-|       |   \---Game
-|       |       \---ForbiddenIsland
-|       |           +---controller
-|       |           |       FontLoader.java
-|       |           |       GameController.java
-|       |           |       PlayerController.java
-|       |           |
-|       |           +---model
-|       |           |   |   GameState.java
-|       |           |   |   TreasureType.java
-|       |           |   |
-|       |           |   +---Board
-|       |           |   |   |   Deck.java
-|       |           |   |   |   DeckImp.java
-|       |           |   |   |   GameMap.java
-|       |           |   |   |
-|       |           |   |   \---Tiles
-|       |           |   |           Tile.java
-|       |           |   |           TileImp.java
-|       |           |   |           TileState.java
-|       |           |   |
-|       |           |   +---Cards
-|       |           |   |   |   Card.java
-|       |           |   |   |   CardName.java
-|       |           |   |   |   CardType.java
-|       |           |   |   |
-|       |           |   |   +---CardActions
-|       |           |   |   |       CardAction.java
-|       |           |   |   |       Helicopter.java
-|       |           |   |   |       SandBag.java
-|       |           |   |   |       WaterRise.java
-|       |           |   |   |
-|       |           |   |   \---cardCategory
-|       |           |   |           ActionCard.java
-|       |           |   |           Card.java
-|       |           |   |           FloodCard.java
-|       |           |   |           TreasureCard.java
-|       |           |   |
-|       |           |   +---Players
-|       |           |   |       Player.java
-|       |           |   |       PlayerChoice.java
-|       |           |   |       PlayerImp.java
-|       |           |   |       PlayerType.java
-|       |           |   |
-|       |           |   \---view
-|       |           |           GameStateView.java
-|       |           |           PlayerView.java
-|       |           |
-|       |           +---util
-|       |           |   |   ActionContext.java
-|       |           |   |   GameStateMapper.java
-|       |           |   |   JsonUtil.java
-|       |           |   |
-|       |           |   \---factory
-|       |           |           CardFactory.java
-|       |           |           MapFactory.java
-|       |           |           PlayerFactory.java
-|       |           |
-|       |           \---WebReceiveServlet
-|       |                   WebReceiveServlet.java
-|       |
-|       +---resources
-|       |   \---model
-|       |           cards.json
-|       |           map_layout_classical.json
-|       |           tiles.json
-|       |
-|       \---webapp
-|           |   debug.jsp
-|           |   index.jsp
-|           |
-|           +---assets
-|           |   +---css
-|           |   |   |   index.css
-|           |   |   |
-|           |   |   +---components
-|           |   |   |       button-base.css
-|           |   |   |       card-base.css
-|           |   |   |       component.css
-|           |   |   |
-|           |   |   +---game
-|           |   |   |   |   card.css
-|           |   |   |   |   game.components.css
-|           |   |   |   |   game.css
-|           |   |   |   |   tile.css
-|           |   |   |   |   water-level.css
-|           |   |   |   |
-|           |   |   |   \---layout
-|           |   |   |           grid.css
-|           |   |   |           header.css
-|           |   |   |           layout.css
-|           |   |   |           map.css
-|           |   |   |           panel.css
-|           |   |   |           player.css
-|           |   |   |
-|           |   |   +---pages
-|           |   |   |       cover.css
-|           |   |   |       creation.css
-|           |   |   |       lobby.css
-|           |   |   |       room.css
-|           |   |   |
-|           |   |   \---styles
-|           |   |           style.css
-|           |   |           variables-dark.css
-|           |   |           variables-light.css
-|           |   |
-|           |   +---Images
-|           |   |   +---bg
-|           |   |   |       coverbg.png
-|           |   |   |       coverbg2.png
-|           |   |   |       seabg.png
-|           |   |   |
-|           |   |   +---Cards
-|           |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-|           |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-|           |   |   |       The Ocean’s Chalice.png
-|           |   |   |
-|           |   |   \---icon
-|           |   |           appicon.ico
-|           |   |
-|           |   \---js
-|           |       |   app.js
-|           |       |   inGameBinder.js
-|           |       |   mapLoader.js
-|           |       |   preGameBinder.js
-|           |       |   room.js
-|           |       |   ui-plugins.js
-|           |       |   water-level.js
-|           |       |
-|           |       \---api
-|           |               inGameApi.js
-|           |               preGameApi.js
-|           |
-|           +---page
-|           |   |   game.html
-|           |   |   index.html
-|           |   |
-|           |   \---sub
-|           |           cover.html
-|           |           creation.html
-|           |           lobby.html
-|           |           room.html
-|           |
-|           \---WEB-INF
-|                   web.xml
-|
-\---target
-    +---classes
-    |   |   forbidden-island.drawio
-    |   |   ForbiddenIsland.iml
-    |   |   pom.xml
-    |   |   qodana.yaml
-    |   |   README.md
-    |   |
-    |   +---.idea
-    |   |   |   .gitignore
-    |   |   |   compiler.xml
-    |   |   |   ForbiddenIsland.iml
-    |   |   |   jarRepositories.xml
-    |   |   |   misc.xml
-    |   |   |   modules.xml
-    |   |   |   uiDesigner.xml
-    |   |   |   vcs.xml
-    |   |   |   webContexts.xml
-    |   |   |   workspace.xml
-    |   |   |
-    |   |   \---artifacts
-    |   |           ForbiddenIsland_war_exploded.xml
-    |   |
-    |   +---Game
-    |   |   \---ForbiddenIsland
-    |   |       +---controller
-    |   |       |       FontLoader.class
-    |   |       |       GameController$1.class
-    |   |       |       GameController.class
-    |   |       |       PlayerController$1.class
-    |   |       |       PlayerController.class
-    |   |       |
-    |   |       +---model
-    |   |       |   |   GameState.class
-    |   |       |   |   TreasureType.class
-    |   |       |   |
-    |   |       |   +---Board
-    |   |       |   |   |   Deck.class
-    |   |       |   |   |   DeckImp.class
-    |   |       |   |   |   GameMap.class
-    |   |       |   |   |
-    |   |       |   |   \---Tiles
-    |   |       |   |           Tile.class
-    |   |       |   |           TileImp.class
-    |   |       |   |           TileState.class
-    |   |       |   |
-    |   |       |   +---Cards
-    |   |       |   |   |   Card.class
-    |   |       |   |   |   CardName.class
-    |   |       |   |   |   CardType.class
-    |   |       |   |   |
-    |   |       |   |   +---CardActions
-    |   |       |   |   |       CardAction.class
-    |   |       |   |   |       Helicopter.class
-    |   |       |   |   |       SandBag.class
-    |   |       |   |   |       WaterRise.class
-    |   |       |   |   |
-    |   |       |   |   \---cardCategory
-    |   |       |   |           ActionCard.class
-    |   |       |   |           Card.class
-    |   |       |   |           FloodCard.class
-    |   |       |   |           TreasureCard.class
-    |   |       |   |
-    |   |       |   +---Players
-    |   |       |   |       Player.class
-    |   |       |   |       PlayerChoice.class
-    |   |       |   |       PlayerImp.class
-    |   |       |   |       PlayerType.class
-    |   |       |   |
-    |   |       |   \---view
-    |   |       |           GameStateView.class
-    |   |       |           PlayerView.class
-    |   |       |
-    |   |       +---util
-    |   |       |   |   ActionContext$Builder.class
-    |   |       |   |   ActionContext.class
-    |   |       |   |   GameStateMapper.class
-    |   |       |   |   JsonUtil.class
-    |   |       |   |
-    |   |       |   \---factory
-    |   |       |           CardFactory$1.class
-    |   |       |           CardFactory$2.class
-    |   |       |           CardFactory$CardData.class
-    |   |       |           CardFactory.class
-    |   |       |           MapFactory$1.class
-    |   |       |           MapFactory.class
-    |   |       |           PlayerFactory.class
-    |   |       |
-    |   |       \---WebReceiveServlet
-    |   |               WebReceiveServlet.class
-    |   |
-    |   +---model
-    |   |       cards.json
-    |   |       map_layout_classical.json
-    |   |       tiles.json
-    |   |
-    |   +---out
-    |   |   \---artifacts
-    |   |       \---ForbiddenIsland_war_exploded
-    |   |           |   debug.jsp
-    |   |           |   index.jsp
-    |   |           |
-    |   |           +---assets
-    |   |           |   +---css
-    |   |           |   |   |   index.css
-    |   |           |   |   |
-    |   |           |   |   +---components
-    |   |           |   |   |       button-base.css
-    |   |           |   |   |       card-base.css
-    |   |           |   |   |       component.css
-    |   |           |   |   |
-    |   |           |   |   +---game
-    |   |           |   |   |   |   card.css
-    |   |           |   |   |   |   game.components.css
-    |   |           |   |   |   |   game.css
-    |   |           |   |   |   |   tile.css
-    |   |           |   |   |   |   water-level.css
-    |   |           |   |   |   |
-    |   |           |   |   |   \---layout
-    |   |           |   |   |           grid.css
-    |   |           |   |   |           header.css
-    |   |           |   |   |           layout.css
-    |   |           |   |   |           map.css
-    |   |           |   |   |           panel.css
-    |   |           |   |   |           player.css
-    |   |           |   |   |
-    |   |           |   |   +---pages
-    |   |           |   |   |       cover.css
-    |   |           |   |   |       creation.css
-    |   |           |   |   |       lobby.css
-    |   |           |   |   |       room.css
-    |   |           |   |   |
-    |   |           |   |   \---styles
-    |   |           |   |           style.css
-    |   |           |   |           variables-dark.css
-    |   |           |   |           variables-light.css
-    |   |           |   |
-    |   |           |   +---Images
-    |   |           |   |   +---bg
-    |   |           |   |   |       coverbg.png
-    |   |           |   |   |       coverbg2.png
-    |   |           |   |   |       seabg.png
-    |   |           |   |   |
-    |   |           |   |   +---Cards
-    |   |           |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-    |   |           |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-    |   |           |   |   |       The Ocean’s Chalice.png
-    |   |           |   |   |
-    |   |           |   |   \---icon
-    |   |           |   |           appicon.ico
-    |   |           |   |
-    |   |           |   \---js
-    |   |           |       |   app.js
-    |   |           |       |   inGameBinder.js
-    |   |           |       |   mapLoader.js
-    |   |           |       |   preGameBinder.js
-    |   |           |       |   room.js
-    |   |           |       |   ui-plugins.js
-    |   |           |       |   water-level.js
-    |   |           |       |
-    |   |           |       \---api
-    |   |           |               inGameApi.js
-    |   |           |               preGameApi.js
-    |   |           |
-    |   |           +---META-INF
-    |   |           |       MANIFEST.MF
-    |   |           |
-    |   |           +---page
-    |   |           |   |   game.html
-    |   |           |   |   index.html
-    |   |           |   |
-    |   |           |   \---sub
-    |   |           |           cover.html
-    |   |           |           creation.html
-    |   |           |           lobby.html
-    |   |           |           room.html
-    |   |           |
-    |   |           \---WEB-INF
-    |   |               |   web.xml
-    |   |               |
-    |   |               +---classes
-    |   |               |   |   forbidden-island.drawio
-    |   |               |   |   ForbiddenIsland.iml
-    |   |               |   |   pom.xml
-    |   |               |   |   qodana.yaml
-    |   |               |   |   README.md
-    |   |               |   |
-    |   |               |   +---.idea
-    |   |               |   |   |   .gitignore
-    |   |               |   |   |   compiler.xml
-    |   |               |   |   |   ForbiddenIsland.iml
-    |   |               |   |   |   jarRepositories.xml
-    |   |               |   |   |   misc.xml
-    |   |               |   |   |   modules.xml
-    |   |               |   |   |   uiDesigner.xml
-    |   |               |   |   |   vcs.xml
-    |   |               |   |   |   webContexts.xml
-    |   |               |   |   |   workspace.xml
-    |   |               |   |   |
-    |   |               |   |   \---artifacts
-    |   |               |   |           ForbiddenIsland_war_exploded.xml
-    |   |               |   |
-    |   |               |   +---model
-    |   |               |   |       cards.json
-    |   |               |   |       map_layout_classical.json
-    |   |               |   |       tiles.json
-    |   |               |   |
-    |   |               |   +---out
-    |   |               |   |   \---artifacts
-    |   |               |   |       \---ForbiddenIsland_war_exploded
-    |   |               |   |           |   debug.jsp
-    |   |               |   |           |   index.jsp
-    |   |               |   |           |
-    |   |               |   |           +---assets
-    |   |               |   |           |   +---css
-    |   |               |   |           |   |   |   index.css
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   +---components
-    |   |               |   |           |   |   |       button-base.css
-    |   |               |   |           |   |   |       card-base.css
-    |   |               |   |           |   |   |       component.css
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   +---game
-    |   |               |   |           |   |   |   |   card.css
-    |   |               |   |           |   |   |   |   game.components.css
-    |   |               |   |           |   |   |   |   game.css
-    |   |               |   |           |   |   |   |   tile.css
-    |   |               |   |           |   |   |   |   water-level.css
-    |   |               |   |           |   |   |   |
-    |   |               |   |           |   |   |   \---layout
-    |   |               |   |           |   |   |           grid.css
-    |   |               |   |           |   |   |           header.css
-    |   |               |   |           |   |   |           layout.css
-    |   |               |   |           |   |   |           map.css
-    |   |               |   |           |   |   |           panel.css
-    |   |               |   |           |   |   |           player.css
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   +---pages
-    |   |               |   |           |   |   |       cover.css
-    |   |               |   |           |   |   |       creation.css
-    |   |               |   |           |   |   |       lobby.css
-    |   |               |   |           |   |   |       room.css
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   \---styles
-    |   |               |   |           |   |           style.css
-    |   |               |   |           |   |           variables-dark.css
-    |   |               |   |           |   |           variables-light.css
-    |   |               |   |           |   |
-    |   |               |   |           |   +---Images
-    |   |               |   |           |   |   +---bg
-    |   |               |   |           |   |   |       coverbg.png
-    |   |               |   |           |   |   |       coverbg2.png
-    |   |               |   |           |   |   |       seabg.png
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   +---Cards
-    |   |               |   |           |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-    |   |               |   |           |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-    |   |               |   |           |   |   |       The Ocean’s Chalice.png
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   \---icon
-    |   |               |   |           |   |           appicon.ico
-    |   |               |   |           |   |
-    |   |               |   |           |   \---js
-    |   |               |   |           |       |   app.js
-    |   |               |   |           |       |   inGameBinder.js
-    |   |               |   |           |       |   mapLoader.js
-    |   |               |   |           |       |   preGameBinder.js
-    |   |               |   |           |       |   room.js
-    |   |               |   |           |       |   ui-plugins.js
-    |   |               |   |           |       |   water-level.js
-    |   |               |   |           |       |
-    |   |               |   |           |       \---api
-    |   |               |   |           |               inGameApi.js
-    |   |               |   |           |               preGameApi.js
-    |   |               |   |           |
-    |   |               |   |           +---META-INF
-    |   |               |   |           |       MANIFEST.MF
-    |   |               |   |           |
-    |   |               |   |           +---page
-    |   |               |   |           |   |   game.html
-    |   |               |   |           |   |   index.html
-    |   |               |   |           |   |
-    |   |               |   |           |   \---sub
-    |   |               |   |           |           cover.html
-    |   |               |   |           |           creation.html
-    |   |               |   |           |           lobby.html
-    |   |               |   |           |           room.html
-    |   |               |   |           |
-    |   |               |   |           \---WEB-INF
-    |   |               |   |               |   web.xml
-    |   |               |   |               |
-    |   |               |   |               +---classes
-    |   |               |   |               |   |   forbidden-island.drawio
-    |   |               |   |               |   |   ForbiddenIsland.iml
-    |   |               |   |               |   |   pom.xml
-    |   |               |   |               |   |   qodana.yaml
-    |   |               |   |               |   |   README.md
-    |   |               |   |               |   |
-    |   |               |   |               |   +---.idea
-    |   |               |   |               |   |   |   .gitignore
-    |   |               |   |               |   |   |   compiler.xml
-    |   |               |   |               |   |   |   ForbiddenIsland.iml
-    |   |               |   |               |   |   |   jarRepositories.xml
-    |   |               |   |               |   |   |   misc.xml
-    |   |               |   |               |   |   |   modules.xml
-    |   |               |   |               |   |   |   uiDesigner.xml
-    |   |               |   |               |   |   |   vcs.xml
-    |   |               |   |               |   |   |   webContexts.xml
-    |   |               |   |               |   |   |   workspace.xml
-    |   |               |   |               |   |   |
-    |   |               |   |               |   |   \---artifacts
-    |   |               |   |               |   |           ForbiddenIsland_war_exploded.xml
-    |   |               |   |               |   |
-    |   |               |   |               |   +---model
-    |   |               |   |               |   |       cards.json
-    |   |               |   |               |   |       map_layout_classical.json
-    |   |               |   |               |   |       tiles.json
-    |   |               |   |               |   |
-    |   |               |   |               |   \---src
-    |   |               |   |               |       \---main
-    |   |               |   |               |           |   shabi.puml
-    |   |               |   |               |           |
-    |   |               |   |               |           +---resources
-    |   |               |   |               |           |   \---model
-    |   |               |   |               |           |           cards.json
-    |   |               |   |               |           |           map_layout_classical.json
-    |   |               |   |               |           |           tiles.json
-    |   |               |   |               |           |
-    |   |               |   |               |           \---webapp
-    |   |               |   |               |               |   debug.jsp
-    |   |               |   |               |               |   index.jsp
-    |   |               |   |               |               |
-    |   |               |   |               |               +---assets
-    |   |               |   |               |               |   +---css
-    |   |               |   |               |               |   |   |   index.css
-    |   |               |   |               |               |   |   |
-    |   |               |   |               |               |   |   +---components
-    |   |               |   |               |               |   |   |       button-base.css
-    |   |               |   |               |               |   |   |       card-base.css
-    |   |               |   |               |               |   |   |       component.css
-    |   |               |   |               |               |   |   |
-    |   |               |   |               |               |   |   +---game
-    |   |               |   |               |               |   |   |   |   card.css
-    |   |               |   |               |               |   |   |   |   game.components.css
-    |   |               |   |               |               |   |   |   |   game.css
-    |   |               |   |               |               |   |   |   |   tile.css
-    |   |               |   |               |               |   |   |   |   water-level.css
-    |   |               |   |               |               |   |   |   |
-    |   |               |   |               |               |   |   |   \---layout
-    |   |               |   |               |               |   |   |           grid.css
-    |   |               |   |               |               |   |   |           header.css
-    |   |               |   |               |               |   |   |           layout.css
-    |   |               |   |               |               |   |   |           map.css
-    |   |               |   |               |               |   |   |           panel.css
-    |   |               |   |               |               |   |   |           player.css
-    |   |               |   |               |               |   |   |
-    |   |               |   |               |               |   |   +---pages
-    |   |               |   |               |               |   |   |       cover.css
-    |   |               |   |               |               |   |   |       creation.css
-    |   |               |   |               |               |   |   |       lobby.css
-    |   |               |   |               |               |   |   |       room.css
-    |   |               |   |               |               |   |   |
-    |   |               |   |               |               |   |   \---styles
-    |   |               |   |               |               |   |           style.css
-    |   |               |   |               |               |   |           variables-dark.css
-    |   |               |   |               |               |   |           variables-light.css
-    |   |               |   |               |               |   |
-    |   |               |   |               |               |   +---Images
-    |   |               |   |               |               |   |   +---bg
-    |   |               |   |               |               |   |   |       coverbg.png
-    |   |               |   |               |               |   |   |       coverbg2.png
-    |   |               |   |               |               |   |   |       seabg.png
-    |   |               |   |               |               |   |   |
-    |   |               |   |               |               |   |   +---Cards
-    |   |               |   |               |               |   |   |       The Ocean’s Chalice.png
-    |   |               |   |               |               |   |   |
-    |   |               |   |               |               |   |   \---icon
-    |   |               |   |               |               |   |           appicon.ico
-    |   |               |   |               |               |   |
-    |   |               |   |               |               |   \---js
-    |   |               |   |               |               |       |   app.js
-    |   |               |   |               |               |       |   inGameBinder.js
-    |   |               |   |               |               |       |   mapLoader.js
-    |   |               |   |               |               |       |   preGameBinder.js
-    |   |               |   |               |               |       |   room.js
-    |   |               |   |               |               |       |   ui-plugins.js
-    |   |               |   |               |               |       |   water-level.js
-    |   |               |   |               |               |       |
-    |   |               |   |               |               |       \---api
-    |   |               |   |               |               |               inGameApi.js
-    |   |               |   |               |               |               preGameApi.js
-    |   |               |   |               |               |
-    |   |               |   |               |               +---page
-    |   |               |   |               |               |   |   game.html
-    |   |               |   |               |               |   |   index.html
-    |   |               |   |               |               |   |
-    |   |               |   |               |               |   \---sub
-    |   |               |   |               |               |           cover.html
-    |   |               |   |               |               |           creation.html
-    |   |               |   |               |               |           lobby.html
-    |   |               |   |               |               |           room.html
-    |   |               |   |               |               |
-    |   |               |   |               |               \---WEB-INF
-    |   |               |   |               |                       web.xml
-    |   |               |   |               |
-    |   |               |   |               \---lib
-    |   |               |   |                       jackson-annotations-2.15.2.jar
-    |   |               |   |                       jackson-core-2.15.2.jar
-    |   |               |   |                       jackson-databind-2.15.2.jar
-    |   |               |   |
-    |   |               |   +---src
-    |   |               |   |   \---main
-    |   |               |   |       |   shabi.puml
-    |   |               |   |       |
-    |   |               |   |       +---resources
-    |   |               |   |       |   \---model
-    |   |               |   |       |           cards.json
-    |   |               |   |       |           map_layout_classical.json
-    |   |               |   |       |           tiles.json
-    |   |               |   |       |
-    |   |               |   |       \---webapp
-    |   |               |   |           |   debug.jsp
-    |   |               |   |           |   index.jsp
-    |   |               |   |           |
-    |   |               |   |           +---assets
-    |   |               |   |           |   +---css
-    |   |               |   |           |   |   |   index.css
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   +---components
-    |   |               |   |           |   |   |       button-base.css
-    |   |               |   |           |   |   |       card-base.css
-    |   |               |   |           |   |   |       component.css
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   +---game
-    |   |               |   |           |   |   |   |   card.css
-    |   |               |   |           |   |   |   |   game.components.css
-    |   |               |   |           |   |   |   |   game.css
-    |   |               |   |           |   |   |   |   tile.css
-    |   |               |   |           |   |   |   |   water-level.css
-    |   |               |   |           |   |   |   |
-    |   |               |   |           |   |   |   \---layout
-    |   |               |   |           |   |   |           grid.css
-    |   |               |   |           |   |   |           header.css
-    |   |               |   |           |   |   |           layout.css
-    |   |               |   |           |   |   |           map.css
-    |   |               |   |           |   |   |           panel.css
-    |   |               |   |           |   |   |           player.css
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   +---pages
-    |   |               |   |           |   |   |       cover.css
-    |   |               |   |           |   |   |       creation.css
-    |   |               |   |           |   |   |       lobby.css
-    |   |               |   |           |   |   |       room.css
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   \---styles
-    |   |               |   |           |   |           style.css
-    |   |               |   |           |   |           variables-dark.css
-    |   |               |   |           |   |           variables-light.css
-    |   |               |   |           |   |
-    |   |               |   |           |   +---Images
-    |   |               |   |           |   |   +---bg
-    |   |               |   |           |   |   |       coverbg.png
-    |   |               |   |           |   |   |       coverbg2.png
-    |   |               |   |           |   |   |       seabg.png
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   +---Cards
-    |   |               |   |           |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-    |   |               |   |           |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-    |   |               |   |           |   |   |       The Ocean’s Chalice.png
-    |   |               |   |           |   |   |
-    |   |               |   |           |   |   \---icon
-    |   |               |   |           |   |           appicon.ico
-    |   |               |   |           |   |
-    |   |               |   |           |   \---js
-    |   |               |   |           |       |   app.js
-    |   |               |   |           |       |   inGameBinder.js
-    |   |               |   |           |       |   mapLoader.js
-    |   |               |   |           |       |   preGameBinder.js
-    |   |               |   |           |       |   room.js
-    |   |               |   |           |       |   ui-plugins.js
-    |   |               |   |           |       |   water-level.js
-    |   |               |   |           |       |
-    |   |               |   |           |       \---api
-    |   |               |   |           |               inGameApi.js
-    |   |               |   |           |               preGameApi.js
-    |   |               |   |           |
-    |   |               |   |           +---page
-    |   |               |   |           |   |   game.html
-    |   |               |   |           |   |   index.html
-    |   |               |   |           |   |
-    |   |               |   |           |   \---sub
-    |   |               |   |           |           cover.html
-    |   |               |   |           |           creation.html
-    |   |               |   |           |           lobby.html
-    |   |               |   |           |           room.html
-    |   |               |   |           |
-    |   |               |   |           \---WEB-INF
-    |   |               |   |                   web.xml
-    |   |               |   |
-    |   |               |   \---target
-    |   |               |       \---classes
-    |   |               |           |   forbidden-island.drawio
-    |   |               |           |   ForbiddenIsland.iml
-    |   |               |           |   pom.xml
-    |   |               |           |   qodana.yaml
-    |   |               |           |   README.md
-    |   |               |           |
-    |   |               |           +---.idea
-    |   |               |           |   |   .gitignore
-    |   |               |           |   |   compiler.xml
-    |   |               |           |   |   ForbiddenIsland.iml
-    |   |               |           |   |   jarRepositories.xml
-    |   |               |           |   |   misc.xml
-    |   |               |           |   |   modules.xml
-    |   |               |           |   |   uiDesigner.xml
-    |   |               |           |   |   vcs.xml
-    |   |               |           |   |   webContexts.xml
-    |   |               |           |   |   workspace.xml
-    |   |               |           |   |
-    |   |               |           |   \---artifacts
-    |   |               |           |           ForbiddenIsland_war_exploded.xml
-    |   |               |           |
-    |   |               |           +---model
-    |   |               |           |       cards.json
-    |   |               |           |       map_layout_classical.json
-    |   |               |           |       tiles.json
-    |   |               |           |
-    |   |               |           \---src
-    |   |               |               \---main
-    |   |               |                   |   shabi.puml
-    |   |               |                   |
-    |   |               |                   +---resources
-    |   |               |                   |   \---model
-    |   |               |                   |           cards.json
-    |   |               |                   |           map_layout_classical.json
-    |   |               |                   |           tiles.json
-    |   |               |                   |
-    |   |               |                   \---webapp
-    |   |               |                       |   debug.jsp
-    |   |               |                       |   index.jsp
-    |   |               |                       |
-    |   |               |                       +---assets
-    |   |               |                       |   +---css
-    |   |               |                       |   |   |   index.css
-    |   |               |                       |   |   |
-    |   |               |                       |   |   +---components
-    |   |               |                       |   |   |       button-base.css
-    |   |               |                       |   |   |       card-base.css
-    |   |               |                       |   |   |       component.css
-    |   |               |                       |   |   |
-    |   |               |                       |   |   +---game
-    |   |               |                       |   |   |   |   card.css
-    |   |               |                       |   |   |   |   game.components.css
-    |   |               |                       |   |   |   |   game.css
-    |   |               |                       |   |   |   |   tile.css
-    |   |               |                       |   |   |   |   water-level.css
-    |   |               |                       |   |   |   |
-    |   |               |                       |   |   |   \---layout
-    |   |               |                       |   |   |           grid.css
-    |   |               |                       |   |   |           header.css
-    |   |               |                       |   |   |           layout.css
-    |   |               |                       |   |   |           map.css
-    |   |               |                       |   |   |           panel.css
-    |   |               |                       |   |   |           player.css
-    |   |               |                       |   |   |
-    |   |               |                       |   |   +---pages
-    |   |               |                       |   |   |       cover.css
-    |   |               |                       |   |   |       creation.css
-    |   |               |                       |   |   |       lobby.css
-    |   |               |                       |   |   |       room.css
-    |   |               |                       |   |   |
-    |   |               |                       |   |   \---styles
-    |   |               |                       |   |           style.css
-    |   |               |                       |   |           variables-dark.css
-    |   |               |                       |   |           variables-light.css
-    |   |               |                       |   |
-    |   |               |                       |   +---Images
-    |   |               |                       |   |   +---bg
-    |   |               |                       |   |   |       coverbg.png
-    |   |               |                       |   |   |       coverbg2.png
-    |   |               |                       |   |   |       seabg.png
-    |   |               |                       |   |   |
-    |   |               |                       |   |   +---Cards
-    |   |               |                       |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-    |   |               |                       |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-    |   |               |                       |   |   |       The Ocean’s Chalice.png
-    |   |               |                       |   |   |
-    |   |               |                       |   |   \---icon
-    |   |               |                       |   |           appicon.ico
-    |   |               |                       |   |
-    |   |               |                       |   \---js
-    |   |               |                       |       |   app.js
-    |   |               |                       |       |   inGameBinder.js
-    |   |               |                       |       |   mapLoader.js
-    |   |               |                       |       |   preGameBinder.js
-    |   |               |                       |       |   room.js
-    |   |               |                       |       |   ui-plugins.js
-    |   |               |                       |       |   water-level.js
-    |   |               |                       |       |
-    |   |               |                       |       \---api
-    |   |               |                       |               inGameApi.js
-    |   |               |                       |               preGameApi.js
-    |   |               |                       |
-    |   |               |                       +---page
-    |   |               |                       |   |   game.html
-    |   |               |                       |   |   index.html
-    |   |               |                       |   |
-    |   |               |                       |   \---sub
-    |   |               |                       |           cover.html
-    |   |               |                       |           creation.html
-    |   |               |                       |           lobby.html
-    |   |               |                       |           room.html
-    |   |               |                       |
-    |   |               |                       \---WEB-INF
-    |   |               |                               web.xml
-    |   |               |
-    |   |               \---lib
-    |   |                       jackson-annotations-2.15.2.jar
-    |   |                       jackson-core-2.15.2.jar
-    |   |                       jackson-databind-2.15.2.jar
-    |   |
-    |   +---src
-    |   |   \---main
-    |   |       |   shabi.puml
-    |   |       |
-    |   |       +---resources
-    |   |       |   \---model
-    |   |       |           cards.json
-    |   |       |           map_layout_classical.json
-    |   |       |           tiles.json
-    |   |       |
-    |   |       \---webapp
-    |   |           |   debug.jsp
-    |   |           |   index.jsp
-    |   |           |
-    |   |           +---assets
-    |   |           |   +---css
-    |   |           |   |   |   index.css
-    |   |           |   |   |
-    |   |           |   |   +---components
-    |   |           |   |   |       button-base.css
-    |   |           |   |   |       card-base.css
-    |   |           |   |   |       component.css
-    |   |           |   |   |
-    |   |           |   |   +---game
-    |   |           |   |   |   |   card.css
-    |   |           |   |   |   |   game.components.css
-    |   |           |   |   |   |   game.css
-    |   |           |   |   |   |   tile.css
-    |   |           |   |   |   |   water-level.css
-    |   |           |   |   |   |
-    |   |           |   |   |   \---layout
-    |   |           |   |   |           grid.css
-    |   |           |   |   |           header.css
-    |   |           |   |   |           layout.css
-    |   |           |   |   |           map.css
-    |   |           |   |   |           panel.css
-    |   |           |   |   |           player.css
-    |   |           |   |   |
-    |   |           |   |   +---pages
-    |   |           |   |   |       cover.css
-    |   |           |   |   |       creation.css
-    |   |           |   |   |       lobby.css
-    |   |           |   |   |       room.css
-    |   |           |   |   |
-    |   |           |   |   \---styles
-    |   |           |   |           style.css
-    |   |           |   |           variables-dark.css
-    |   |           |   |           variables-light.css
-    |   |           |   |
-    |   |           |   +---Images
-    |   |           |   |   +---bg
-    |   |           |   |   |       coverbg.png
-    |   |           |   |   |       coverbg2.png
-    |   |           |   |   |       seabg.png
-    |   |           |   |   |
-    |   |           |   |   +---Cards
-    |   |           |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-    |   |           |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-    |   |           |   |   |       The Ocean’s Chalice.png
-    |   |           |   |   |
-    |   |           |   |   \---icon
-    |   |           |   |           appicon.ico
-    |   |           |   |
-    |   |           |   \---js
-    |   |           |       |   app.js
-    |   |           |       |   inGameBinder.js
-    |   |           |       |   mapLoader.js
-    |   |           |       |   preGameBinder.js
-    |   |           |       |   room.js
-    |   |           |       |   ui-plugins.js
-    |   |           |       |   water-level.js
-    |   |           |       |
-    |   |           |       \---api
-    |   |           |               inGameApi.js
-    |   |           |               preGameApi.js
-    |   |           |
-    |   |           +---page
-    |   |           |   |   game.html
-    |   |           |   |   index.html
-    |   |           |   |
-    |   |           |   \---sub
-    |   |           |           cover.html
-    |   |           |           creation.html
-    |   |           |           lobby.html
-    |   |           |           room.html
-    |   |           |
-    |   |           \---WEB-INF
-    |   |                   web.xml
-    |   |
-    |   \---target
-    |       \---classes
-    |           |   forbidden-island.drawio
-    |           |   ForbiddenIsland.iml
-    |           |   pom.xml
-    |           |   qodana.yaml
-    |           |   README.md
-    |           |
-    |           +---.idea
-    |           |   |   .gitignore
-    |           |   |   compiler.xml
-    |           |   |   ForbiddenIsland.iml
-    |           |   |   jarRepositories.xml
-    |           |   |   misc.xml
-    |           |   |   modules.xml
-    |           |   |   uiDesigner.xml
-    |           |   |   vcs.xml
-    |           |   |   webContexts.xml
-    |           |   |   workspace.xml
-    |           |   |
-    |           |   \---artifacts
-    |           |           ForbiddenIsland_war_exploded.xml
-    |           |
-    |           +---model
-    |           |       cards.json
-    |           |       map_layout_classical.json
-    |           |       tiles.json
-    |           |
-    |           \---src
-    |               \---main
-    |                   |   shabi.puml
-    |                   |
-    |                   +---resources
-    |                   |   \---model
-    |                   |           cards.json
-    |                   |           map_layout_classical.json
-    |                   |           tiles.json
-    |                   |
-    |                   \---webapp
-    |                       |   debug.jsp
-    |                       |   index.jsp
-    |                       |
-    |                       +---assets
-    |                       |   +---css
-    |                       |   |   |   index.css
-    |                       |   |   |
-    |                       |   |   +---components
-    |                       |   |   |       button-base.css
-    |                       |   |   |       card-base.css
-    |                       |   |   |       component.css
-    |                       |   |   |
-    |                       |   |   +---game
-    |                       |   |   |   |   card.css
-    |                       |   |   |   |   game.components.css
-    |                       |   |   |   |   game.css
-    |                       |   |   |   |   tile.css
-    |                       |   |   |   |   water-level.css
-    |                       |   |   |   |
-    |                       |   |   |   \---layout
-    |                       |   |   |           grid.css
-    |                       |   |   |           header.css
-    |                       |   |   |           layout.css
-    |                       |   |   |           map.css
-    |                       |   |   |           panel.css
-    |                       |   |   |           player.css
-    |                       |   |   |
-    |                       |   |   +---pages
-    |                       |   |   |       cover.css
-    |                       |   |   |       creation.css
-    |                       |   |   |       lobby.css
-    |                       |   |   |       room.css
-    |                       |   |   |
-    |                       |   |   \---styles
-    |                       |   |           style.css
-    |                       |   |           variables-dark.css
-    |                       |   |           variables-light.css
-    |                       |   |
-    |                       |   +---Images
-    |                       |   |   +---bg
-    |                       |   |   |       coverbg.png
-    |                       |   |   |       coverbg2.png
-    |                       |   |   |       seabg.png
-    |                       |   |   |
-    |                       |   |   +---Cards
-    |                       |   |   |       20250407_2230_卡面中央宝物_remix_01jr8aj841frhv51j0f1w751g1.png
-    |                       |   |   |       assets_task_01jr8a9rq3ebz8wan74kd8pnv2_img_0.png
-    |                       |   |   |       The Ocean’s Chalice.png
-    |                       |   |   |
-    |                       |   |   \---icon
-    |                       |   |           appicon.ico
-    |                       |   |
-    |                       |   \---js
-    |                       |       |   app.js
-    |                       |       |   inGameBinder.js
-    |                       |       |   mapLoader.js
-    |                       |       |   preGameBinder.js
-    |                       |       |   room.js
-    |                       |       |   ui-plugins.js
-    |                       |       |   water-level.js
-    |                       |       |
-    |                       |       \---api
-    |                       |               inGameApi.js
-    |                       |               preGameApi.js
-    |                       |
-    |                       +---page
-    |                       |   |   game.html
-    |                       |   |   index.html
-    |                       |   |
-    |                       |   \---sub
-    |                       |           cover.html
-    |                       |           creation.html
-    |                       |           lobby.html
-    |                       |           room.html
-    |                       |
-    |                       \---WEB-INF
-    |                               web.xml
-    |
-    \---generated-sources
-        \---annotations
+|               |   |             C:.
+                                  │  2025-05-31_00-22-30.zip
+                                  │  forbidden-island.drawio
+                                  │  list.txt
+                                  │  pom.xml
+                                  │  qodana.yaml
+                                  │  README.md
+                                  │  tree.txt
+                                  │  运行后文件目录.txt
+                                  │
+                                  ├─.idea
+                                  │      .gitignore
+                                  │      .zipper
+                                  │      compiler.xml
+                                  │      jarRepositories.xml
+                                  │      misc.xml
+                                  │      vcs.xml
+                                  │      workspace.xml
+                                  │
+                                  ├─src
+                                  │  └─main
+                                  │      ├─java
+                                  │      │  └─Game
+                                  │      │      └─ForbiddenIsland
+                                  │      │          ├─controller
+                                  │      │          │      FontLoader.java
+                                  │      │          │      GameController.java
+                                  │      │          │      PlayerController.java
+                                  │      │          │
+                                  │      │          ├─model
+                                  │      │          │  │  ActionLogger.java
+                                  │      │          │  │  GameState.java
+                                  │      │          │  │  RoomState.java
+                                  │      │          │  │  TreasureType.java
+                                  │      │          │  │
+                                  │      │          │  ├─Board
+                                  │      │          │  │  │  Deck.java
+                                  │      │          │  │  │  DeckImp.java
+                                  │      │          │  │  │  GameMap.java
+                                  │      │          │  │  │
+                                  │      │          │  │  └─Tiles
+                                  │      │          │  │          Tile.java
+                                  │      │          │  │          TileImp.java
+                                  │      │          │  │          TileState.java
+                                  │      │          │  │
+                                  │      │          │  ├─Cards
+                                  │      │          │  │  │  Card.java
+                                  │      │          │  │  │  CardName.java
+                                  │      │          │  │  │  CardType.java
+                                  │      │          │  │  │
+                                  │      │          │  │  ├─CardActions
+                                  │      │          │  │  │      CardAction.java
+                                  │      │          │  │  │      Helicopter.java
+                                  │      │          │  │  │      SandBag.java
+                                  │      │          │  │  │      WaterRise.java
+                                  │      │          │  │  │
+                                  │      │          │  │  └─cardCategory
+                                  │      │          │  │          ActionCard.java
+                                  │      │          │  │          Card.java
+                                  │      │          │  │          FloodCard.java
+                                  │      │          │  │          TreasureCard.java
+                                  │      │          │  │
+                                  │      │          │  ├─log
+                                  │      │          │  │      GameLogEntry.java
+                                  │      │          │  │
+                                  │      │          │  ├─Players
+                                  │      │          │  │      Player.java
+                                  │      │          │  │      PlayerChoice.java
+                                  │      │          │  │      PlayerImp.java
+                                  │      │          │  │      PlayerType.java
+                                  │      │          │  │
+                                  │      │          │  ├─position
+                                  │      │          │  │      Position.java
+                                  │      │          │  │
+                                  │      │          │  └─view
+                                  │      │          │          GameStateView.java
+                                  │      │          │          PlayerView.java
+                                  │      │          │          TileView.java
+                                  │      │          │
+                                  │      │          ├─util
+                                  │      │          │  │  ActionContext.java
+                                  │      │          │  │  GameStateMapper.java
+                                  │      │          │  │  JsonUtil.java
+                                  │      │          │  │
+                                  │      │          │  └─factory
+                                  │      │          │          CardFactory.java
+                                  │      │          │          MapFactory.java
+                                  │      │          │          PlayerFactory.java
+                                  │      │          │
+                                  │      │          └─WebReceiveServlet
+                                  │      │              │  WebReceiveServlet.java
+                                  │      │              │
+                                  │      │              └─Handler
+                                  │      │                      CreateRoomHandler.java
+                                  │      │                      DeckHandler.java
+                                  │      │                      DestroyRoomHandler.java
+                                  │      │                      ExitRoomHandler.java
+                                  │      │                      ExperimentHandler.java
+                                  │      │                      GetPlayerNumHandler.java
+                                  │      │                      GetRoomStatusHandler.java
+                                  │      │                      JoinRoomHandler.java
+                                  │      │                      LogHistoryHandler.java
+                                  │      │                      PlayerActionHandler.java
+                                  │      │                      ReadyHandler.java
+                                  │      │                      RequestHandler.java
+                                  │      │                      StartGameHandler.java
+                                  │      │                      UpdateElementHandler.java
+                                  │      │                      UseSpecialAbilityHandler.java
+                                  │      │
+                                  │      ├─resources
+                                  │      │  └─model
+                                  │      │          cards.json
+                                  │      │          map_layout_classical.json
+                                  │      │          tiles.json
+                                  │      │
+                                  │      └─webapp
+                                  │          │  debug.jsp
+                                  │          │  index.jsp
+                                  │          │
+                                  │          ├─assets
+                                  │          │  ├─css
+                                  │          │  │  │  index.css
+                                  │          │  │  │
+                                  │          │  │  ├─components
+                                  │          │  │  │      button-base.css
+                                  │          │  │  │      card-base.css
+                                  │          │  │  │      component.css
+                                  │          │  │  │
+                                  │          │  │  ├─game
+                                  │          │  │  │  │  game.components.css
+                                  │          │  │  │  │  game.css
+                                  │          │  │  │  │
+                                  │          │  │  │  └─layout
+                                  │          │  │  │          card.css
+                                  │          │  │  │          footer.css
+                                  │          │  │  │          header.css
+                                  │          │  │  │          layout.css
+                                  │          │  │  │          left_panel.css
+                                  │          │  │  │          log-container.css
+                                  │          │  │  │          panel.css
+                                  │          │  │  │          tile.css
+                                  │          │  │  │          treasure.css
+                                  │          │  │  │          water-level.css
+                                  │          │  │  │
+                                  │          │  │  ├─pages
+                                  │          │  │  │      cover.css
+                                  │          │  │  │      creation.css
+                                  │          │  │  │      lobby.css
+                                  │          │  │  │      room.css
+                                  │          │  │  │
+                                  │          │  │  └─styles
+                                  │          │  │          style.css
+                                  │          │  │          variables-dark.css
+                                  │          │  │          variables-light.css
+                                  │          │  │
+                                  │          │  ├─Images
+                                  │          │  │  ├─bg
+                                  │          │  │  │      coverbg.png
+                                  │          │  │  │      coverbg2.png
+                                  │          │  │  │      pointer.png
+                                  │          │  │  │      seabg.png
+                                  │          │  │  │      watermeter.png
+                                  │          │  │  │
+                                  │          │  │  ├─Cards
+                                  │          │  │  │  ├─actions
+                                  │          │  │  │  │      helicopter.png
+                                  │          │  │  │  │      sandbag.png
+                                  │          │  │  │  │
+                                  │          │  │  │  ├─back
+                                  │          │  │  │  │      flood-back.png
+                                  │          │  │  │  │      treasure-back.png
+                                  │          │  │  │  │
+                                  │          │  │  │  ├─event
+                                  │          │  │  │  │      waterrise.png
+                                  │          │  │  │  │
+                                  │          │  │  │  ├─roles
+                                  │          │  │  │  │      diver.png
+                                  │          │  │  │  │      engineer.png
+                                  │          │  │  │  │      explorer.png
+                                  │          │  │  │  │      message.png
+                                  │          │  │  │  │      navigator.png
+                                  │          │  │  │  │      pilot.png
+                                  │          │  │  │  │
+                                  │          │  │  │  ├─tiles
+                                  │          │  │  │  │      Breakers Bridge.png
+                                  │          │  │  │  │      Bronze Gate.png
+                                  │          │  │  │  │      Cave of Embers.png
+                                  │          │  │  │  │      Cave of Secrets.png
+                                  │          │  │  │  │      Cave of Shadows.png
+                                  │          │  │  │  │      Cliffs of Abandon.png
+                                  │          │  │  │  │      Copper Gate.png
+                                  │          │  │  │  │      Coral Palace.png
+                                  │          │  │  │  │      Crimson Forest.png
+                                  │          │  │  │  │      Dunes of Deception.png
+                                  │          │  │  │  │      Fool's Landing.png
+                                  │          │  │  │  │      Gold Gate.png
+                                  │          │  │  │  │      Howling Garden.png
+                                  │          │  │  │  │      Lost Lagoon.png
+                                  │          │  │  │  │      Misty Marsh.png
+                                  │          │  │  │  │      Observatory.png
+                                  │          │  │  │  │      Phantom Rock.png
+                                  │          │  │  │  │      Silver Gate.png
+                                  │          │  │  │  │      Temple of the Moon.png
+                                  │          │  │  │  │      Temple of the Sun.png
+                                  │          │  │  │  │      Tidal Palace.png
+                                  │          │  │  │  │      Twilight Hollow.png
+                                  │          │  │  │  │      Watchtower.png
+                                  │          │  │  │  │      Whispering Garden.png
+                                  │          │  │  │  │
+                                  │          │  │  │  └─treasure
+                                  │          │  │  │          treasure-earth.png
+                                  │          │  │  │          treasure-fire.png
+                                  │          │  │  │          treasure-water.png
+                                  │          │  │  │          treasure-wind.png
+                                  │          │  │  │
+                                  │          │  │  ├─icons
+                                  │          │  │  │  │  appicon.ico
+                                  │          │  │  │  │  player.png
+                                  │          │  │  │  │
+                                  │          │  │  │  └─treasure
+                                  │          │  │  │          treasure-earth.png
+                                  │          │  │  │          treasure-fire.png
+                                  │          │  │  │          treasure-water.png
+                                  │          │  │  │          treasure-wind.png
+                                  │          │  │  │
+                                  │          │  │  └─tiles
+                                  │          │  │          Breakers Bridge.png
+                                  │          │  │          Bronze Gate.png
+                                  │          │  │          Cave of Embers.png
+                                  │          │  │          Cave of Secrets.png
+                                  │          │  │          Cave of Shadows.png
+                                  │          │  │          Cliffs of Abandon.png
+                                  │          │  │          Copper Gate.png
+                                  │          │  │          Coral Palace.png
+                                  │          │  │          Crimson Forest.png
+                                  │          │  │          Dunes of Deception.png
+                                  │          │  │          Fool's Landing.png
+                                  │          │  │          Gold Gate.png
+                                  │          │  │          Howling Garden.png
+                                  │          │  │          Lost Lagoon.png
+                                  │          │  │          Misty Marsh.png
+                                  │          │  │          Observatory.png
+                                  │          │  │          Phantom Rock.png
+                                  │          │  │          Silver Gate.png
+                                  │          │  │          Temple of the Moon.png
+                                  │          │  │          Temple of the Sun.png
+                                  │          │  │          Tidal Palace.png
+                                  │          │  │          Twilight Hollow.png
+                                  │          │  │          Watchtower.png
+                                  │          │  │          Whispering Garden.png
+                                  │          │  │
+                                  │          │  └─js
+                                  │          │      │  app.js
+                                  │          │      │  ui-plugins.js
+                                  │          │      │
+                                  │          │      ├─api
+                                  │          │      │      inGameApi.js
+                                  │          │      │      preGameApi.js
+                                  │          │      │
+                                  │          │      ├─binders
+                                  │          │      │      inGameBinder.js
+                                  │          │      │      preGameBinder.js
+                                  │          │      │
+                                  │          │      ├─constants
+                                  │          │      │      cardIcons.js
+                                  │          │      │      config.js
+                                  │          │      │      history.js
+                                  │          │      │      roleInfo.js
+                                  │          │      │
+                                  │          │      ├─controllers
+                                  │          │      │      controls.js
+                                  │          │      │
+                                  │          │      ├─renderers
+                                  │          │      │      deckRenderer.js
+                                  │          │      │      discardRenderer.js
+                                  │          │      │      drawnCardsRenderer.js
+                                  │          │      │      footerRenderer.js
+                                  │          │      │      handRenderer.js
+                                  │          │      │      highlightRenderer.js
+                                  │          │      │      historyRenderer.js
+                                  │          │      │      mapRenderer.js
+                                  │          │      │      progressRenderer.js
+                                  │          │      │      waterMeterRenderer.js
+                                  │          │      │
+                                  │          │      └─state
+                                  │          │              gameStateStore.js
+                                  │          │
+                                  │          ├─page
+                                  │          │  │  game.html
+                                  │          │  │  index.html
+                                  │          │  │  test.html
+                                  │          │  │
+                                  │          │  └─sub
+                                  │          │          cover.html
+                                  │          │          creation.html
+                                  │          │          lobby.html
+                                  │          │          room.html
+                                  │          │
+                                  │          └─WEB-INF
+                                  │                  web.xml
+                                  │
+                                  └─target
+                                      │  ForbiddenIsland-1.0-SNAPSHOT.war
+                                      │
+                                      ├─classes
+                                      │  ├─Game
+                                      │  │  └─ForbiddenIsland
+                                      │  │      ├─controller
+                                      │  │      │      FontLoader.class
+                                      │  │      │      GameController$1.class
+                                      │  │      │      GameController.class
+                                      │  │      │      PlayerController$1.class
+                                      │  │      │      PlayerController.class
+                                      │  │      │
+                                      │  │      ├─model
+                                      │  │      │  │  ActionLogger.class
+                                      │  │      │  │  GameState.class
+                                      │  │      │  │  RoomState.class
+                                      │  │      │  │  TreasureType.class
+                                      │  │      │  │
+                                      │  │      │  ├─Board
+                                      │  │      │  │  │  Deck.class
+                                      │  │      │  │  │  DeckImp.class
+                                      │  │      │  │  │  GameMap.class
+                                      │  │      │  │  │
+                                      │  │      │  │  └─Tiles
+                                      │  │      │  │          Tile.class
+                                      │  │      │  │          TileImp.class
+                                      │  │      │  │          TileState.class
+                                      │  │      │  │
+                                      │  │      │  ├─Cards
+                                      │  │      │  │  │  Card.class
+                                      │  │      │  │  │  CardName.class
+                                      │  │      │  │  │  CardType.class
+                                      │  │      │  │  │
+                                      │  │      │  │  ├─CardActions
+                                      │  │      │  │  │      CardAction.class
+                                      │  │      │  │  │      Helicopter.class
+                                      │  │      │  │  │      SandBag.class
+                                      │  │      │  │  │      WaterRise.class
+                                      │  │      │  │  │
+                                      │  │      │  │  └─cardCategory
+                                      │  │      │  │          ActionCard.class
+                                      │  │      │  │          Card.class
+                                      │  │      │  │          FloodCard.class
+                                      │  │      │  │          TreasureCard.class
+                                      │  │      │  │
+                                      │  │      │  ├─log
+                                      │  │      │  │      GameLogEntry.class
+                                      │  │      │  │
+                                      │  │      │  ├─Players
+                                      │  │      │  │      Player.class
+                                      │  │      │  │      PlayerChoice.class
+                                      │  │      │  │      PlayerImp.class
+                                      │  │      │  │      PlayerType.class
+                                      │  │      │  │
+                                      │  │      │  ├─position
+                                      │  │      │  │      Position.class
+                                      │  │      │  │
+                                      │  │      │  └─view
+                                      │  │      │          GameStateView.class
+                                      │  │      │          PlayerView.class
+                                      │  │      │          TileView.class
+                                      │  │      │
+                                      │  │      ├─util
+                                      │  │      │  │  ActionContext$Builder.class
+                                      │  │      │  │  ActionContext.class
+                                      │  │      │  │  GameStateMapper.class
+                                      │  │      │  │  JsonUtil.class
+                                      │  │      │  │
+                                      │  │      │  └─factory
+                                      │  │      │          CardFactory$1.class
+                                      │  │      │          CardFactory$2.class
+                                      │  │      │          CardFactory$CardData.class
+                                      │  │      │          CardFactory.class
+                                      │  │      │          MapFactory$1.class
+                                      │  │      │          MapFactory.class
+                                      │  │      │          PlayerFactory.class
+                                      │  │      │
+                                      │  │      └─WebReceiveServlet
+                                      │  │          │  WebReceiveServlet.class
+                                      │  │          │
+                                      │  │          └─Handler
+                                      │  │                  CreateRoomHandler.class
+                                      │  │                  DeckHandler.class
+                                      │  │                  DestroyRoomHandler.class
+                                      │  │                  ExitRoomHandler.class
+                                      │  │                  ExperimentHandler.class
+                                      │  │                  GetPlayerNumHandler.class
+                                      │  │                  GetRoomStatusHandler.class
+                                      │  │                  JoinRoomHandler.class
+                                      │  │                  LogHistoryHandler.class
+                                      │  │                  PlayerActionHandler.class
+                                      │  │                  ReadyHandler.class
+                                      │  │                  RequestHandler.class
+                                      │  │                  StartGameHandler.class
+                                      │  │                  UpdateElementHandler.class
+                                      │  │                  UseSpecialAbilityHandler.class
+                                      │  │
+                                      │  └─model
+                                      │          cards.json
+                                      │          map_layout_classical.json
+                                      │          tiles.json
+                                      │
+                                      ├─ForbiddenIsland-1.0-SNAPSHOT
+                                      │  │  debug.jsp
+                                      │  │  index.jsp
+                                      │  │
+                                      │  ├─assets
+                                      │  │  ├─css
+                                      │  │  │  │  index.css
+                                      │  │  │  │
+                                      │  │  │  ├─components
+                                      │  │  │  │      button-base.css
+                                      │  │  │  │      card-base.css
+                                      │  │  │  │      component.css
+                                      │  │  │  │
+                                      │  │  │  ├─game
+                                      │  │  │  │  │  game.components.css
+                                      │  │  │  │  │  game.css
+                                      │  │  │  │  │
+                                      │  │  │  │  └─layout
+                                      │  │  │  │      │  card.css
+                                      │  │  │  │      │  footer.css
+                                      │  │  │  │      │  header.css
+                                      │  │  │  │      │  layout.css
+                                      │  │  │  │      │  left_panel.css
+                                      │  │  │  │      │  log-container.css
+                                      │  │  │  │      │  panel.css
+                                      │  │  │  │      │  tile.css
+                                      │  │  │  │      │  treasure.css
+                                      │  │  │  │      │  water-level.css
+                                      │  │  │  │      │
+                                      │  │  │  │      ├─left-panel
+                                      │  │  │  │      └─right-panel
+                                      │  │  │  ├─pages
+                                      │  │  │  │      cover.css
+                                      │  │  │  │      creation.css
+                                      │  │  │  │      lobby.css
+                                      │  │  │  │      room.css
+                                      │  │  │  │
+                                      │  │  │  └─styles
+                                      │  │  │          style.css
+                                      │  │  │          variables-dark.css
+                                      │  │  │          variables-light.css
+                                      │  │  │
+                                      │  │  ├─Images
+                                      │  │  │  ├─bg
+                                      │  │  │  │      coverbg.png
+                                      │  │  │  │      coverbg2.png
+                                      │  │  │  │      pointer.png
+                                      │  │  │  │      seabg.png
+                                      │  │  │  │      watermeter.png
+                                      │  │  │  │
+                                      │  │  │  ├─Cards
+                                      │  │  │  │  ├─actions
+                                      │  │  │  │  │      helicopter.png
+                                      │  │  │  │  │      sandbag.png
+                                      │  │  │  │  │
+                                      │  │  │  │  ├─back
+                                      │  │  │  │  │      flood-back.png
+                                      │  │  │  │  │      treasure-back.png
+                                      │  │  │  │  │
+                                      │  │  │  │  ├─event
+                                      │  │  │  │  │      waterrise.png
+                                      │  │  │  │  │
+                                      │  │  │  │  ├─roles
+                                      │  │  │  │  │      diver.png
+                                      │  │  │  │  │      engineer.png
+                                      │  │  │  │  │      explorer.png
+                                      │  │  │  │  │      message.png
+                                      │  │  │  │  │      navigator.png
+                                      │  │  │  │  │      pilot.png
+                                      │  │  │  │  │
+                                      │  │  │  │  ├─special
+                                      │  │  │  │  ├─tiles
+                                      │  │  │  │  │      Breakers Bridge.png
+                                      │  │  │  │  │      Bronze Gate.png
+                                      │  │  │  │  │      Cave of Embers.png
+                                      │  │  │  │  │      Cave of Secrets.png
+                                      │  │  │  │  │      Cave of Shadows.png
+                                      │  │  │  │  │      Cliffs of Abandon.png
+                                      │  │  │  │  │      Copper Gate.png
+                                      │  │  │  │  │      Coral Palace.png
+                                      │  │  │  │  │      Crimson Forest.png
+                                      │  │  │  │  │      Dunes of Deception.png
+                                      │  │  │  │  │      Fool's Landing.png
+                                      │  │  │  │  │      Gold Gate.png
+                                      │  │  │  │  │      Howling Garden.png
+                                      │  │  │  │  │      Lost Lagoon.png
+                                      │  │  │  │  │      Misty Marsh.png
+                                      │  │  │  │  │      Observatory.png
+                                      │  │  │  │  │      Phantom Rock.png
+                                      │  │  │  │  │      Silver Gate.png
+                                      │  │  │  │  │      Temple of the Moon.png
+                                      │  │  │  │  │      Temple of the Sun.png
+                                      │  │  │  │  │      Tidal Palace.png
+                                      │  │  │  │  │      Twilight Hollow.png
+                                      │  │  │  │  │      Watchtower.png
+                                      │  │  │  │  │      Whispering Garden.png
+                                      │  │  │  │  │
+                                      │  │  │  │  └─treasure
+                                      │  │  │  │          treasure-earth.png
+                                      │  │  │  │          treasure-fire.png
+                                      │  │  │  │          treasure-water.png
+                                      │  │  │  │          treasure-wind.png
+                                      │  │  │  │
+                                      │  │  │  ├─icon
+                                      │  │  │  ├─icons
+                                      │  │  │  │  │  appicon.ico
+                                      │  │  │  │  │  player.png
+                                      │  │  │  │  │
+                                      │  │  │  │  └─treasure
+                                      │  │  │  │          treasure-earth.png
+                                      │  │  │  │          treasure-fire.png
+                                      │  │  │  │          treasure-water.png
+                                      │  │  │  │          treasure-wind.png
+                                      │  │  │  │
+                                      │  │  │  └─tiles
+                                      │  │  │          Breakers Bridge.png
+                                      │  │  │          Bronze Gate.png
+                                      │  │  │          Cave of Embers.png
+                                      │  │  │          Cave of Secrets.png
+                                      │  │  │          Cave of Shadows.png
+                                      │  │  │          Cliffs of Abandon.png
+                                      │  │  │          Copper Gate.png
+                                      │  │  │          Coral Palace.png
+                                      │  │  │          Crimson Forest.png
+                                      │  │  │          Dunes of Deception.png
+                                      │  │  │          Fool's Landing.png
+                                      │  │  │          Gold Gate.png
+                                      │  │  │          Howling Garden.png
+                                      │  │  │          Lost Lagoon.png
+                                      │  │  │          Misty Marsh.png
+                                      │  │  │          Observatory.png
+                                      │  │  │          Phantom Rock.png
+                                      │  │  │          Silver Gate.png
+                                      │  │  │          Temple of the Moon.png
+                                      │  │  │          Temple of the Sun.png
+                                      │  │  │          Tidal Palace.png
+                                      │  │  │          Twilight Hollow.png
+                                      │  │  │          Watchtower.png
+                                      │  │  │          Whispering Garden.png
+                                      │  │  │
+                                      │  │  └─js
+                                      │  │      │  app.js
+                                      │  │      │  ui-plugins.js
+                                      │  │      │
+                                      │  │      ├─api
+                                      │  │      │      inGameApi.js
+                                      │  │      │      preGameApi.js
+                                      │  │      │
+                                      │  │      ├─binders
+                                      │  │      │      inGameBinder.js
+                                      │  │      │      preGameBinder.js
+                                      │  │      │
+                                      │  │      ├─constants
+                                      │  │      │      cardIcons.js
+                                      │  │      │      config.js
+                                      │  │      │      history.js
+                                      │  │      │      roleInfo.js
+                                      │  │      │
+                                      │  │      ├─controllers
+                                      │  │      │      controls.js
+                                      │  │      │
+                                      │  │      ├─renderers
+                                      │  │      │      deckRenderer.js
+                                      │  │      │      discardRenderer.js
+                                      │  │      │      drawnCardsRenderer.js
+                                      │  │      │      footerRenderer.js
+                                      │  │      │      handRenderer.js
+                                      │  │      │      highlightRenderer.js
+                                      │  │      │      historyRenderer.js
+                                      │  │      │      mapRenderer.js
+                                      │  │      │      progressRenderer.js
+                                      │  │      │      waterMeterRenderer.js
+                                      │  │      │
+                                      │  │      └─state
+                                      │  │              gameStateStore.js
+                                      │  │
+                                      │  ├─META-INF
+                                      │  │      MANIFEST.MF
+                                      │  │
+                                      │  ├─page
+                                      │  │  │  game.html
+                                      │  │  │  index.html
+                                      │  │  │  test.html
+                                      │  │  │
+                                      │  │  └─sub
+                                      │  │          cover.html
+                                      │  │          creation.html
+                                      │  │          lobby.html
+                                      │  │          room.html
+                                      │  │
+                                      │  └─WEB-INF
+                                      │      │  web.xml
+                                      │      │
+                                      │      ├─classes
+                                      │      │  ├─Game
+                                      │      │  │  └─ForbiddenIsland
+                                      │      │  │      ├─controller
+                                      │      │  │      │      FontLoader.class
+                                      │      │  │      │      GameController$1.class
+                                      │      │  │      │      GameController.class
+                                      │      │  │      │      PlayerController$1.class
+                                      │      │  │      │      PlayerController.class
+                                      │      │  │      │
+                                      │      │  │      ├─model
+                                      │      │  │      │  │  ActionLogger.class
+                                      │      │  │      │  │  GameState.class
+                                      │      │  │      │  │  RoomState.class
+                                      │      │  │      │  │  TreasureType.class
+                                      │      │  │      │  │
+                                      │      │  │      │  ├─Board
+                                      │      │  │      │  │  │  Deck.class
+                                      │      │  │      │  │  │  DeckImp.class
+                                      │      │  │      │  │  │  GameMap.class
+                                      │      │  │      │  │  │
+                                      │      │  │      │  │  └─Tiles
+                                      │      │  │      │  │          Tile.class
+                                      │      │  │      │  │          TileImp.class
+                                      │      │  │      │  │          TileState.class
+                                      │      │  │      │  │
+                                      │      │  │      │  ├─Cards
+                                      │      │  │      │  │  │  Card.class
+                                      │      │  │      │  │  │  CardName.class
+                                      │      │  │      │  │  │  CardType.class
+                                      │      │  │      │  │  │
+                                      │      │  │      │  │  ├─CardActions
+                                      │      │  │      │  │  │      CardAction.class
+                                      │      │  │      │  │  │      Helicopter.class
+                                      │      │  │      │  │  │      SandBag.class
+                                      │      │  │      │  │  │      WaterRise.class
+                                      │      │  │      │  │  │
+                                      │      │  │      │  │  └─cardCategory
+                                      │      │  │      │  │          ActionCard.class
+                                      │      │  │      │  │          Card.class
+                                      │      │  │      │  │          FloodCard.class
+                                      │      │  │      │  │          TreasureCard.class
+                                      │      │  │      │  │
+                                      │      │  │      │  ├─log
+                                      │      │  │      │  │      GameLogEntry.class
+                                      │      │  │      │  │
+                                      │      │  │      │  ├─Players
+                                      │      │  │      │  │      Player.class
+                                      │      │  │      │  │      PlayerChoice.class
+                                      │      │  │      │  │      PlayerImp.class
+                                      │      │  │      │  │      PlayerType.class
+                                      │      │  │      │  │
+                                      │      │  │      │  ├─position
+                                      │      │  │      │  │      Position.class
+                                      │      │  │      │  │
+                                      │      │  │      │  └─view
+                                      │      │  │      │          GameStateView.class
+                                      │      │  │      │          PlayerView.class
+                                      │      │  │      │          TileView.class
+                                      │      │  │      │
+                                      │      │  │      ├─util
+                                      │      │  │      │  │  ActionContext$Builder.class
+                                      │      │  │      │  │  ActionContext.class
+                                      │      │  │      │  │  GameStateMapper.class
+                                      │      │  │      │  │  JsonUtil.class
+                                      │      │  │      │  │
+                                      │      │  │      │  └─factory
+                                      │      │  │      │          CardFactory$1.class
+                                      │      │  │      │          CardFactory$2.class
+                                      │      │  │      │          CardFactory$CardData.class
+                                      │      │  │      │          CardFactory.class
+                                      │      │  │      │          MapFactory$1.class
+                                      │      │  │      │          MapFactory.class
+                                      │      │  │      │          PlayerFactory.class
+                                      │      │  │      │
+                                      │      │  │      ├─WebReceiveServlet
+                                      │      │  │      │  │  WebReceiveServlet.class
+                                      │      │  │      │  │
+                                      │      │  │      │  └─Handler
+                                      │      │  │      │          CreateRoomHandler.class
+                                      │      │  │      │          DeckHandler.class
+                                      │      │  │      │          DestroyRoomHandler.class
+                                      │      │  │      │          ExitRoomHandler.class
+                                      │      │  │      │          ExperimentHandler.class
+                                      │      │  │      │          GetPlayerNumHandler.class
+                                      │      │  │      │          GetRoomStatusHandler.class
+                                      │      │  │      │          JoinRoomHandler.class
+                                      │      │  │      │          LogHistoryHandler.class
+                                      │      │  │      │          PlayerActionHandler.class
+                                      │      │  │      │          ReadyHandler.class
+                                      │      │  │      │          RequestHandler.class
+                                      │      │  │      │          StartGameHandler.class
+                                      │      │  │      │          UpdateElementHandler.class
+                                      │      │  │      │          UseSpecialAbilityHandler.class
+                                      │      │  │      │
+                                      │      │  │      ├─WebReceiveServlet1234
+                                      │      │  │      └─WebReceiveServletTest
+                                      │      │  │          └─Handler
+                                      │      │  └─model
+                                      │      │          cards.json
+                                      │      │          map_layout_classical.json
+                                      │      │          tiles.json
+                                      │      │
+                                      │      └─lib
+                                      │              fastjson-1.2.83.jar
+                                      │              jackson-annotations-2.15.2.jar
+                                      │              jackson-core-2.15.2.jar
+                                      │              jackson-databind-2.15.2.jar
+                                      │
+                                      ├─generated-sources
+                                      │  └─annotations
+                                      ├─maven-archiver
+                                      │      pom.properties
+                                      │
+                                      └─maven-status
+                                          └─maven-compiler-plugin
+                                              └─compile
+                                                  └─default-compile
+                                                          createdFiles.lst
+                                                          inputFiles.lst
+

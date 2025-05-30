@@ -49,6 +49,8 @@ public class GameController {
             initializePlayers(playerCount);
             initializeWaterLevel(difficultyLevel);
             initializeDecks();
+            dealInitialTreasureCards();
+            initialFloodDraw();
             initialized = true;
             startTurn();
         }
