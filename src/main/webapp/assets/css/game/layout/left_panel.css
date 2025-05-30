@@ -42,12 +42,12 @@
 }
 
 #treasure-deck {
-    background-image: url('../../../../assets/Images/Cards/back/flood-back.png');
+    background-image: url('../../../../assets/Images/Cards/back/treasure-back.png');
 }
 
 
 #flood-deck {
-    background-image: url('../../../../assets/Images/Cards/back/treasure-back.png');
+    background-image: url('../../../../assets/Images/Cards/back/flood-back.png');
 }
 
 /* 牌堆计数显示 */
