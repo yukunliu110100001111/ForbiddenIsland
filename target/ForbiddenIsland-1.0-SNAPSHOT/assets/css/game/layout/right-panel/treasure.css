@@ -1,0 +1,19 @@
+.treasure-progress {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 0;
+}
+
+.treas-icon {
+    width: 32px;
+    height: 32px;
+    filter: grayscale(100%);
+    opacity: 0.5;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
+.treas-icon.collected {
+    filter: none;
+    opacity: 1;
+}
