@@ -42,6 +42,7 @@
 /* —— 标题样式 —— */
 #cover-title {
     font-size: var(--font-size-tittle);
+    font-family: 'Jolly Lodger', cursive;
     margin: 0;
     color: var(--cover-title-color, #fff9d2);
     /* 如果你在主题文件中定义了下面两个变量，就会采用变量值；否则退回到这两个默认阴影 */

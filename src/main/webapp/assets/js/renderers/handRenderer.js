@@ -1,7 +1,23 @@
 import { cardHtml } from '../constants/cardIcons.js';
 
 /**
- * 渲染当前玩家的手牌列表
+ * 渲染所有玩家的手牌
+ * @param {Array} allHands - 所有玩家的手牌数组，例如 [[card1, card2], [card3], ...]
+ * @param {HTMLElement} playersFooter - #players-footer 节点
+ */
+export function renderAllHands(allHands, playersFooter) {
+    if (!playersFooter) {
+        console.warn('renderAllHands: playersFooter is null or undefined');
+        return;
+    }
+    const handDivs = playersFooter.querySelectorAll('.hand');
+    for (let i = 0; i < handDivs.length; ++i) {
+        renderHand(allHands[i] || [], handDivs[i]);
+    }
+}
+
+/**
+ * 渲染单个玩家的手牌列表
  * @param {Array} hand - 玩家手牌数组，元素格式: { cardName, cardType, ... }
  * @param {HTMLElement} container - 承载手牌的 DOM 容器
  */
@@ -25,10 +41,8 @@ export function renderHand(hand, container) {
 
     // 有手牌时逐张渲染
     hand.forEach(card => {
-        // cardHtml 返回一个带有 class 的字符串，如 <div class="card card-treasure">TREASURE</div>
         const wrapper = document.createElement('div');
         wrapper.innerHTML = cardHtml(card);
-        // 取出最外层元素并添加到 container
         const cardEl = wrapper.firstElementChild;
         if (cardEl) container.appendChild(cardEl);
     });

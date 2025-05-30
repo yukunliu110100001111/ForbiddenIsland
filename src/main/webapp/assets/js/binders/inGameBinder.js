@@ -3,7 +3,7 @@
 import { pull }            from '../state/gameStateStore.js';
 import { renderTiles }      from '../renderers/mapRenderer.js';
 import { renderFooter }     from '../renderers/footerRenderer.js';
-import { renderHand }       from '../renderers/handRenderer.js';
+import {renderAllHands, renderHand} from '../renderers/handRenderer.js';
 import { renderWaterMeter } from '../renderers/waterMeterRenderer.js';
 import { renderDeckCounts } from '../renderers/deckRenderer.js';
 import { renderDrawnCards } from '../renderers/drawnCardsRenderer.js';
@@ -20,7 +20,7 @@ export async function bindInGame() {
     const dom = {
         mapLayer:         document.getElementById('tiles-layer'),
         footer:           document.getElementById('players-footer'),
-        hand:             document.getElementById('hand-container'),
+        playersFooter:    document.getElementById('players-footer'),
         status:           document.getElementById('action-status'),
         treasureCount:    document.getElementById('treasure-count'),
         floodCount:       document.getElementById('flood-count'),
@@ -39,7 +39,6 @@ export async function bindInGame() {
         modal:    document.getElementById('result-modal'),
         titleEl:  document.getElementById('result-title'),
         restart:  document.getElementById('btn-restart'),
-        // 新增历史面板
         historyList: document.getElementById('history-list')
     };
 
@@ -125,6 +124,7 @@ export async function bindInGame() {
         // 3. 其它区域渲染
         renderFooter( gs.players, gs.myPlayerIndex, gs.currentPlayerIndex, dom.footer );
         renderHand(   gs.players?.[gs.myPlayerIndex]?.hand || [], dom.hand );
+        renderAllHands(gs.players.map(p => p.hand), document.getElementById('players-footer'));
         renderWaterMeter( gs.waterLevel, document.getElementById('water-meter') );
         renderDeckCounts( gs.treasureDeckRemaining, gs.floodDeckRemaining );
         renderDrawnCards( gs.recentTreasureDraws, gs.recentFloodDraws, dom.drawnCards );
