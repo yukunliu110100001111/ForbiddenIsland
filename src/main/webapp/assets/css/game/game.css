@@ -10,12 +10,12 @@
 /* 布局模块 */
 @import url('./layout/header.css');
 @import url('./layout/panel.css');
-@import url('./layout/player.css');
+@import url('layout/footer.css');
 @import url('layout/layout.css');
 
 /* 组件模块 */
 @import url('layout/tile.css');
-@import url('./card.css');
+@import url('layout/card.css');
 @import url('layout/left_panel.css');
 @import url('./layout/water-level.css');
 @import url('./layout/log-container.css');

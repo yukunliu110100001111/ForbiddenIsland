@@ -1,6 +1,7 @@
 package Game.ForbiddenIsland.WebReceiveServlet.Handler;
 
 import Game.ForbiddenIsland.controller.GameController;
+import Game.ForbiddenIsland.model.ActionLogger;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.*;
 
@@ -25,13 +26,22 @@ public class UpdateElementHandler implements RequestHandler {
         Integer myIdx = (Integer) session.getAttribute("playerIndex");
         if (myIdx == null) myIdx = 0;
 
+        ActionLogger logger = (ActionLogger) ctx.getAttribute("actionLogger");
+
+
+        String logHtml = (logger != null) ? logger.getLogsAsHtml() : "";
         String gameJson = gc.getGameStateJson();
         int braceIdx = gameJson.indexOf('{');
 
         String result = braceIdx >= 0
-                ? gameJson.substring(0, braceIdx + 1) + "\"myPlayerIndex\":" + myIdx + "," + gameJson.substring(braceIdx + 1)
-                : "{\"myPlayerIndex\":" + myIdx + "}";
+                ? gameJson.substring(0, braceIdx + 1)
+                + "\"myPlayerIndex\":" + myIdx + ",\"logs\":\"" + escape(logHtml) + "\","
+                + gameJson.substring(braceIdx + 1)
+                : "{\"myPlayerIndex\":" + myIdx + ",\"logs\":\"" + escape(logHtml) + "\"}";
 
         out.println(result);
+    }
+    private String escape(String input) {
+        return input.replace("\"", "\\\"").replace("\n", "").replace("\r", "");
     }
 }

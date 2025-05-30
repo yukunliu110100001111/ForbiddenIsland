@@ -117,8 +117,6 @@ public class GameController {
             gameState.setFloodDeckRemaining(((DeckImp<?>) gameState.getFloodDeck()).getDrawPileSize());
 
         }
-        System.out.println("初始宝藏牌数：" + gameState.getTreasureDeckRemaining());
-        System.out.println("初始洪水牌数：" + gameState.getFloodDeckRemaining());
     }
 
     public void startTurn() {
@@ -131,7 +129,7 @@ public class GameController {
         drawFloodCards();
         checkGameState();
         gameState.nextPlayer();
-        actionsRemaining = 3; // ⭐ 每次新回合重置剩余行动数
+        actionsRemaining = 3;
     }
 
     private void drawTreasureCards() {
@@ -225,7 +223,6 @@ public class GameController {
 
     public boolean useSpecialAbility(Player player, Object... params) {
         if (actionsRemaining <= 0) return false;
-        
         switch (player.getType()) {
             case PILOT:
                 return usePilotAbility(player, (Tile) params[0]);
@@ -426,6 +423,7 @@ public class GameController {
         gameState.discardTreasure(card);
         actionContext.getTargetPlayers().get(0).removeCard(card);
     }
+
     public String getGameStateJson() {
         GameStateView view = GameStateMapper.fromGameState(this.gameState);
         return JsonUtil.toJson(view);

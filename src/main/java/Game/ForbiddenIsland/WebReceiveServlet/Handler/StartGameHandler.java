@@ -2,6 +2,7 @@ package Game.ForbiddenIsland.WebReceiveServlet.Handler;
 
 import Game.ForbiddenIsland.controller.GameController;
 import Game.ForbiddenIsland.controller.PlayerController;
+import Game.ForbiddenIsland.model.ActionLogger;
 import Game.ForbiddenIsland.model.RoomState;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.*;
@@ -49,6 +50,7 @@ public class StartGameHandler implements RequestHandler {
         ServletContext ctx = req.getServletContext();
         ctx.setAttribute("gameController", gc);
         ctx.setAttribute("playerController", pc);
+        ctx.setAttribute("actionLogger", new ActionLogger());
 
         out.println("{\"message\":\"Game started successfully.\",\"playerIndex\":" + myIdx + "}");
     }

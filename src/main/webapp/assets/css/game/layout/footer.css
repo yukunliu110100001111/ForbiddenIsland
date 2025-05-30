@@ -132,3 +132,15 @@
         gap: 4px;
     }
 }
+
+.player {
+    cursor: pointer;
+    /* 其他样式 */
+}
+.player.active-player {
+    outline: 2px solid gold;
+    background: rgba(255,255,224,0.2);
+}
+.player.me {
+    border: 2px solid #2196f3;
+}

@@ -30,7 +30,7 @@ public class PlayerActionHandler implements RequestHandler {
             }
         }
 
-        pc.receiveAndAllocate(sb.toString());
+        pc.receiveAndAllocate(sb.toString(),ctx);
         out.println("{\"message\":\"Action received.\"}");
     }
 }

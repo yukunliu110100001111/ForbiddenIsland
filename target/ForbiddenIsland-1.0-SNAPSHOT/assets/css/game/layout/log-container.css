@@ -1,16 +1,34 @@
+
+
 #action-log-container {
+    /* 保持原有属性 */
     margin-top: 16px;
     background: #222b;
     border-radius: 12px;
+    flex-direction: column;
+    flex: 1 1 auto;
     box-shadow: 0 2px 8px #0007;
     padding: 8px 12px;
-    max-height: 320px;   /* 可根据右侧面板高度适配 */
-    min-height: 120px;
+    width: 100%;
     overflow-y: auto;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    color: #eee;
+    gap: 7px;
+
+    /* 新增换行处理 */
+    word-wrap: break-word;    /* 允许单词内断行 */
+    overflow-wrap: anywhere; /* 现代浏览器推荐属性 */
+    white-space: pre-wrap;   /* 保留空白符但允许换行 */
+    hyphens: auto;           /* 启用连字符(需要lang属性支持) */
 }
+
+/* 如果包含代码等特殊内容 */
+#action-log-container pre,
+#action-log-container code {
+    white-space: pre-wrap;   /* 保留代码格式同时换行 */
+    word-break: break-all;
+}
+
 
 #action-log-title {
     font-weight: bold;

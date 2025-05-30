@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 60px;
     padding: 8px;
     box-sizing: border-box;
 }
@@ -20,9 +20,7 @@
 .discard-pile,
 .card-pile {
     position: relative;
-    width: 60px;
-    height: 90px;
-    background: #333;
+    width: 60%;
     border: 2px solid #555;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -36,14 +34,18 @@
     width: 100%;
     height: 100%;
     /* 关键修改1：添加明确的尺寸限制 */
-    min-width: 60px;
-    min-height: 90px;
+    min-width: 80px;
+    min-height: 120px;
     /* 关键修改2：调整背景定位方式 */
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;  /* 替换原来的cover */
     border-radius: inherit;
     pointer-events: none;
+}
+
+.deck-label {
+    margin-top: 20px;
 }
 
 #treasure-deck .card-back {
@@ -65,6 +67,7 @@
     font-weight: bold;
     color: #fff;
     text-shadow: 0 1px 2px #000;
+    z-index:5;
 }
 
 .deck-empty {
@@ -80,8 +83,8 @@
 }
 
 .drawn-card {
-    width: 60px;
-    height: 90px;
+    width: 120px;
+    height: 180px;
     background: #222;
     border: 2px dashed #444;
     border-radius: 6px;
@@ -97,7 +100,7 @@
 
 /* 弃牌堆特殊样式 */
 .discard-pile {
-    margin-top: 12px;
+    margin-top: 30px;
 }
 
 .discard-pile .drawn-card {
@@ -108,8 +111,8 @@
 
 .discard-pile {
     position: relative;    /* 确保内部 img 绝对定位基于这里 */
-    width: 160px;          /* 根据实际卡牌大小 */
-    height: 240px;
+    width: 120px;          /* 根据实际卡牌大小 */
+    height: 180px;
 }
 .discard-pile .discard-card {
     width: 100%;    /* 或具体 px */

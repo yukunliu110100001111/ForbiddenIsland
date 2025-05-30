@@ -1,118 +1,141 @@
 // controllers/controls.js
 import * as api from '../api/inGameApi.js';
 
-let currentAction = null;
-let selectedCard   = null;
+let currentAction = null;   // 当前按钮动作
+let pendingCard   = null;   // GIVE_CARD –  已选中的 cardId
 
-/** 暴露给高亮渲染用 */
-export function getCurrentAction() {
-    return currentAction;
-}
+/* 提供给其它模块做高亮参考 */
+export function getCurrentAction() { return currentAction; }
 
 /**
- * 绑定所有按钮和点击事件
- * @param {{move,shore,take,give,spec,end}} btns  — 各按钮 DOM
- * @param {Function} onRefresh                  — 完成操作后刷新页面的回调
+ * 绑定所有控件
+ * @param {Object}   btns      - 结构同 inGameBinder 传入：{move,shore,take,use,give,spec,end,reset}
+ * @param {Function} onRefresh - 操作完成后重新拉取并刷新 UI
  */
 export function wireControls(btns, onRefresh) {
-    currentAction = null;
-    selectedCard   = null;
 
-    // ----- 辅助函数 -----
-    const clear = () => {
+    /* ---------- 小工具 ---------- */
+    const clearUi = () => {
         currentAction = null;
-        selectedCard   = null;
-        // 清掉按钮高亮
-        Object.values(btns).forEach(b => b?.classList.remove('active'));
-        // 清掉手牌选中态
-        document.querySelectorAll('.card.selected').forEach(c => c.classList.remove('selected'));
+        pendingCard   = null;
+        document.querySelectorAll('.color-btn.active')
+            .forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.card.selected')
+            .forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll('.player.target')
+            .forEach(p => p.classList.remove('target'));
     };
 
     const setAct = act => {
-        clear();
+        clearUi();
         currentAction = act;
-        // 给对应按钮打高亮
-        Object.entries(btns).forEach(([key, b]) => {
+        const map = {
+            MOVE:   'move',
+            SHORE_UP: 'shore',
+            COLLECT_TREASURE: 'take',
+            USE_CARD: 'use',
+            GIVE_CARD: 'give',
+        };
+        Object.entries(btns).forEach(([k, b])=>{
             if (!b) return;
-            let active = false;
-            if (act === 'MOVE'  && key === 'move') active = true;
-            if (act === 'SHORE_UP'         && key === 'shore') active = true;
-            if (act === 'COLLECT_TREASURE' && key === 'take')  active = true;
-            if (act === 'GIVE_CARD'        && key === 'give')  active = true;
-            b.classList.toggle('active', active);
+            b.classList.toggle('active', map[act] === k);
         });
     };
 
-    // ----- 按钮绑定 -----
-    btns.move.onclick  = () => setAct('MOVE');
+    /* ---------- 顶部按钮 ---------- */
+    btns.move .onclick = () => setAct('MOVE');
     btns.shore.onclick = () => setAct('SHORE_UP');
-    btns.take.onclick  = () => setAct('COLLECT_TREASURE');
-    if (btns.give)     btns.give.onclick  = () => setAct('GIVE_CARD');
+    btns.take .onclick = () => setAct('COLLECT_TREASURE');
+    if (btns.use)  btns.use .onclick = () => setAct('USE_CARD');
+    if (btns.give) btns.give.onclick = () => setAct('GIVE_CARD');
 
-    // “Special” 一般直接在后端执行特殊卡
-    btns.spec.onclick = async () => {
-        clear();
+    btns.spec.onclick = async () => {            // “Special”
+        clearUi();
         await api.useSpecialAbility();
         onRefresh();
     };
-    // “End Turn” 直接结算
-    btns.end.onclick = async () => {
-        clear();
-        await api.sendAction({ action: 'END_TURN' });
+    btns.end .onclick = async () => {            // “End Turn”
+        clearUi();
+        await api.sendAction({ action:'END_TURN' });
+        onRefresh();
+    };
+    if (btns.reset) btns.reset.onclick = async ()=>{
+        clearUi();
+        await api.resetGame();
         onRefresh();
     };
 
-    // ----- 地图格子点击 -----
+    /* ---------- 地图点击（MOVE / SHORE_UP / COLLECT_TREASURE） ---------- */
     document.getElementById('map-container')
-        .addEventListener('click', async e => {
+        .addEventListener('click', async ev=>{
             if (!currentAction) return;
-            const tile = e.target.closest('.tile');
+            if (!['MOVE','SHORE_UP','COLLECT_TREASURE'].includes(currentAction)) return;
+            const tile = ev.target.closest('.tile');
             if (!tile) return;
-            // 只有 MOVE / SHORE_UP / COLLECT_TREASURE 三种会走到这
             await api.sendAction({
                 action: currentAction,
                 x: +tile.dataset.x,
                 y: +tile.dataset.y
             });
-            clear();
+            clearUi();
             onRefresh();
         });
 
-    // ----- 手牌点击：USE_CARD & GIVE_CARD -----
-    document.getElementById('players-footer')
-        .addEventListener('click', async e => {
-            // 如果当前是使用卡片
-            if (currentAction === 'USE_CARD') {
-                const cardEl = e.target.closest('.card');
-                if (!cardEl) return;
-                const cardId = cardEl.dataset.cardId;
-                await api.sendAction({ action: 'USE_CARD', cardId: +cardId });
-                clear();
-                onRefresh();
-            }
-            // 如果当前是赠送卡片：先选牌，再点玩家
-            else if (currentAction === 'GIVE_CARD') {
-                // 点击手牌：选中牌
-                const cardEl = e.target.closest('.card');
-                if (cardEl) {
-                    selectedCard = +cardEl.dataset.cardId;
-                    document.querySelectorAll('.card.selected')
-                        .forEach(c => c.classList.remove('selected'));
-                    cardEl.classList.add('selected');
-                    return;
-                }
-                // 点击玩家头像：完成赠送
-                const playerEl = e.target.closest('.player');
-                if (playerEl && selectedCard != null) {
-                    const targetIdx = +playerEl.dataset.playerIndex;
-                    await api.sendAction({
-                        action: 'GIVE_CARD',
-                        cardId: selectedCard,
-                        targetPlayer: targetIdx
-                    });
-                    clear();
-                    onRefresh();
-                }
-            }
+    /* ---------- 左侧牌堆点击（抽牌） ---------- */
+    document.getElementById('treasure-deck')
+        ?.addEventListener('click', async ()=>{
+            await api.sendAction({ action:'DRAW_TREASURE' });
+            onRefresh();
         });
+    document.getElementById('flood-deck')
+        ?.addEventListener('click', async ()=>{
+            await api.sendAction({ action:'DRAW_FLOOD' });
+            onRefresh();
+        });
+
+    /* ---------- 底栏点击逻辑 ---------- */
+    const footer = document.getElementById('players-footer');
+
+    footer.addEventListener('click', async ev=>{
+        /* 1) 手牌点击 ---------------------------------------------------- */
+        const cardEl = ev.target.closest('.card');
+        if (cardEl) {
+            const cardId = +cardEl.dataset.cardId;
+
+            // --- USE_CARD：直接打出 ---
+            if (currentAction === 'USE_CARD') {
+                await api.sendAction({ action:'USE_CARD', cardId });
+                clearUi();
+                return onRefresh();
+            }
+
+            // --- GIVE_CARD：第一步选牌 ---
+            if (currentAction === 'GIVE_CARD') {
+                pendingCard = cardId;
+                // 视觉反馈
+                document.querySelectorAll('.card.selected')
+                    .forEach(c=>c.classList.remove('selected'));
+                cardEl.classList.add('selected');
+                return;          // 继续等待玩家点击头像
+            }
+        }
+
+        /* 2) 玩家头像 / player 容器点击 ---------------------------------- */
+        const playerEl = ev.target.closest('.player');
+        if (playerEl && currentAction === 'GIVE_CARD' && pendingCard != null) {
+            const targetIdx = +playerEl.dataset.playerIndex;
+            // 视觉反馈
+            document.querySelectorAll('.player.target')
+                .forEach(p=>p.classList.remove('target'));
+            playerEl.classList.add('target');
+
+            await api.sendAction({
+                action: 'GIVE_CARD',
+                cardId: pendingCard,
+                targetPlayer: targetIdx
+            });
+            clearUi();
+            onRefresh();
+        }
+    });
 }
