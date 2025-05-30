@@ -30,25 +30,30 @@
     color: #fff;
 }
 
-/* 卡牌背面样式 */
+/* 修正后的卡背样式 */
 .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-
-    background-size: cover;
+    /* 关键修改1：添加明确的尺寸限制 */
+    min-width: 60px;
+    min-height: 90px;
+    /* 关键修改2：调整背景定位方式 */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;  /* 替换原来的cover */
     border-radius: inherit;
     pointer-events: none;
 }
 
-#treasure-deck {
+#treasure-deck .card-back {
     background-image: url('../../../../assets/Images/Cards/back/treasure-back.png');
 }
 
-
-#flood-deck {
+#flood-deck .card-back {
     background-image: url('../../../../assets/Images/Cards/back/flood-back.png');
 }
+
 
 /* 牌堆计数显示 */
 .deck-count {
@@ -99,4 +104,17 @@
     position: absolute;
     line-height: 90px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+.discard-pile {
+    position: relative;    /* 确保内部 img 绝对定位基于这里 */
+    width: 160px;          /* 根据实际卡牌大小 */
+    height: 240px;
+}
+.discard-pile .discard-card {
+    width: 100%;    /* 或具体 px */
+    height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    pointer-events: none;
 }
