@@ -7,6 +7,7 @@ import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.Cards.cardCategory.FloodCard;
 import Game.ForbiddenIsland.model.Players.Player;
+import Game.ForbiddenIsland.model.log.GameLogEntry;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,8 @@ import java.util.Map;
 public class GameState {
     @Setter @Getter
     private List<Player> players;
+    @Getter @Setter
+    private int actionsRemaining = 3; // 每回合剩余行动数，默认3
     @Setter @Getter
     private GameMap map;
     @Setter @Getter
@@ -43,6 +46,7 @@ public class GameState {
     private int actionsLeft = 3; // 每回合剩余行动数，默认3
     private List<Card> recentTreasureDraws = new ArrayList<>();
     private List<FloodCard> recentFloodDraws = new ArrayList<>();
+    private List<GameLogEntry> history = new ArrayList<>();
     // ==================
 
     public GameState() {
@@ -78,6 +82,14 @@ public class GameState {
         return collectedTreasures.values().stream().allMatch(Boolean::booleanValue);
     }
 
+    public List<GameLogEntry> getHistory() {
+        return history;
+    }
+
+    public void addHistory(GameLogEntry entry) {
+        history.add(entry);
+    }
+
     public Player getCurrentPlayer() {
         return players.get(currentPlayerIndex);
     }
@@ -106,12 +118,15 @@ public class GameState {
         treasureDeck.discard(card);
     }
 
-    public Card drawFloodCard() {
+    public FloodCard drawFloodCard() {
         FloodCard card = (FloodCard) floodDeck.drawCard();
+        if (card == null) {
+            floodDeck.reshuffleDiscardsIntoDrawPile();
+            card = (FloodCard) floodDeck.drawCard();
+        }
         if (card != null) {
             card.flood();
             floodDeck.discard(card);
-            recentFloodDraws.add(card);
         }
         return card;
     }

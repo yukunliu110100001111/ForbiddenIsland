@@ -18,6 +18,7 @@
             <button id="btn-take" class="color-btn">Capture</button>
             <button id="btn-special" class="color-btn">Special</button>
             <button id="btn-end-turn" class="color-btn">End Turn</button>
+            <button id="btn-reset"    class="color-btn">Reset Game</button>
 
         </div>
     </header>
@@ -25,20 +26,20 @@
         <div id="game-wrapper">
             <!-- 左侧牌堆与抓牌区 -->
             <aside id="left-panel">
+                <div id="treasure-deck" class="deck">
+                    <div class="card-stack" id="treasure-stack"></div>
+                    <span class="deck-count" id="treasure-count"></span>
+                </div>
+                <div id="flood-deck" class="deck">
+                    <div class="card-stack" id="flood-stack"></div>
+                    <span class="deck-count" id="flood-count"></span>
+                </div>
+
                 <div id="discard-piles">
                     <div id="treasure-discard" class="discard-pile"></div>
                     <div id="flood-discard"    class="discard-pile"></div>
                 </div>
-                <!-- 宝藏牌堆 -->
-                <div id="treasure-deck" class="deck">
-                    🃏<br>
-                    <span id="treasure-count">--</span>
-                </div>
-                <!-- 洪水牌堆 -->
-                <div id="flood-deck" class="deck">
-                    🌊<br>
-                    <span id="flood-count">--</span>
-                </div>
+
                 <!-- 可选：显示最近抽到的两张牌 -->
                 <div id="drawn-cards">
                     <div class="drawn-card"></div>
@@ -54,7 +55,8 @@
             <!-- 右侧水位表 -->
             <aside id="right-panel">
                 <!-- 右侧水位表占位 -->
-                <div id="water-meter" class="water-meter">
+                <div id="water-meter" class="water-meter" >
+                    <img src="assets/Images/bg/watermeter.png" alt="Water Meter" class="watermeter-bg" />
                     <!-- 下面这 6 格只是占位，将来会用 renderer 给它们加高亮 -->
                     <div class="level"></div>
                     <div class="level"></div>
@@ -63,7 +65,10 @@
                     <div class="level"></div>
                     <div class="level"></div>
                 </div>
-
+                <div id="action-log-container">
+                    <div id="action-log-title">History</div>
+                    <div id="action-log"></div>
+                </div>
 
             </aside>
 
@@ -71,7 +76,6 @@
 
         <!-- 操作区、手牌、底栏的竖向组合 -->
         <div class="bottom-panel-group">
-            <div id="hand-container"></div>
             <footer id="players-footer">
                 <div class="player"><div class="avatar"></div><div class="hand"></div></div>
                 <div class="player"><div class="avatar"></div><div class="hand"></div></div>

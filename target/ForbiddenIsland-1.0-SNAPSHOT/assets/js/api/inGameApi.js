@@ -35,3 +35,10 @@ export function useSpecialAbility() {
     const url = `${BASE}?type=useSpecialAbility`;
     return callApi(url);
 }
+
+// assets/js/api/inGameApi.js
+
+export function resetGame() {
+    const url = `${BASE}?type=reset_game`;
+    return callApi(url, { method: 'POST' });
+}

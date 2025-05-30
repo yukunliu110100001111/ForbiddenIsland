@@ -1,37 +1,32 @@
-/**
- * cardIcons.js
- * 常量：卡片图标与渲染工具
- */
+// assets/js/constants/cardIcons.js
+import { BASE_HREF } from './config.js';
 
-/**
- * 生成一张卡片的 HTML
- * @param {Object} card - 后端返回的卡片对象，包含 cardName、cardType、treasureType 等
- * @returns {string} 包含 .card 和 .card-<type> class 的 HTML 字符串
- */
 export function cardHtml(card) {
-    const type = card.cardType.toLowerCase(); // treasure, action, event
-    const name = card.cardName;
-    let icon = '';
-    switch (type) {
-        case 'treasure':
-            if (card.treasureType) {
-                const tt = card.treasureType.toLowerCase();
-                icon = `<span class="icon treasure-${tt}"></span>`;
-            }
-            break;
-        case 'action':
-            icon = `<span class="icon action-icon"></span>`;
-            break;
-        case 'event':
-            icon = `<span class="icon event-icon"></span>`;
-            break;
-        default:
-            icon = '';
+    const type = card.cardType.toLowerCase(); // "treasure" / "action" / "event"
+    const name = card.cardName.toLowerCase(); // e.g. "crystal_of_fire"
+
+    // 根据类型拼图
+    let path;
+    if (type === 'treasure' && card.treasureType) {
+        path = `assets/Images/Cards/treasure/treasure-${card.treasureType.toLowerCase()}.png`;
+    } else if (type === 'action') {
+        path = `assets/Images/Cards/actions/${name}.png`;
+    } else if (type === 'event') {
+        path = `assets/Images/Cards/event/${name}.png`;
+    } else {
+        path = `assets/Images/Cards/${type}/${name}.png`;
     }
+
+    const url = BASE_HREF + path;
+
     return `
-    <div class="card card-${type}">
-      ${icon}
-      <span class="card-label">${name}</span>
+    <div class="card card-${type}"
+         style="
+           background-image: url('${url}');
+           background-size: cover;
+           background-position: center;
+         ">
+      <span class="card-label">${card.cardName.replace(/_/g,' ')}</span>
     </div>
-    `;
+  `;
 }

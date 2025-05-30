@@ -6,6 +6,11 @@ import { cardHtml } from '../constants/cardIcons.js';
  * @param {HTMLElement} container - 承载手牌的 DOM 容器
  */
 export function renderHand(hand, container) {
+    if (!container) {
+        console.warn('renderHand: container is null or undefined');
+        return;
+    }
+
     // 清空容器
     container.innerHTML = '';
 
@@ -25,6 +30,6 @@ export function renderHand(hand, container) {
         wrapper.innerHTML = cardHtml(card);
         // 取出最外层元素并添加到 container
         const cardEl = wrapper.firstElementChild;
-        container.appendChild(cardEl);
+        if (cardEl) container.appendChild(cardEl);
     });
 }

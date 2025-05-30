@@ -107,6 +107,10 @@ public class PlayerController {
                 }
             }
 
+            if (players.isEmpty()) {
+                players.add(gameController.getGameState().getCurrentPlayer());
+            }
+
             Card card = null;
             if (root.has("cardId")) {
                 card = gameController.getGameState().getCardById(root.get("cardId").asInt());

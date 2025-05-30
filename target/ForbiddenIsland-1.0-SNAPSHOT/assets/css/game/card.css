@@ -1,37 +1,39 @@
-/* —— card.css —— */
+/* —— 优化后的卡牌样式 —— */
 /* 默认纸牌尺寸与比例 */
 :root {
     --card-aspect-ratio: 5 / 7; /* 5:7 宽高比 */
     --card-width: 80px; /* 默认宽度 */
-    --card-face-url: none; /* 卡面图 URL 接口 */
 }
 
-/* 纸牌容器 */
+/* 基础卡片样式 - 确保图像完全填充 */
 .card {
     width: var(--card-width);
     aspect-ratio: var(--card-aspect-ratio);
+    background:
+        /* 白色底作为后备 */
+            #fff
+                /* 卡面图覆盖整个区域 */
+            center / cover no-repeat
+                /* 通过内联样式覆盖的图片 URL */
+            var(--card-face-url, none);
 
-    /* 白底 + 黑轮廓 */
-    background-color: #ffffff;
     border: 1px solid #000000;
-
-    /* 卡面图覆盖在白底之上 */
-    background-image: var(--card-face-url);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-
     border-radius: var(--radius-sm, 6px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: var(--spacing-sm, 4px);
-
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    transition: transform var(--transition-fast, 0.2s) ease,
-    box-shadow var(--transition-fast, 0.2s) ease;
+    transition:
+            transform var(--transition-fast, 0.2s) ease,
+            box-shadow var(--transition-fast, 0.2s) ease;
 }
 
+/* 移除可能干扰背景的填充 */
+.card {
+    padding: 0 !important;
+}
+
+/* 卡片悬停效果 */
 .card:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
@@ -41,11 +43,42 @@
     transform: translateY(0) scale(1);
 }
 
-/* 可选：右上角角标 */
-.card__corner {
+/* 抽牌区样式优化 */
+#drawn-cards {
+    display: flex;
+    gap: 8px;
+    padding: 4px;
+}
+
+#drawn-cards .drawn-card {
+    /* 使用与.card相同的宽高比 */
+    width: 64px;
+    aspect-ratio: 5/7;
+
+    /* 统一背景处理 */
+    background:
+            #fff
+            center / cover no-repeat;
+
+    border: 1px solid transparent; /* 初始透明边框 */
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: border-color 0.2s ease;
+}
+
+/* 有牌时的激活状态 */
+#drawn-cards .drawn-card.active {
+    border: 2px solid #5ccfff;
+}
+
+/* 可选：卡片标签样式 */
+.card-label {
     position: absolute;
-    top: 4px;
-    left: 4px;
-    font-size: 0.6rem;
-    color: #000;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.7rem;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2px 0;
 }

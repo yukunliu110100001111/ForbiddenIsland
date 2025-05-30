@@ -89,25 +89,18 @@ export function renderTiles(board = [], players = [], layer) {
     const pawnSize = tileSize / 3;
     players.forEach((p, idx) => {
         const { x, y, type } = p.currentTile || {};
-        const tileEl = layer.querySelector(`.tile[data-x=\"${x}\"][data-y=\"${y}\"]`);
+        const tileEl = layer.querySelector(`.tile[data-x="${x}"][data-y="${y}"]`);
         if (!tileEl) return;
-        const pawn = document.createElement('div');
-        pawn.className = 'pawn';
-        const px = tileEl.offsetLeft + (tileSize - pawnSize) / 2 + idx * 4;
-        const py = tileEl.offsetTop  + (tileSize - pawnSize) / 2 + idx * 4;
-        const color = (ROLE_INFO[type] && ROLE_INFO[type].color) || '#fff';
-        Object.assign(pawn.style, {
+        const pawnImg = document.createElement('img');
+        pawnImg.src = `assets/Images/icons/player.png`;
+        pawnImg.className = 'pawn';
+        Object.assign(pawnImg.style, {
             position: 'absolute',
             width:  `${pawnSize}px`,
-            height: `${pawnSize}px`,
-            left:   `${px}px`,
-            top:    `${py}px`,
-            backgroundColor: color,
-            borderRadius: '50%',
-            border: '2px solid #fff',
-            boxShadow: '0 1px 3px #0006',
+            left:   `${tileEl.offsetLeft + (tileSize - pawnSize) / 2 + idx * 4}px`,
+            top:    `${tileEl.offsetTop  + (tileSize - (pawnSize * 2) / 3) / 2 + idx * 4}px`,
             zIndex: 10,
         });
-        layer.appendChild(pawn);
+        layer.appendChild(pawnImg);
     });
 }

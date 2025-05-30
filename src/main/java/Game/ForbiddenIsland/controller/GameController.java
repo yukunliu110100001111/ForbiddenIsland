@@ -4,6 +4,7 @@ import Game.ForbiddenIsland.model.Board.Deck;
 import Game.ForbiddenIsland.model.Board.DeckImp;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Board.Tiles.TileImp;
+import Game.ForbiddenIsland.model.Cards.CardName;
 import Game.ForbiddenIsland.model.Cards.CardType;
 import Game.ForbiddenIsland.model.Cards.cardCategory.ActionCard;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
@@ -398,6 +399,7 @@ public class GameController {
         return (dx <= 1 && dy <= 1) && !(dx == 0 && dy == 0);
     }
 
+
     private boolean isValidNormalMove(Tile current, Tile target) {
         if (target == null || target.isSink()) {
             return false;
@@ -418,4 +420,38 @@ public class GameController {
         GameStateView view = GameStateMapper.fromGameState(this.gameState);
         return JsonUtil.toJson(view);
     }
+
+    private void dealInitialTreasureCards() {
+        for (Player player : gameState.getPlayers()) {
+            for (int i = 0; i < 2; i++) {
+                drawAndProcessTreasureCard(player);
+            }
+        }
+    }
+
+    private void drawAndProcessTreasureCard(Player player) {
+        Card drawnCard = gameState.drawTreasureCard();
+        if (drawnCard == null) return;
+        if (drawnCard instanceof ActionCard &&
+                ((ActionCard) drawnCard).getCardName() == CardName.WATERRISE) {
+            // 丢弃水位上升卡，补抽
+            gameState.discardTreasure(drawnCard);
+            drawAndProcessTreasureCard(player);
+        } else {
+            player.addCard(drawnCard);
+        }
+    }
+
+    private void initialFloodDraw() {
+        for (int i = 0; i < 6; i++) {
+            gameState.drawFloodCard();  // drawFloodCard() 已自动 flood 并弃牌
+        }
+    }
+
+
+
+
+
+
+
 }

@@ -1,23 +1,37 @@
-/**
- * drawnCardsRenderer.js
- * 负责渲染最近抽到的宝藏牌和洪水牌到指定容器
- */
+// assets/js/renderers/drawnCardsRenderer.js
+import { BASE_HREF } from '../constants/config.js';
+
 export function renderDrawnCards(treasures = [], floods = [], container) {
-    if (!container) return;
-
-    // 查询所有 .drawn-card 槽位
     const slots = container.querySelectorAll('.drawn-card');
-
-    // 合并宝藏和洪水牌列表，保持顺序
-    const list = [...treasures, ...floods];
+    const list  = [...treasures, ...floods];
 
     slots.forEach((el, i) => {
-        if (list[i]) {
-            el.textContent = list[i].cardName;
-            el.classList.add('active');
-        } else {
-            el.textContent = '';
+        const card = list[i];
+        if (!card) {
             el.classList.remove('active');
+            el.style.backgroundImage = '';
+            return;
         }
+        const type = card.cardType.toLowerCase();
+        const name = card.cardName.toLowerCase();
+        let path;
+
+        if (type === 'treasure' && card.treasureType) {
+            path = `assets/Images/Cards/treasure/treasure-${card.treasureType.toLowerCase()}.png`;
+        } else if (type === 'action') {
+            path = `assets/Images/Cards/actions/${name}.png`;
+        } else if (type === 'event') {
+            path = `assets/Images/Cards/event/${name}.png`;
+        } else {
+            path = `assets/Images/Cards/${type}/${name}.png`;
+        }
+
+        el.classList.add('active');
+        el.style.cssText = `
+      background-image: url('${BASE_HREF + path}');
+      background-size: cover;
+      background-position: center;
+      color: transparent; /* 隐藏文字 */
+    `;
     });
 }
