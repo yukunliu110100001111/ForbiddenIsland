@@ -1,0 +1,38 @@
+#action-log-container {
+    margin-top: 16px;
+    background: #222b;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0007;
+    padding: 8px 12px;
+    max-height: 320px;   /* 可根据右侧面板高度适配 */
+    min-height: 120px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#action-log-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #f9ca24;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #4447;
+    padding-bottom: 2px;
+}
+
+#action-log {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.action-log-item {
+    font-size: 0.96rem;
+    color: #eee;
+    margin-bottom: 2px;
+    border-left: 3px solid #6ab0f7;
+    padding-left: 8px;
+    word-break: break-all;
+    opacity: 0.9;
+}

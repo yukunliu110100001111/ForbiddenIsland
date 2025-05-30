@@ -1,0 +1,35 @@
+.water-meter {
+    position: relative;
+    width: 100px; /* 根据你的图片尺寸设置 */
+    height: 220px;
+}
+
+.watermeter-bg {
+    width: 100%;
+    height: 100%;
+}
+
+.watermeter-pointer {
+    position: absolute;
+    left: 50%;
+    width: 200px;
+    height: auto;
+    transform: translate(-50%, -50%); /* 向左移自己一半宽度 + 上移自己一半高度 */
+    transition: top 0.3s ease;
+    z-index: 3;
+}
+
+
+.watermeter-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 2px 6px;
+    border-radius: 6px;
+    z-index: 3;
+}
