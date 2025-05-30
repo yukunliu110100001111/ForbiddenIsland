@@ -110,7 +110,16 @@ public class GameController {
         }
         // 初始化沉没牌堆
         gameState.setFloodDeck(CardFactory.loadFloodCard(gameState.getMap().getAllTiles()));
-    }//这个用deck和cardFactory初始化
+        if (gameState.getTreasureDeck() instanceof DeckImp<?>) {
+            gameState.setTreasureDeckRemaining(((DeckImp<?>) gameState.getTreasureDeck()).getDrawPileSize());
+        }
+        if (gameState.getFloodDeck() instanceof DeckImp<?>) {
+            gameState.setFloodDeckRemaining(((DeckImp<?>) gameState.getFloodDeck()).getDrawPileSize());
+
+        }
+        System.out.println("初始宝藏牌数：" + gameState.getTreasureDeckRemaining());
+        System.out.println("初始洪水牌数：" + gameState.getFloodDeckRemaining());
+    }
 
     public void startTurn() {
         actionsRemaining = 3;

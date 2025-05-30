@@ -36,7 +36,7 @@
     left: 12px;
     width: 36px;
     height: 20px;
-    background: url('assets/img/pointer.png') no-repeat center/contain;
+    background: url('../../../../assets/Images/bg/pointer.png') no-repeat center/contain;
     /* 或直接用background: red; 测试定位 */
     transition: top 0.25s cubic-bezier(.39,1.5,.6,1.02);
     z-index: 2;

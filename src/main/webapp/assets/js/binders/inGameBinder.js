@@ -126,7 +126,7 @@ export async function bindInGame() {
         renderHand(   gs.players?.[gs.myPlayerIndex]?.hand || [], dom.hand );
         renderAllHands(gs.players.map(p => p.hand), document.getElementById('players-footer'));
         renderWaterMeter( gs.waterLevel, document.getElementById('water-meter') );
-        renderDeckCounts( gs.treasureDeckRemaining, gs.floodDeckRemaining );
+        renderDeckCounts(gs.treasureDeckRemaining, gs.floodDeckRemaining, 28, 24);
         renderDrawnCards( gs.recentTreasureDraws, gs.recentFloodDraws, dom.drawnCards );
         renderDiscardPiles(
             gs.treasureDiscardPile, gs.floodDiscardPile,
