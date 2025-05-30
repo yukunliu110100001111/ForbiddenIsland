@@ -6,8 +6,9 @@
     color: #ffe066;            /* 黄色高亮 */
     background: rgba(0,0,0,0.25);
     border-radius: 8px;
-    box-shadow: 0 2px 6px #0002;
+    box-shadow:  2px 6px #0002;
     letter-spacing: 0.08em;
     text-align: center;
     transition: background 0.3s;
+
 }

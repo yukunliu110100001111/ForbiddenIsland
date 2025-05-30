@@ -49,6 +49,8 @@ public class GameController {
             initializePlayers(playerCount);
             initializeWaterLevel(difficultyLevel);
             initializeDecks();
+            dealInitialTreasureCards();
+            initialFloodDraw();
             initialized = true;
             startTurn();
         }
@@ -110,7 +112,14 @@ public class GameController {
         }
         // 初始化沉没牌堆
         gameState.setFloodDeck(CardFactory.loadFloodCard(gameState.getMap().getAllTiles()));
-    }//这个用deck和cardFactory初始化
+        if (gameState.getTreasureDeck() instanceof DeckImp<?>) {
+            gameState.setTreasureDeckRemaining(((DeckImp<?>) gameState.getTreasureDeck()).getDrawPileSize());
+        }
+        if (gameState.getFloodDeck() instanceof DeckImp<?>) {
+            gameState.setFloodDeckRemaining(((DeckImp<?>) gameState.getFloodDeck()).getDrawPileSize());
+
+        }
+    }
 
     public void startTurn() {
         actionsRemaining = 3;
@@ -122,6 +131,7 @@ public class GameController {
         drawFloodCards();
         checkGameState();
         gameState.nextPlayer();
+        actionsRemaining = 3;
     }
 
     private void drawTreasureCards() {
@@ -215,7 +225,6 @@ public class GameController {
 
     public boolean useSpecialAbility(Player player, Object... params) {
         if (actionsRemaining <= 0) return false;
-        
         switch (player.getType()) {
             case PILOT:
                 return usePilotAbility(player, (Tile) params[0]);
@@ -416,6 +425,7 @@ public class GameController {
         gameState.discardTreasure(card);
         actionContext.getTargetPlayers().get(0).removeCard(card);
     }
+
     public String getGameStateJson() {
         GameStateView view = GameStateMapper.fromGameState(this.gameState);
         return JsonUtil.toJson(view);

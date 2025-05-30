@@ -7,7 +7,7 @@ import { ROLE_INFO } from '../constants/roleInfo.js';
  * @param {Array}        players - 玩家数组，元素含 currentTile.x/y 与 type
  * @param {HTMLElement}  layer    - 承载瓦片的容器
  */
-export function renderTiles(board = [], players = [], layer) {
+export function renderTiles(board = [], players = [], layer, currentPlayerIndex = null) {
     if (!layer) return;
     layer.innerHTML = '';
 
@@ -94,6 +94,12 @@ export function renderTiles(board = [], players = [], layer) {
         const pawnImg = document.createElement('img');
         pawnImg.src = `assets/Images/icons/player.png`;
         pawnImg.className = 'pawn';
+
+        // 判断是否高亮自己
+        if (typeof currentPlayerIndex === 'number' && idx === currentPlayerIndex) {
+            pawnImg.classList.add('my-turn-glow');
+        }
+
         Object.assign(pawnImg.style, {
             position: 'absolute',
             width:  `${pawnSize}px`,

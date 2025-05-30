@@ -1,5 +1,6 @@
 package Game.ForbiddenIsland.controller;
 
+import Game.ForbiddenIsland.model.ActionLogger;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Cards.cardCategory.ActionCard;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
@@ -10,6 +11,7 @@ import Game.ForbiddenIsland.model.TreasureType;
 import Game.ForbiddenIsland.util.ActionContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +21,12 @@ public class PlayerController {
 
     public PlayerController(GameController gameController) {
         this.gameController = gameController;
+
     }
 
-    public void receiveAndAllocate(String json) {
+    public void receiveAndAllocate(String json, ServletContext ctx) {
         ActionContext actionContext = parseJsonToActionContext(json);
+        ActionLogger logger = (ActionLogger) ctx.getAttribute("actionLogger");
         if (actionContext == null) {
             System.err.println("[PlayerController] 解析 ActionContext 失败，收到 json: " + json);
             return;
@@ -35,22 +39,36 @@ public class PlayerController {
         );
         switch (actionContext.getPlayerChoice()) {
             case MOVE:
-                if (movePlayer(actionContext)) decAction();
+                if (movePlayer(actionContext)) {
+                    decAction();
+                    logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " moved");
+                }
                 break;
             case SHORE_UP:
-                if (shoreUp(actionContext)) decAction();
+                if (shoreUp(actionContext)) {
+                    decAction();
+                    logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " shore up");
+                }
                 break;
             case COLLECT_TREASURE:
-                if (collectTreasure(actionContext)) decAction();
+                if (collectTreasure(actionContext)) {
+                    decAction();
+                    logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " collect treasure");
+                }
                 break;
             case GIVE_CARD:
-                if (giveCard(actionContext)) decAction();
+                if (giveCard(actionContext)) {
+                    decAction();
+                    logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " give card");
+                }
                 break;
             case USE_CARD:
                 useCard(actionContext);
+                logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " use card");
                 break;
             case END_TURN:
                 endTurn();
+                logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " end turn");
                 break;
             default:
                 System.err.println("[PlayerController] 未知操作: " + actionContext.getPlayerChoice());
@@ -161,20 +179,35 @@ public class PlayerController {
     }
 
     public boolean giveCard(ActionContext actionContext) {
-        Player giver = actionContext.getTargetPlayers().get(0);
-        Player receiver = actionContext.getTargetPlayers().get(1);
-        Card card = actionContext.getTargetCard();
+        // 接收者放在 targetPlayers[0]
+        Player receiver = actionContext.getTargetPlayers().get(0);
+        // 发卡者取自当前回合玩家
+        Player giver    = gameController.getGameState().getCurrentPlayer();
+        Card   card     = actionContext.getTargetCard();
+
         System.out.println("[PlayerController] giveCard: "
                 + giver.getType() + "->" + receiver.getType() + " card=" + card);
+
         return gameController.giveCard(giver, receiver, card);
     }
 
+
     public boolean useCard(ActionContext actionContext) {
-        ActionCard card = (ActionCard) actionContext.getTargetCard();
+        // 先拿到原始的 Card
+        Card raw = actionContext.getTargetCard();
+        // 如果不是特殊卡，就直接返回 false
+        if (!(raw instanceof ActionCard)) {
+            System.err.println("[PlayerController] useCard: 不是特殊卡，无法使用 → " + raw);
+            return false;
+        }
+        // 安全地转换
+        ActionCard card = (ActionCard) raw;
         System.out.println("[PlayerController] useCard: " + card);
+        // 真正执行使用逻辑
         gameController.useCards(card, actionContext);
         return true;
     }
+
 
     public boolean endTurn() {
         System.out.println("[PlayerController] 触发 endTurn");

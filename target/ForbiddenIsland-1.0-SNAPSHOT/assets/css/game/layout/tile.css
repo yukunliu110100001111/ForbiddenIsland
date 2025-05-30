@@ -57,11 +57,11 @@
 /* 洪水动画：轻微波动 */
 @keyframes floodAnim {
     0%   { transform: translateY(0); }
-    50%  { transform: translateY(-6px); }
+    50%  { transform: translateY(-3px); }
     100% { transform: translateY(0); }
 }
 .tile.flooded.anim-flood {
-    animation: floodAnim 0.8s ease-in-out;
+    animation: floodAnim 2s ease-in-out;
 }
 
 /* 下沉动画：缩小并淡出 */
@@ -92,6 +92,35 @@
     pointer-events: none;
     user-select: none;
 }
+
+/* 基础tile样式不变，这里只加滤镜部分 */
+.tile.flooded {
+    position: relative;
+    /* 可选：让被淹格看起来明显带有蓝色 */
+}
+
+.tile.flooded::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30, 106, 204, 0.36); /* 半透明淡蓝色 */
+    mix-blend-mode: lighten;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 8px; /* 跟你的tile圆角一致 */
+}
+
+.pawn.my-turn-glow {
+    filter: drop-shadow(0 0 8px #fffacd) drop-shadow(0 0 16px #f3edd0);
+    animation: pawn-glow 1.2s infinite alternate;
+}
+
+@keyframes pawn-glow {
+    0% { filter: drop-shadow(0 0 6px #fffacd) drop-shadow(0 0 10px #fff0be); }
+    100% { filter: drop-shadow(0 0 14px #fffacd) drop-shadow(0 0 28px #beb079); }
+}
+
+
 
 
 

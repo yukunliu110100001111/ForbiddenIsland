@@ -18,7 +18,7 @@ public class GameMap {
 
     public Tile getTileAt(int x, int y) {
         if (x < 0 || y < 0 || x >= 6 || y >= 6) return null;
-        return board[y][x];
+        return board[x][y];
     }
 
     public List<Tile> getAdjacentTiles(Tile tile) {
@@ -40,7 +40,7 @@ public class GameMap {
         List<Tile> tiles = new ArrayList<>();
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++) {
-                Tile tile = board[y][x];
+                Tile tile = board[x][y];
                 if (tile != null) {
                     tiles.add(tile);
                 }

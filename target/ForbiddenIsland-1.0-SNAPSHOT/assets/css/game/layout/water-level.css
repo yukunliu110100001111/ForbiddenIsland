@@ -1,43 +1,35 @@
-/* 在 assets/css/game/game.css 或者单独引入的 css 文件中 */
-.water-meter {
-    display: flex;
-    flex-direction: column-reverse; /* 让最低档放在最下面 */
-    align-items: center;
-    gap: 4px;
-}
-
-.water-meter .level {
-    width: 24px;
-    height: 24px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 4px;
-    transition: background 0.3s;
-}
-
-.water-meter .level.active {
-    background: #00aaff; /* 你喜欢的亮色 */
-}
-
 .water-meter {
     position: relative;
-    width: 60px;      /* 按你的图片实际大小设置 */
+    width: 100px; /* 根据你的图片尺寸设置 */
     height: 220px;
-    margin: 0 auto;
 }
 
 .watermeter-bg {
     width: 100%;
     height: 100%;
-    display: block;
 }
 
 .watermeter-pointer {
     position: absolute;
-    left: 12px;
-    width: 36px;
-    height: 20px;
-    background: url('assets/img/pointer.png') no-repeat center/contain;
-    /* 或直接用background: red; 测试定位 */
-    transition: top 0.25s cubic-bezier(.39,1.5,.6,1.02);
-    z-index: 2;
+    left: 50%;
+    width: 200px;
+    height: auto;
+    transform: translate(-50%, -50%); /* 向左移自己一半宽度 + 上移自己一半高度 */
+    transition: top 0.3s ease;
+    z-index: 3;
+}
+
+
+.watermeter-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 2px 6px;
+    border-radius: 6px;
+    z-index: 3;
 }

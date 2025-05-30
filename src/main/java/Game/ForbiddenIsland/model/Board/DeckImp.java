@@ -40,6 +40,12 @@ public class DeckImp<T extends Card> implements Deck<T>{
         }
     }
 
+    public int getDrawPileSize() {
+        return drawPile.size();
+    }
+
+
+
     // Move all discard cards back into the draw pile and shuffle
     public void reshuffleDiscardsIntoDrawPile() {
         shufflePile(discardPile);
@@ -50,3 +56,4 @@ public class DeckImp<T extends Card> implements Deck<T>{
         return new ArrayList<>(discardPile);
     }
 }
+

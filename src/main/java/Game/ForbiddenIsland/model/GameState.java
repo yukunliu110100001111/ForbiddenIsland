@@ -11,6 +11,7 @@ import Game.ForbiddenIsland.model.log.GameLogEntry;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.swing.text.Position;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -44,9 +45,25 @@ public class GameState {
 
     // ==== 新增字段 ====
     private int actionsLeft = 3; // 每回合剩余行动数，默认3
+    @Setter @Getter
     private List<Card> recentTreasureDraws = new ArrayList<>();
+    @Setter @Getter
     private List<FloodCard> recentFloodDraws = new ArrayList<>();
     private List<GameLogEntry> history = new ArrayList<>();
+    @Setter @Getter
+    private int treasureDeckRemaining;
+    /** 剩余洪水牌数，用于左侧牌堆显示 */
+    @Setter @Getter
+    private int floodDeckRemaining;
+    /** 当前回合合法移动格坐标列表，用于高亮 */
+    @Setter @Getter
+    private List<Position> legalMoves = new ArrayList<>();
+    /** 当前回合合法加固格 */
+    @Setter @Getter
+    private List<Position> legalShores = new ArrayList<>();
+    /** 当前回合合法抓宝格 */
+    @Setter @Getter
+    private List<Position> legalCaptures = new ArrayList<>();
     // ==================
 
     public GameState() {
@@ -64,6 +81,9 @@ public class GameState {
         this.floodDeck = floodDeck;
         this.waterLevel = 0;
         this.currentPlayerIndex = 0;
+        this.treasureDeckRemaining = ((DeckImp<?>) treasureDeck).getDrawPileSize();
+        this.floodDeckRemaining = ((DeckImp<?>) floodDeck).getDrawPileSize();
+
     }
 
     public void waterRise() {
@@ -82,6 +102,14 @@ public class GameState {
         return collectedTreasures.values().stream().allMatch(Boolean::booleanValue);
     }
 
+    public int getTreasureDeckRemaining() {
+        return treasureDeckRemaining;
+    }
+
+    public int getFloodDeckRemaining() {
+        return floodDeckRemaining;
+    }
+
     public List<GameLogEntry> getHistory() {
         return history;
     }
@@ -89,6 +117,7 @@ public class GameState {
     public void addHistory(GameLogEntry entry) {
         history.add(entry);
     }
+
 
     public Player getCurrentPlayer() {
         return players.get(currentPlayerIndex);
@@ -111,6 +140,7 @@ public class GameState {
         if (card != null) {
             recentTreasureDraws.add(card);
         }
+        treasureDeckRemaining = ((DeckImp<?>) treasureDeck).getDrawPileSize();
         return card;
     }
 
@@ -128,6 +158,7 @@ public class GameState {
             card.flood();
             floodDeck.discard(card);
         }
+        floodDeckRemaining = ((DeckImp<?>) floodDeck).getDrawPileSize();
         return card;
     }
 
@@ -176,5 +207,15 @@ public class GameState {
         this.recentFloodDraws = (draws == null) ? new ArrayList<>() : draws;
     }
     // ===========================
+
+    // GameState.java
+    public void syncDeckRemaining() {
+        if (treasureDeck instanceof DeckImp<?> d) {
+            this.treasureDeckRemaining = d.getDrawPileSize();
+        }
+        if (floodDeck instanceof DeckImp<?> d) {
+            this.floodDeckRemaining = d.getDrawPileSize();
+        }
+    }
 
 }

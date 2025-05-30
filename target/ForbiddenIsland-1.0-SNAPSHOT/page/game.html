@@ -16,6 +16,8 @@
             <button id="btn-move" class="color-btn">Move</button>
             <button id="btn-shore" class="color-btn">Shore Up</button>
             <button id="btn-take" class="color-btn">Capture</button>
+            <button id="btn-use" class="color-btn">Use Card</button>
+            <button id="btn-give" class="color-btn">Give Card</button>
             <button id="btn-special" class="color-btn">Special</button>
             <button id="btn-end-turn" class="color-btn">End Turn</button>
             <button id="btn-reset"    class="color-btn">Reset Game</button>
@@ -26,13 +28,11 @@
         <div id="game-wrapper">
             <!-- 左侧牌堆与抓牌区 -->
             <aside id="left-panel">
-                <div id="treasure-deck" class="deck">
-                    <div class="card-stack" id="treasure-stack"></div>
-                    <span class="deck-count" id="treasure-count"></span>
+                <div class="card-pile" id="treasure-deck">
+                    <div class="deck-label">Treasure Deck</div>
                 </div>
-                <div id="flood-deck" class="deck">
-                    <div class="card-stack" id="flood-stack"></div>
-                    <span class="deck-count" id="flood-count"></span>
+                <div class="card-pile" id="flood-deck">
+                    <div class="deck-label">Flood Deck</div>
                 </div>
 
                 <div id="discard-piles">
@@ -57,14 +57,8 @@
                 <!-- 右侧水位表占位 -->
                 <div id="water-meter" class="water-meter" >
                     <img src="assets/Images/bg/watermeter.png" alt="Water Meter" class="watermeter-bg" />
-                    <div class="watermeter-pointer"></div>
-                    <!-- 下面这 6 格只是占位，将来会用 renderer 给它们加高亮 -->
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
-                    <div class="level"></div>
+                    <img src="assets/Images/bg/pointer.png" class="watermeter-pointer" alt="pointer" />
+                    <div class="watermeter-label" id="watermeter-label">1 / 6</div>
                 </div>
                 <div id="action-log-container">
                     <div id="action-log-title">History</div>
@@ -72,6 +66,7 @@
                 </div>
 
             </aside>
+
 
         </div>
 
@@ -99,6 +94,14 @@
             <!-- 这里将动态填充：每张 action 卡都会渲染成一个按钮 -->
         </div>
         <button id="btn-special-close">取消</button>
+    </div>
+</div>
+<!-- 弃牌选择弹窗 -->
+<div id="discard-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>请选择要弃掉的牌</h2>
+        <div id="discard-cards-container" class="discard-cards"></div>
+        <p>请点击牌面直到手牌不超过 5 张</p>
     </div>
 </div>
 

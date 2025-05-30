@@ -1,142 +1,123 @@
-
-#left-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    padding: 12px;
-}
-
-.deck {
-    width: 60px;
-    text-align: center;
-    font-size: 1.4rem;
-    position: relative;
-}
-
-.deck span {
-    display: block;
-    margin-top: 4px;
-    font-size: 1rem;
-    color: #fff;
-}
-
-.drawn-card {
-    width: 48px;
-    height: 72px;
-    background: #333;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px #0008;
-    margin: 6px 0;
-}
-
-/* 让整个游戏区域横向分布：左面板 | 地图区 | 右面板 */
+/* 游戏容器布局 */
 #game-wrapper {
     display: flex;
     height: 100%;
 }
 
-/* 左侧面板固定宽度，垂直排列各个组件 */
+/* 左侧面板固定布局 */
 #left-panel {
     flex: 0 0 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 60px;
     padding: 8px;
     box-sizing: border-box;
 }
 
-/* 弃牌堆和牌堆统一样式 */
+/* 通用牌堆样式 */
+.deck,
 .discard-pile,
-.deck {
-    width: 80px;
-    height: 120px;
-    background: #333;
+.card-pile {
+    position: relative;
+    width: 60%;
     border: 2px solid #555;
     border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-align: center;
     color: #fff;
-    font-size: 1.2rem;
 }
 
-/* 抽到的两张牌横向排列 */
+/* 修正后的卡背样式 */
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* 关键修改1：添加明确的尺寸限制 */
+    min-width: 80px;
+    min-height: 120px;
+    /* 关键修改2：调整背景定位方式 */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;  /* 替换原来的cover */
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.deck-label {
+    margin-top: 20px;
+}
+
+#treasure-deck .card-back {
+    background-image: url('../../../../assets/Images/Cards/back/treasure-back.png');
+}
+
+#flood-deck .card-back {
+    background-image: url('../../../../assets/Images/Cards/back/flood-back.png');
+}
+
+
+/* 牌堆计数显示 */
+.deck-count {
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    width: 100%;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 1px 2px #000;
+    z-index:5;
+}
+
+.deck-empty {
+    color: #ff4444;
+    text-shadow: 0 0 4px #ff0000;
+}
+
+/* 抽牌区域布局 */
 #drawn-cards {
     display: flex;
     gap: 8px;
+    margin: 6px 0;
 }
 
-/* 抽牌槽默认尺寸 */
 .drawn-card {
-    width: 60px;
-    height: 90px;
+    width: 120px;
+    height: 180px;
     background: #222;
     border: 2px dashed #444;
     border-radius: 6px;
-}
-
-
-
-.discard-pile {
-    position: relative;
-    width: 60px;
-    height: 80px;
-    margin-top: 12px;
-}
-.discard-card {
-    position: absolute;
-    width: 48px;
-    height: 72px;
-    background: #444;
-    border-radius: 6px;
-    color: #fff;
-    text-align: center;
-    line-height: 72px;
-    box-shadow: 0 2px 6px #0008;
-}
-.discard-pile:hover .discard-card {
-    /* Hover 时放大或展开，全堆查看 */
-    transform: translate(0, 0) scale(1.1);
     transition: transform 0.2s;
 }
 
-.deck {
-    position: relative;
-    width: 52px;
-    height: 76px;
-    margin-bottom: 14px;
-    text-align: center;
+/* 悬停交互效果 */
+.discard-pile:hover .drawn-card,
+.deck:hover .card-back {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-.card-stack {
+/* 弃牌堆特殊样式 */
+.discard-pile {
+    margin-top: 30px;
+}
+
+.discard-pile .drawn-card {
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 52px;
-    height: 76px;
+    line-height: 90px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
 
-.card-back {
-    position: absolute;
-    width: 52px;
-    height: 76px;
-    background: url('assets/img/cardback_treasure.png') center/cover no-repeat;
-    box-shadow: 0 1.5px 4px #0008;
-    border-radius: 6px;
-    /* 堆叠效果：每张稍微错开一点 */
-    transform: translateY(var(--y, 0px));
-    z-index: var(--z, 0);
+.discard-pile {
+    position: relative;    /* 确保内部 img 绝对定位基于这里 */
+    width: 120px;          /* 根据实际卡牌大小 */
+    height: 180px;
 }
-
-.deck-count {
-    display: block;
-    margin-top: 82px;
-    font-weight: bold;
-    color: #fff9;
-    text-shadow: 1px 2px 4px #0008;
-    font-size: 1.13rem;
-    letter-spacing: 0.04em;
+.discard-pile .discard-card {
+    width: 100%;    /* 或具体 px */
+    height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    pointer-events: none;
 }
-
