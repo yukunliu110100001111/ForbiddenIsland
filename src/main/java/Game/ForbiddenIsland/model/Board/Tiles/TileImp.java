@@ -32,6 +32,7 @@ public class TileImp implements Tile{
     public void drain(){
         this.state = TileState.SAFE;
     }
+    // check if the tile is safe, flooded or sink.
     public boolean isSafe(){
         return this.state == TileState.SAFE;
     }

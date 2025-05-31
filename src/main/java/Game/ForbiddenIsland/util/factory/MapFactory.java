@@ -17,10 +17,10 @@ public class MapFactory {
         String mapJsonPath  = "model/map_layout_classical.json";
         String tilesJsonPath = "model/tiles.json";
 
-        System.out.println("[DEBUG] 尝试加载 tiles.json：" + tilesJsonPath);
+        System.out.println("[DEBUG] try to load tiles.json：" + tilesJsonPath);
         InputStream tilesStream = MapFactory.class.getClassLoader().getResourceAsStream(tilesJsonPath);
-        if (tilesStream == null) throw new RuntimeException("tiles.json 文件找不到：" + tilesJsonPath);
-        System.out.println("[DEBUG] tiles.json 已找到");
+        if (tilesStream == null) throw new RuntimeException("can't find tiles.json" + tilesJsonPath);
+        System.out.println("[DEBUG] tiles.json found");
 
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -30,20 +30,19 @@ public class MapFactory {
         List<Tile> tiles = mapper.readValue(tilesStream, new TypeReference<>() {});
         Collections.shuffle(tiles);
 
-        System.out.println("[DEBUG] 尝试加载 map_layout_classical.json：" + mapJsonPath);
+        System.out.println("[DEBUG] try to load map_layout_classical.json：" + mapJsonPath);
         InputStream mapStream = MapFactory.class.getClassLoader().getResourceAsStream(mapJsonPath);
-        if (mapStream == null) throw new RuntimeException("map_layout_classical.json 文件找不到：" + mapJsonPath);
-        System.out.println("[DEBUG] map_layout_classical.json 已找到");
+        if (mapStream == null) throw new RuntimeException("can't find map_layout_classical.json：" + mapJsonPath);
+        System.out.println("[DEBUG] map_layout_classical.json found");
 
         JsonNode mapRoot = mapper.readTree(mapStream);
 
-        System.out.println("[DEBUG] 地图和 tile 文件全部加载完毕，准备 assignPositions");
+        System.out.println("[DEBUG] map and tile file loaded, prepare for assignPositions");
 
         return new GameMap(assignPositions(tiles, mapRoot));
     }
 
 
-    // 传 JsonNode，不再用文件路径
     private static Tile[][] assignPositions(List<Tile> tiles, JsonNode root) throws Exception {
         JsonNode positions = root.get("validPositions");
         int width = root.get("width").asInt();
