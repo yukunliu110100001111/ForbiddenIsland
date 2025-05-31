@@ -14,6 +14,7 @@ public class ReadyHandler implements RequestHandler {
         this.isReady = isReady;
     }
 
+    // Whether all player is ready
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         if (isReady) roomState.incrementReady();

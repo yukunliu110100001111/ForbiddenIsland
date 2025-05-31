@@ -18,6 +18,7 @@ public class StartGameHandler implements RequestHandler {
         this.roomState = roomState;
     }
 
+    // create game controller and player controller and add it as an attributes of request
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         if (roomState.getCurrentPeopleCount() < roomState.getMaxPeopleCount()) {
@@ -38,7 +39,7 @@ public class StartGameHandler implements RequestHandler {
             return;
         }
 
-        // 确保房主也拥有 playerIndex
+        // prevent the room creator do not have playerIndex
         if (session.getAttribute("playerIndex") == null) {
             session.setAttribute("playerIndex", 0);
         }

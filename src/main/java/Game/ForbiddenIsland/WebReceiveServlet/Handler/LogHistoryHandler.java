@@ -12,6 +12,8 @@ public class LogHistoryHandler implements RequestHandler {
     public LogHistoryHandler(RoomState roomState) {
         this.roomState = roomState;
     }
+
+    // log and return all player actions
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) {
         GameState gameState = roomState.getGameState();
