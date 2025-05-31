@@ -15,7 +15,7 @@ export function cardHtml(card) {
     if (type === 'treasure' && card.treasureType) {
         path = `assets/Images/Cards/treasure/treasure-${card.treasureType.toLowerCase()}.png`;
     } else if (type === 'action') {
-        path = `assets/Images/Cards/actions/${name}.png`;
+        path = `assets/Images/Cards/action/${name}.png`;
     } else if (type === 'event') {
         path = `assets/Images/Cards/event/${name}.png`;
     } else {

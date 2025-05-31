@@ -189,8 +189,8 @@ public class GameController {
      */
     private void drawTreasureCards() {
         Player currentPlayer = gameState.getCurrentPlayer();
-        
-        // Draw 2 cards
+
+        // Draw 2 treasure cards
         for (int i = 0; i < 2; i++) {
             Card drawnCard = gameState.drawTreasureCard();
             if (drawnCard == null) {
@@ -198,24 +198,32 @@ public class GameController {
                 gameResult = "No more cards!";
                 return;
             }
-            
-            // Check if it's a water rise card
-            if (drawnCard instanceof ActionCard && drawnCard.getCardType() == CardType.ACTION) {
+
+            // Only treat "Water Rise Card" as an action card that takes effect immediately
+            if (drawnCard instanceof ActionCard
+                    && ((ActionCard) drawnCard).getCardName() == CardName.WATERRISE) {
+
+                // Construct an empty ActionContext (Water Rise does not require a target)
                 ActionCard actionCard = (ActionCard) drawnCard;
                 ActionContext context = new ActionContext.Builder().build();
                 actionCard.use(gameState, context);
                 gameState.discardTreasure(drawnCard);
+
             } else {
-                // Check hand size limit
+                // In other cases: either it's a regular treasure card or an "action card that can be held" (helicopter, sandbags, etc.)
+                // First check if the current player's hand is at its limit
                 if (currentPlayer.getHands().size() >= currentPlayer.getHandsSize()) {
-                    // Hand is full, must discard
+                    // Hand is full, must discard this card
                     gameState.discardTreasure(drawnCard);
                 } else {
+                    // Hand is not full, add this card to the player's hand
                     currentPlayer.addCard(drawnCard);
                 }
             }
         }
     }
+
+
 
     /**
      * Draws flood cards based on current water level

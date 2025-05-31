@@ -1,32 +1,38 @@
 // assets/js/renderers/discardRenderer.js
 
 /**
- * 把弃牌堆渲染成带正面图像的堆叠效果
- * @param {Array} treasureDiscardPile - 宝藏弃牌数组，元素含 treasureType 或 cardType/eventName
- * @param {Array} floodDiscardPile    - 洪水弃牌数组，元素含 targetTile.name
- * @param {HTMLElement} treasureContainer - 宝藏弃牌容器 DOM
- * @param {HTMLElement} floodContainer    - 洪水弃牌容器 DOM
+ * Render the discard piles with a stacked effect, showing card faces.
+ * @param {Array} treasureDiscardPile      - Array of discarded treasure cards (with treasureType/cardType/cardName)
+ * @param {Array} floodDiscardPile         - Array of discarded flood cards (with targetTile.name)
+ * @param {HTMLElement} treasureContainer  - DOM element for the treasure discard pile
+ * @param {HTMLElement} floodContainer     - DOM element for the flood discard pile
  */
 export function renderDiscardPiles(
     treasureDiscardPile, floodDiscardPile,
     treasureContainer, floodContainer
 ) {
-    const MAX_SHOW = 6; // 最多展示 6 张
+    const MAX_SHOW = 6; // Maximum number of cards to display
 
+    /**
+     * Render a stack of cards for a given pile.
+     * @param {Array} cards           - Array of card objects
+     * @param {HTMLElement} container - Container to render into
+     * @param {Function} getImgSrc    - Function to get image src for each card
+     */
     function renderPile(cards, container, getImgSrc) {
         if (!container || !Array.isArray(cards)) return;
-        container.innerHTML = ''; // 清空旧内容
+        container.innerHTML = ''; // Clear previous content
 
         const count = Math.min(cards.length, MAX_SHOW);
         for (let i = 0; i < count; i++) {
-            const card = cards[cards.length - 1 - i]; // 从最新的开始
+            const card = cards[cards.length - 1 - i]; // Render from newest to oldest
             if (!card) continue;
 
             let src = '';
             try {
                 src = getImgSrc(card) || '';
             } catch (e) {
-                console.warn('renderDiscardPiles: getImgSrc 失败', e);
+                console.warn('renderDiscardPiles: getImgSrc failed', e);
             }
 
             const img = document.createElement('img');
@@ -39,26 +45,26 @@ export function renderDiscardPiles(
         }
     }
 
-    // 宝藏弃牌：区分 TREASURE / ACTION / EVENT
+    // Treasure discard: distinguish by TREASURE / ACTION / EVENT
     renderPile(treasureDiscardPile, treasureContainer, card => {
         const type = (card.cardType || '').toUpperCase();
         if (type === 'TREASURE' && card.treasureType) {
-            // 例： treasure-fire.png
+            // Example: treasure-fire.png
             return `assets/Images/Cards/treasure/treasure-${card.treasureType.toLowerCase()}.png`;
         }
         if (type === 'ACTION') {
-            // 例： action-helicopter.png
+            // Example: action-helicopter.png
             return `assets/Images/Cards/action/${card.cardName.toLowerCase()}.png`;
         }
         if (type === 'EVENT') {
-            // 例： event-waterrise.png
+            // Example: event-waterrise.png
             return `assets/Images/Cards/event/${card.cardName.toLowerCase()}.png`;
         }
-        // 兜底：显示一个背面或空
+        // Fallback: show card back or blank
         return `assets/Images/Cards/back.png`;
     });
 
-    // 洪水弃牌：直接用 tile 的背景图
+    // Flood discard: use the tile's background image directly
     renderPile(floodDiscardPile, floodContainer, card => {
         const t = card.targetTile;
         const name = t && t.name ? encodeURI(t.name) : '';

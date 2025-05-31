@@ -41,34 +41,34 @@ public class PlayerController {
             case MOVE:
                 if (movePlayer(actionContext)) {
                     decAction();
-                    logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " moved");
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " moved");
                 }
                 break;
             case SHORE_UP:
                 if (shoreUp(actionContext)) {
                     decAction();
-                    logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " shore up");
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " shore up");
                 }
                 break;
             case COLLECT_TREASURE:
                 if (collectTreasure(actionContext)) {
                     decAction();
-                    logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " collect treasure");
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " collect treasure");
                 }
                 break;
             case GIVE_CARD:
                 if (giveCard(actionContext)) {
                     decAction();
-                    logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " give card");
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " give card");
                 }
                 break;
             case USE_CARD:
                 useCard(actionContext);
-                logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " use card");
+                logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " use card");
                 break;
             case END_TURN:
                 endTurn();
-                logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " end turn");
+                logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " end turn");
                 break;
             default:
                 System.err.println("[PlayerController] unknown movement: " + actionContext.getPlayerChoice());

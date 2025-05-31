@@ -46,3 +46,22 @@ export function resetGame() {
     const url = `${BASE}?type=reset_game`;
     return callApi(url, { method: 'POST' });
 }
+
+/**
+ * 使用特殊牌（比如直升机、沙袋等）。
+ * @param {string} cardType - 卡牌类型（"ACTION"）
+ * @param {number} cardId   - 卡牌ID
+ * @param {number} x        - 目标地块X
+ * @param {number} y        - 目标地块Y
+ * @returns {Promise<Object>} 返回最新游戏状态
+ */
+export function useSpecialCard(cardType, cardId, x, y) {
+    const actionObj = {
+        action: 'USE_CARD',
+        cardType: cardType,
+        cardId: cardId,
+        x: x,
+        y: y
+    };
+    return sendAction(actionObj);
+}

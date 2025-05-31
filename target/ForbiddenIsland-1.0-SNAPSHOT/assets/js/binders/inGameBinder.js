@@ -1,7 +1,8 @@
+// src/inGameBinder.js
 import { pull } from '../state/gameStateStore.js';
 import { renderTiles } from '../renderers/mapRenderer.js';
 import { renderFooter } from '../renderers/footerRenderer.js';
-import { renderAllHands, renderHand } from '../renderers/handRenderer.js';
+import { renderAllHands } from '../renderers/handRenderer.js';
 import { renderWaterMeter } from '../renderers/waterMeterRenderer.js';
 import { renderDeckCounts } from '../renderers/deckRenderer.js';
 import { renderDrawnCards } from '../renderers/drawnCardsRenderer.js';
@@ -14,7 +15,6 @@ import * as api from '../api/inGameApi.js';
 export async function bindInGame() {
     let gs;
 
-    // --- DOM 引用 ---
     const dom = {
         mapLayer:        document.getElementById('tiles-layer'),
         footer:          document.getElementById('players-footer'),
@@ -31,7 +31,6 @@ export async function bindInGame() {
             take:  document.getElementById('btn-take'),
             use:   document.getElementById('btn-use'),
             give:  document.getElementById('btn-give'),
-            spec:  document.getElementById('btn-special'),
             end:   document.getElementById('btn-end-turn'),
             reset: document.getElementById('btn-reset')
         },
@@ -42,75 +41,26 @@ export async function bindInGame() {
         actionLog:     document.getElementById('action-log')
     };
 
-    // 特殊牌弹窗
     const specialModal  = document.getElementById('special-modal');
     const specialListEl = document.getElementById('special-list');
     const specialClose  = document.getElementById('btn-special-close');
 
-    // “重置游戏”按钮
-    if (dom.btns.reset) {
-        dom.btns.reset.onclick = async () => {
-            try {
-                await api.resetGame();
-                specialModal?.classList.add('hidden');
-                dom.modal?.classList.add('hidden');
-                await refresh();
-            } catch (e) {
-                console.error('resetGame 失败', e);
-                alert('游戏重置失败，请重试');
-            }
-        };
-    }
-
-    // “重新加载”按钮
-    if (dom.restart) {
-        dom.restart.onclick = () => window.location.reload();
-    }
-
-    // 关闭特殊牌弹窗
-    if (specialClose && specialModal) {
-        specialClose.onclick = () => specialModal.classList.add('hidden');
-    }
-
+    // 取出本地存储的 myPlayerIndex
     const myPlayerIndex = parseInt(sessionStorage.getItem('myPlayerIndex') || '0', 10);
+    console.log('bindInGame: myPlayerIndex =', myPlayerIndex);
 
-    // 特殊牌弹窗逻辑
-    if (dom.btns.spec && specialModal && specialListEl) {
-        dom.btns.spec.onclick = () => {
-            specialListEl.innerHTML = '';
-            const hand = gs?.players?.[myPlayerIndex]?.hand || [];
-            const specials = hand.filter(c => c.cardType === 'ACTION');
-            if (!specials.length) {
-                specialListEl.innerHTML = '<p>无可用特殊牌</p>';
-            } else {
-                specials.forEach(card => {
-                    const btn = document.createElement('button');
-                    btn.className = 'special-card-btn';
-                    btn.textContent = card.cardName;
-                    btn.onclick = async () => {
-                        await api.sendAction({ action: card.cardName, cardId: card.cardId });
-                        specialModal.classList.add('hidden');
-                        await refresh();
-                    };
-                    specialListEl.appendChild(btn);
-                });
-            }
-            specialModal.classList.remove('hidden');
-        };
-    }
-
-    // 绑定移动/加固/抓宝/……等按钮 & 地图点击
+    // 绑定按钮事件
     wireControls(dom.btns, refresh);
 
     // 首次渲染 & 定时刷新
     await refresh();
-    const timer = setInterval(refresh, 3000);
+    const timer = setInterval(refresh, 2000);
 
     async function refresh() {
         gs = await pull();
         if (!gs) return;
 
-        // 1. 地图 & 棋子
+        // 1. 渲染地图和高亮
         renderTiles(gs.board, gs.players, dom.mapLayer);
         highlightTiles(
             getCurrentAction(),
@@ -118,10 +68,20 @@ export async function bindInGame() {
             dom.mapLayer
         );
 
-        // 2. 底栏：头像 + 手牌
+        // 2. 渲染 footer（头像 + 空手牌容器）
         renderFooter(gs.players, gs.myPlayerIndex, gs.currentPlayerIndex, dom.footer);
 
-        // 3. 其它 UI
+        // 3. 渲染手牌（并传入 myPlayerIndex & isMyTurn）
+        const isMyTurn = (gs.currentPlayerIndex === gs.myPlayerIndex);
+        console.log(
+            'bindInGame.refresh → currentPlayerIndex =', gs.currentPlayerIndex,
+            ', myPlayerIndex =', gs.myPlayerIndex,
+            ', isMyTurn =', isMyTurn
+        );
+        const allHands = gs.players.map(p => p.hand || []);
+        renderAllHands(allHands, dom.footer, gs.myPlayerIndex, isMyTurn);
+
+        // 4. 其它 UI
         renderWaterMeter(gs.waterLevel, document.getElementById('water-meter'));
         renderDeckCounts(gs.treasureDeckRemaining, gs.floodDeckRemaining);
         renderDrawnCards(gs.recentTreasureDraws, gs.recentFloodDraws, dom.drawnCards);
@@ -131,21 +91,21 @@ export async function bindInGame() {
         );
         renderTreasureProgress(gs.collectedTreasures, dom.progress);
 
-        // 4. 按钮启停 & 状态栏文字
-        const isMyTurn = gs.currentPlayerIndex === gs.myPlayerIndex;
+        // 5. 按钮启停 & 状态栏文字
+        const isMyTurnLocal = (gs.currentPlayerIndex === gs.myPlayerIndex);
         Object.values(dom.btns).forEach(btn => {
             if (btn) {
-                btn.disabled = !isMyTurn;
+                btn.disabled = !isMyTurnLocal;
                 btn.classList.remove('active');
             }
         });
         if (dom.status) {
-            dom.status.textContent = isMyTurn
-                ? `Your turn！Remaining actions:${gs.actionsLeft}`
-                : `Waiting for player ${gs.currentPlayerIndex + 1} to operate...`;
+            dom.status.textContent = isMyTurnLocal
+                ? `Your turn！Remaining actions: ${gs.actionsLeft}`
+                : `Waiting for player ${gs.currentPlayerIndex + 1}...`;
         }
 
-
+        // 6. 历史记录 & 操作日志
         if (dom.historyList && Array.isArray(gs.history)) {
             dom.historyList.innerHTML = '';
             gs.history.slice(-50).forEach(entry => {
@@ -158,15 +118,13 @@ export async function bindInGame() {
             });
             dom.historyList.scrollTop = dom.historyList.scrollHeight;
         }
-
-        // 6. 全局操作日志（例如自动化、服务端通知等）
         if (gs.logs && dom.actionLog) {
             dom.actionLog.innerHTML = gs.logs;
         }
 
         // 7. 胜负检测
         if ((gs.gameWon || gs.gameLost) && dom.modal && dom.titleEl) {
-            dom.titleEl.textContent = gs.gameWon ? '你赢了！' : '游戏结束';
+            dom.titleEl.textContent = gs.gameWon ? 'YOU WIN!' : 'GAME OVER';
             dom.modal.classList.remove('hidden');
             clearInterval(timer);
         }
