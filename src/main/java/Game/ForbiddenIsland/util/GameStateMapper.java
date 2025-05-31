@@ -57,11 +57,10 @@ public class GameStateMapper {
         }
         view.setPlayers(playerViews);
 
-        // 弃牌堆
+        // discard deck
         view.setTreasureDiscardPile(state.getTreasureDeck().getDiscardPile());
         view.setFloodDiscardPile(state.getFloodDeck().getDiscardPile());
 
-        // ========= 新增关键字段 ==========
         view.setActionsLeft(state.getActionsLeft());                   //actions remain
         view.setGameWon(state.isGameWon());
         view.setGameLost(state.isGameLost());
