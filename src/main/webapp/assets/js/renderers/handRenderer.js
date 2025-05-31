@@ -1,9 +1,9 @@
 import { cardHtml } from '../constants/cardIcons.js';
 
 /**
- * 批量渲染所有玩家的手牌
- * @param {Array<Array>} allHands   - 格式 [[card, card], [card], ...]
- * @param {HTMLElement} playersFooter - #players-footer 容器
+ * Render all players' hands (cards) in batch.
+ * @param {Array<Array>} allHands      - Format: [[card, card], [card], ...] (each sub-array is a player's hand)
+ * @param {HTMLElement} playersFooter  - The #players-footer container element
  */
 export function renderAllHands(allHands, playersFooter) {
     if (!playersFooter) {
@@ -17,9 +17,9 @@ export function renderAllHands(allHands, playersFooter) {
 }
 
 /**
- * 渲染单个玩家的手牌列表
- * @param {Array} hand       - 玩家手牌数组，元素格式: { cardId, cardName, cardType, ... }
- * @param {HTMLElement} container - 承载手牌的 DOM 容器
+ * Render a single player's hand.
+ * @param {Array} hand               - Player's hand array, element format: { cardId, cardName, cardType, ... }
+ * @param {HTMLElement} container    - Container element for rendering cards
  */
 export function renderHand(hand, container) {
     if (!container) {
@@ -27,10 +27,10 @@ export function renderHand(hand, container) {
         return;
     }
 
-    // 清空旧内容
+    // Clear old content
     container.innerHTML = '';
 
-    // 无手牌时提示
+    // Show hint if hand is empty
     if (!Array.isArray(hand) || hand.length === 0) {
         const empty = document.createElement('div');
         empty.className = 'hand-empty';
@@ -39,17 +39,17 @@ export function renderHand(hand, container) {
         return;
     }
 
-    // 渲染每张卡
+    // Render each card
     hand.forEach(card => {
-        // cardHtml(card) 返回如 '<div class="card-treasure">...</div>'
+        // cardHtml(card) returns HTML string for the card icon
         const wrapper = document.createElement('div');
         wrapper.innerHTML = cardHtml(card);
         const cardEl = wrapper.firstElementChild;
         if (!cardEl) return;
 
-        // 强制加上 .card 类，方便事件委托
+        // Ensure .card class is present for event delegation
         cardEl.classList.add('card');
-        // 绑定卡片 ID
+        // Attach card ID for interaction logic
         if (card.cardId != null) {
             cardEl.dataset.cardId = card.cardId;
         }

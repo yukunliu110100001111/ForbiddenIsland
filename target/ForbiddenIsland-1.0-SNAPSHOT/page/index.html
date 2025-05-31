@@ -2,35 +2,37 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- ① 只保留一个 base，指向正确的上下文路径 -->
+    <!-- Base URL for all relative paths -->
     <base href="/ForbiddenIsland_war_exploded/">
 
     <title>Forbidden Island</title>
 
-    <!-- 全局变量 & 通用样式 -->
+    <!-- Global variables & theme styles -->
     <link rel="stylesheet"
           href="assets/css/styles/variables-light.css"
-          media="(prefers-color-scheme: light)">
+          media="(prefers-color-scheme: light)"> <!-- Light theme variables -->
     <link rel="stylesheet"
           href="assets/css/styles/variables-dark.css"
-          media="(prefers-color-scheme: dark)">
+          media="(prefers-color-scheme: dark)"> <!-- Dark theme variables -->
 
-    <!-- 核心页面样式 -->
+    <!-- Core page styles -->
     <link rel="stylesheet" href="assets/css/index.css">
 
-    <!-- 各子页面样式（如果需要预加载也可以） -->
+    <!-- Subpage styles (can be preloaded if needed) -->
     <link rel="stylesheet" href="assets/css/pages/cover.css">
     <link rel="stylesheet" href="assets/css/pages/lobby.css">
     <link rel="stylesheet" href="assets/css/pages/creation.css">
     <link rel="stylesheet" href="assets/css/pages/room.css">
 </head>
 <body>
+<!-- Background blur effect bar -->
 <div class="blur-bar"></div>
+<!-- Main application container -->
 <div id="app"></div>
 
-<!-- ② 把 app.js 放到 body 底部并加 module 标记 -->
+<!-- Main application script (loaded as module) -->
 <script type="module" src="assets/js/app.js"></script>
-<!-- ui-plugins.js 也要按 base 路径加载 -->
+<!-- UI plugins script -->
 <script src="assets/js/ui-plugins.js"></script>
 </body>
 </html>

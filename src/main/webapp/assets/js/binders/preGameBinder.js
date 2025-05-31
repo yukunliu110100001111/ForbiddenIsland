@@ -5,7 +5,11 @@ import { loadView } from '../app.js';
 
 let roomInterval = null;
 
-// Toast 显示（同前）
+/**
+ * Show a floating toast message.
+ * @param {string} msg - The message to display.
+ * @param {string} type - Message type ("info" or "error").
+ */
 function showToast(msg, type = "info") {
     let toast = document.getElementById('global-toast');
     if (!toast) {
@@ -23,22 +27,26 @@ function showToast(msg, type = "info") {
     toast._timer = setTimeout(() => { toast.style.display = "none"; }, 1800);
 }
 
+/**
+ * Bind logic for the pre-game views.
+ * @param {string} view - The current view to bind (cover, lobby, creation, room).
+ */
 export function bindPreGame(view) {
-    // 清除旧的 interval
+    // Clear any existing polling interval
     if (roomInterval) {
         clearInterval(roomInterval);
         roomInterval = null;
     }
 
     switch (view) {
-        // 1) COVER 视图
+        // 1) COVER view: bind start button
         case 'cover': {
             const startBtn = document.getElementById('start-btn');
             startBtn?.addEventListener('click', () => loadView('lobby'));
             break;
         }
 
-        // 2) LOBBY 视图
+        // 2) LOBBY view: bind create/join buttons and check player status
         case 'lobby': {
             const createBtn = document.getElementById('go-create-room');
             const joinBtn   = document.getElementById('go-join-room');
@@ -69,9 +77,9 @@ export function bindPreGame(view) {
                         showToast(res.error, "error");
                         return;
                     }
-                    // 保存自己的 playerIndex，以后用来判断自己是不是房主
+                    // Save the player's index for host checks
                     sessionStorage.setItem('myPlayerIndex', res.playerIndex);
-                    // 可选：也可在 localStorage 上挂一个 isHost 标识
+                    // Optionally mark host in localStorage
                     localStorage.setItem('isHost', (res.playerIndex === 0).toString());
                     loadView('room');
                 } catch (e) {
@@ -81,7 +89,7 @@ export function bindPreGame(view) {
             break;
         }
 
-        // 3) CREATION 视图
+        // 3) CREATION view: bind sliders and create room logic
         case 'creation': {
             const sliderP   = document.getElementById('players');
             const labelP    = document.getElementById('player-count');
@@ -117,17 +125,17 @@ export function bindPreGame(view) {
             break;
         }
 
-        // 4) ROOM 视图
+        // 4) ROOM view: bind player slot rendering, ready/unready, exit and destroy logic
         case 'room': {
             const container = document.getElementById('slots-container');
             const status    = document.getElementById('room-status');
             const readyBtn  = document.getElementById('btn-room-ready');
-            const exitBtn   = document.getElementById('btn-room-exit');    // 新增：退出按钮
+            const exitBtn   = document.getElementById('btn-room-exit');
             const destroyBtn = document.getElementById('btn-room-destroy');
             const tipEl     = document.getElementById('start-tip');
             let isReady     = false;
 
-            // ① 卡槽首次渲染
+            // Initial slot rendering
             if (container && container.children.length === 0) {
                 const maxCount = +localStorage.getItem('playerCount') || 0;
                 for (let i = 0; i < maxCount; i++) {
@@ -138,7 +146,7 @@ export function bindPreGame(view) {
                 }
             }
 
-            // ② Ready/Unready
+            // Ready/Unready logic for the ready button
             readyBtn.textContent = 'Ready';
             readyBtn.classList.remove('ready');
             readyBtn.setAttribute('aria-pressed', 'false');
@@ -170,7 +178,7 @@ export function bindPreGame(view) {
                 }
             };
 
-            // ③ 新增：退出房间
+            // Exit room logic
             if (exitBtn) {
                 exitBtn.onclick = async () => {
                     try {
@@ -179,7 +187,6 @@ export function bindPreGame(view) {
                             showToast(res.error, "error");
                         } else {
                             showToast("You left the room.", "info");
-                            // 回到 lobby 或 cover
                             setTimeout(() => loadView('lobby'), 500);
                         }
                     } catch (e) {
@@ -188,11 +195,8 @@ export function bindPreGame(view) {
                 };
             }
 
-            // ④ 如果当前是房主，再给加个销毁按钮（示例，实际你可根据用户身份/逻辑判断）
-            // 推荐：房主才能见到（不然也可以在服务端多判断一次）
-            // 页面加一个 <button id="btn-room-destroy">Destroy Room</button>（可选）
+            // Destroy room logic (host only)
             if (destroyBtn) {
-                // 这里用 localStorage 判断，真实项目推荐用后端 session 校验
                 if (localStorage.getItem('isHost') === 'true') {
                     destroyBtn.style.display = '';
                 } else {
@@ -214,13 +218,12 @@ export function bindPreGame(view) {
                 };
             }
 
-            // ⑤ 轮询房间状态（不变）
+            // Poll room status every second, update slot/ready state, and start game if ready
             const pollRoomStatus = async () => {
                 try {
                     const { players, max, ready } = await api.getRoomStatus();
                     status.textContent = `Players: ${players}/${max}, Ready: ${ready}/${max}`;
 
-                    // 卡槽样式
                     if (container) {
                         container.querySelectorAll('.slot').forEach((slot, idx) => {
                             slot.classList.toggle('occupied', idx < players);

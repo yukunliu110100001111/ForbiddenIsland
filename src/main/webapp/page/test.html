@@ -4,15 +4,15 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Debug Launch Game</title>
-    <!-- 根据你项目的上下文路径改 base -->
+    <!-- Base path for development environment -->
     <base href="/ForbiddenIsland_war_exploded/">
 </head>
 <body>
 <script>
-    // 1. 设置测试用的默认参数
+    // Set default test parameters in localStorage
     localStorage.setItem('playerCount', 2);
     localStorage.setItem('difficulty', 1);
-    // 2. 跳转到 game.html
+    // Redirect to game page for testing
     window.location.href = 'page/game.html';
 </script>
 </body>

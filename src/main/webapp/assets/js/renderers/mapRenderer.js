@@ -2,17 +2,22 @@ import { ROLE_INFO } from '../constants/roleInfo.js';
 
 /**
  * mapRenderer.js
- * 负责将 board 二维数组渲染到指定 layer 上，动态计算瓦片位置、渲染背景图、宝藏图标、玩家棋子，并添加洪水/下沉动画
- * @param {Array<Array>} board   - 二维 TileView 数组
- * @param {Array}        players - 玩家数组，元素含 currentTile.x/y 与 type
- * @param {HTMLElement}  layer    - 承载瓦片的容器
+ * Render the board (2D array) to a specified layer. Calculates tile positions, renders background images,
+ * treasure icons, and player pawns, and adds flood/sink animations as needed.
+ * @param {Array<Array>} board   - 2D array of TileView objects
+ * @param {Array}        players - Array of player objects, each with currentTile.x/y and type
+ * @param {HTMLElement}  layer   - Container element for the tiles
+ * @param {number}       currentPlayerIndex - Optional, used to highlight the current player
  */
+
+const exitedTiles = new Set();
+
 export function renderTiles(board = [], players = [], layer, currentPlayerIndex = null) {
     if (!layer) return;
     layer.innerHTML = '';
 
     if (!Array.isArray(board) || board.length === 0 || !Array.isArray(board[0])) {
-        console.error('renderTiles: board 不是有效的二维数组', board);
+        console.error('renderTiles: board is not a valid 2D array', board);
         return;
     }
 
@@ -27,28 +32,35 @@ export function renderTiles(board = [], players = [], layer, currentPlayerIndex 
     const offsetX = (parentW - (cols * tileSize + (cols - 1) * gap)) / 2;
     const offsetY = (parentH - (rows * tileSize + (rows - 1) * gap)) / 2;
 
-    // 渲染瓦片
+    // Render each tile
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
             const t = board[r][c];
             if (!t) continue;
+
+            if (t.state.toLowerCase() === 'sink') {
+                const key = `${t.x}-${t.y}`;
+                if (!exitedTiles.has(key)) {
+                    exitedTiles.add(key);
+                }
+                continue;
+            }
+
             const el = document.createElement('div');
             el.className = `tile ${t.state.toLowerCase()}`;
+            el.id = `tile-${t.x}-${t.y}`;
             el.dataset.x = t.x;
             el.dataset.y = t.y;
 
-            // 保留瓦片文字居中删除
-            // 加载背景图
+            // Set tile background image
             const imgPath = `assets/Images/tiles/${encodeURI(t.name)}.png`;
             el.style.backgroundImage    = `url('${imgPath}')`;
             el.style.backgroundSize     = 'cover';
             el.style.backgroundPosition = 'center';
 
-            // 洪水/下沉动画
+            // Add flood animation if needed
             if (t.state.toLowerCase() === 'flooded') {
                 el.classList.add('anim-flood');
-            } else if (t.state.toLowerCase() === 'sink') {
-                el.classList.add('anim-sink');
             }
 
             Object.assign(el.style, {
@@ -59,7 +71,7 @@ export function renderTiles(board = [], players = [], layer, currentPlayerIndex 
                 top:    `${offsetY + r * (tileSize + gap)}px`,
             });
 
-            // 宝藏图标
+            // Render treasure icon if present
             if (t.treasureType) {
                 const icon = document.createElement('img');
                 icon.src = `assets/Images/icons/treasure/treasure-${t.treasureType.toLowerCase()}.png`;
@@ -73,11 +85,10 @@ export function renderTiles(board = [], players = [], layer, currentPlayerIndex 
                 el.appendChild(icon);
             }
 
-            // 底部文字标签
+            // Tile name label (with custom font)
             const label = document.createElement('div');
             label.className = 'tile-label';
             label.textContent = t.name;
-            // 设置自定义字体
             label.style.fontFamily = 'Righteous, cursive';
             el.appendChild(label);
 
@@ -85,7 +96,7 @@ export function renderTiles(board = [], players = [], layer, currentPlayerIndex 
         }
     }
 
-    // 渲染玩家棋子
+    // Render player pawns on their current tile
     const pawnSize = tileSize / 3;
     players.forEach((p, idx) => {
         const { x, y, type } = p.currentTile || {};
@@ -95,7 +106,7 @@ export function renderTiles(board = [], players = [], layer, currentPlayerIndex 
         pawnImg.src = `assets/Images/icons/player.png`;
         pawnImg.className = 'pawn';
 
-        // 判断是否高亮自己
+        // Highlight the current player's pawn
         if (typeof currentPlayerIndex === 'number' && idx === currentPlayerIndex) {
             pawnImg.classList.add('my-turn-glow');
         }

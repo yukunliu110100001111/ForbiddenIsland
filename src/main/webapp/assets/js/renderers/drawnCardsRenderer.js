@@ -1,6 +1,12 @@
 // assets/js/renderers/drawnCardsRenderer.js
 import { BASE_HREF } from '../constants/config.js';
 
+/**
+ * Render the recently drawn cards (both treasures and floods) into provided slots.
+ * @param {Array} treasures - Array of drawn treasure cards
+ * @param {Array} floods    - Array of drawn flood cards
+ * @param {HTMLElement} container - The parent element containing .drawn-card slots
+ */
 export function renderDrawnCards(treasures = [], floods = [], container) {
     const slots = container.querySelectorAll('.drawn-card');
     const list  = [...treasures, ...floods];
@@ -31,7 +37,7 @@ export function renderDrawnCards(treasures = [], floods = [], container) {
       background-image: url('${BASE_HREF + path}');
       background-size: cover;
       background-position: center;
-      color: transparent; /* 隐藏文字 */
+      color: transparent; /* Hide text */
     `;
     });
 }

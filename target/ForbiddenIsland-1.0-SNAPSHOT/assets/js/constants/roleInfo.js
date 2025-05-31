@@ -1,6 +1,7 @@
 /**
  * roleInfo.js
- * 常量：Forbidden Island 六种角色的信息映射
+ * Constant mapping: Information for the six Forbidden Island roles.
+ * Used for displaying role details, images, and color codes in the UI.
  */
 export const ROLE_INFO = {
     ENGINEER: {

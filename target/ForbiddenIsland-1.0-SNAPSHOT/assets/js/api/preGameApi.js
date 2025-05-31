@@ -1,7 +1,8 @@
 // assets/js/api/preGameApi.js
 
 /**
- * 构造后端数据接口根 URL
+ * Constructs the base URL for backend API endpoints
+ * @returns {string} The formatted base API URL
  */
 export function getDataUrl() {
     const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
@@ -10,10 +11,13 @@ export function getDataUrl() {
 }
 
 /**
- * 通用的 fetch + JSON 解析
- * - 非 2xx 会抛错
- * - 空响应返回 {}
- * - 非法 JSON 返回 {}
+ * Universal API caller with JSON parsing
+ * - Throws error for non-2xx responses
+ * - Returns empty object for empty responses
+ * - Returns empty object for invalid JSON
+ * @param {string} url - API endpoint URL
+ * @param {Object} [options] - Fetch options
+ * @returns {Promise<Object>} Parsed JSON response
  */
 export async function callApi(url, options = {}) {
     const res = await fetch(url, options);
@@ -31,55 +35,84 @@ export async function callApi(url, options = {}) {
     }
 }
 
-/** 创建房间 */
+/**
+ * Creates a new game room
+ * @param {number} hardLevel - Difficulty level
+ * @param {number} playerNumber - Number of players
+ * @returns {Promise<Object>} Room creation result
+ */
 export function createRoom(hardLevel, playerNumber) {
     const url = `${getDataUrl()}?type=create_room&hardLevel=${hardLevel}&playerNumber=${playerNumber}`;
     return callApi(url);
 }
 
-/** 加入房间 */
+/**
+ * Joins an existing game room
+ * @returns {Promise<Object>} Join operation result
+ */
 export function joinRoom() {
     const url = `${getDataUrl()}?type=join_room`;
     return callApi(url);
 }
 
-/** 退出房间 */
+/**
+ * Leaves current game room
+ * @returns {Promise<Object>} Exit operation result
+ */
 export function exitRoom() {
     const url = `${getDataUrl()}?type=exit_room`;
     return callApi(url);
 }
 
-/** 销毁房间（仅限房主） */
+/**
+ * Destroys current game room (room owner only)
+ * @returns {Promise<Object>} Destruction result
+ */
 export function destroyRoom() {
     const url = `${getDataUrl()}?type=destroy_room`;
     return callApi(url);
 }
 
-/** 获取当前玩家数 & 最大玩家数 */
+/**
+ * Gets current and maximum player counts
+ * @returns {Promise<Object>} Player count information
+ */
 export function getPlayerCount() {
     const url = `${getDataUrl()}?type=get_player_num`;
     return callApi(url);
 }
 
-/** 标记自己为 Ready */
+/**
+ * Marks current player as ready
+ * @returns {Promise<Object>} Ready status result
+ */
 export function setReady() {
     const url = `${getDataUrl()}?type=is_ready`;
     return callApi(url);
 }
 
-/** 取消 Ready */
+/**
+ * Marks current player as not ready
+ * @returns {Promise<Object>} Unready status result
+ */
 export function setUnready() {
     const url = `${getDataUrl()}?type=is_unready`;
     return callApi(url);
 }
 
-/** 获取房间状态（当前玩家数、最大人数、准备人数） */
+/**
+ * Gets current room status
+ * @returns {Promise<Object>} Room status information
+ */
 export function getRoomStatus() {
     const url = `${getDataUrl()}?type=get_room_status`;
     return callApi(url);
 }
 
-/** 启动游戏（仅在所有人都 Ready 后可调用） */
+/**
+ * Starts the game (when all players are ready)
+ * @returns {Promise<Object>} Game start result
+ */
 export function startGame() {
     const url = `${getDataUrl()}?type=start_game`;
     return callApi(url);

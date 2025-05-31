@@ -7,6 +7,9 @@ import { ROLE_INFO } from '../constants/roleInfo.js';
  * @param {Array}        players - 玩家数组，元素含 currentTile.x/y 与 type
  * @param {HTMLElement}  layer    - 承载瓦片的容器
  */
+
+const exitedTiles = new Set();
+
 export function renderTiles(board = [], players = [], layer, currentPlayerIndex = null) {
     if (!layer) return;
     layer.innerHTML = '';
@@ -32,8 +35,18 @@ export function renderTiles(board = [], players = [], layer, currentPlayerIndex 
         for (let c = 0; c < cols; c++) {
             const t = board[r][c];
             if (!t) continue;
+
+            if (t.state.toLowerCase() === 'sink') {
+                const key = `${t.x}-${t.y}`;
+                if (!exitedTiles.has(key)) {
+                    exitedTiles.add(key);
+                }
+                continue;
+            }
+
             const el = document.createElement('div');
             el.className = `tile ${t.state.toLowerCase()}`;
+            el.id = `tile-${t.x}-${t.y}`;
             el.dataset.x = t.x;
             el.dataset.y = t.y;
 
@@ -47,8 +60,6 @@ export function renderTiles(board = [], players = [], layer, currentPlayerIndex 
             // 洪水/下沉动画
             if (t.state.toLowerCase() === 'flooded') {
                 el.classList.add('anim-flood');
-            } else if (t.state.toLowerCase() === 'sink') {
-                el.classList.add('anim-sink');
             }
 
             Object.assign(el.style, {

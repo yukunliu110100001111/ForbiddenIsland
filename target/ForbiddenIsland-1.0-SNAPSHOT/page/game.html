@@ -6,13 +6,13 @@
     <title>Forbidden Island – Game UI</title>
     <base href="/ForbiddenIsland_war_exploded/">
     <link rel="stylesheet" href="assets/css/game/game.css">
-
 </head>
 <body>
 <div id="main-container">
     <header id="header">
-        <div id="action-status" style="margin:8px; font-weight:bold; text-align:center;"></div>
+        <div id="action-status" style="margin:8px; font-weight:bold; text-align:center;"></div> <!-- Current action status display -->
         <div id="control-panel">
+            <!-- Main action buttons for player controls -->
             <button id="btn-move" class="color-btn">Move</button>
             <button id="btn-shore" class="color-btn">Shore Up</button>
             <button id="btn-take" class="color-btn">Capture</button>
@@ -20,13 +20,12 @@
             <button id="btn-give" class="color-btn">Give Card</button>
             <button id="btn-special" class="color-btn">Special</button>
             <button id="btn-end-turn" class="color-btn">End Turn</button>
-            <button id="btn-reset"    class="color-btn">Reset Game</button>
-
+            <button id="btn-reset" class="color-btn">Reset Game</button>
         </div>
     </header>
     <div class="main-content">
         <div id="game-wrapper">
-            <!-- 左侧牌堆与抓牌区 -->
+            <!-- Left panel containing card decks -->
             <aside id="left-panel">
                 <div class="card-pile" id="treasure-deck">
                     <div class="deck-label">Treasure Deck</div>
@@ -36,41 +35,38 @@
                 </div>
 
                 <div id="discard-piles">
-                    <div id="treasure-discard" class="discard-pile"></div>
-                    <div id="flood-discard"    class="discard-pile"></div>
+                    <div id="treasure-discard" class="discard-pile"></div> <!-- Treasure discard pile -->
+                    <div id="flood-discard" class="discard-pile"></div>    <!-- Flood discard pile -->
                 </div>
 
-                <!-- 可选：显示最近抽到的两张牌 -->
+                <!-- Recently drawn cards display area -->
                 <div id="drawn-cards">
                     <div class="drawn-card"></div>
                     <div class="drawn-card"></div>
                 </div>
             </aside>
 
-            <!-- 地图区 -->
+            <!-- Main game map area -->
             <div id="map-container">
-                <div id="tiles-layer"></div>
-                <svg id="roads-layer" xmlns="http://www.w3.org/2000/svg"></svg>
+                <div id="tiles-layer"></div> <!-- Tile layer for island tiles -->
+                <svg id="roads-layer" xmlns="http://www.w3.org/2000/svg"></svg> <!-- SVG layer for paths/connections -->
             </div>
-            <!-- 右侧水位表 -->
+
+            <!-- Right panel with water meter and action log -->
             <aside id="right-panel">
-                <!-- 右侧水位表占位 -->
-                <div id="water-meter" class="water-meter" >
+                <div id="water-meter" class="water-meter">
                     <img src="assets/Images/bg/watermeter.png" alt="Water Meter" class="watermeter-bg" />
                     <img src="assets/Images/bg/pointer.png" class="watermeter-pointer" alt="pointer" />
-                    <div class="watermeter-label" id="watermeter-label">1 / 6</div>
+                    <div class="watermeter-label" id="watermeter-label">1 / 6</div> <!-- Water level indicator -->
                 </div>
                 <div id="action-log-container">
                     <div id="action-log-title">History</div>
-                    <div id="action-log"></div>
+                    <div id="action-log"></div> <!-- Game action history log -->
                 </div>
-
             </aside>
-
-
         </div>
 
-        <!-- 操作区、手牌、底栏的竖向组合 -->
+        <!-- Bottom panel showing player avatars and hands -->
         <div class="bottom-panel-group">
             <footer id="players-footer">
                 <div class="player"><div class="avatar"></div><div class="hand"></div></div>
@@ -81,27 +77,32 @@
         </div>
     </div>
 </div>
+
+<!-- Game result modal -->
 <div id="result-modal" class="modal hidden">
     <div class="modal-content">
         <h2 id="result-title"></h2>
         <button id="btn-restart">Restart</button>
     </div>
 </div>
+
+<!-- Special card usage modal -->
 <div id="special-modal" class="modal hidden">
     <div class="modal-content">
-        <h2>使用特殊牌</h2>
+        <h2>Special Card</h2>
         <div id="special-list" class="special-list">
-            <!-- 这里将动态填充：每张 action 卡都会渲染成一个按钮 -->
+            <!-- Will be dynamically populated with special action cards -->
         </div>
-        <button id="btn-special-close">取消</button>
+        <button id="btn-special-close">Cancel</button>
     </div>
 </div>
-<!-- 弃牌选择弹窗 -->
+
+<!-- Card discard selection modal -->
 <div id="discard-modal" class="modal hidden">
     <div class="modal-content">
-        <h2>请选择要弃掉的牌</h2>
+        <h2>Select cards to discard</h2>
         <div id="discard-cards-container" class="discard-cards"></div>
-        <p>请点击牌面直到手牌不超过 5 张</p>
+        <p>Click cards until you have 5 or fewer in hand</p>
     </div>
 </div>
 
@@ -109,7 +110,7 @@
 <script type="module">
     import { bindInGame } from './assets/js/binders/inGameBinder.js';
     document.addEventListener('DOMContentLoaded', () => {
-        bindInGame();
+        bindInGame(); // Initialize game bindings when DOM is loaded
     });
 </script>
 </body>

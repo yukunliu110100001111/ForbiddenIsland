@@ -1,20 +1,22 @@
 // controllers/controls.js
 import * as api from '../api/inGameApi.js';
 
-let currentAction = null;   // 当前按钮动作
-let pendingCard   = null;   // GIVE_CARD –  已选中的 cardId
+let currentAction = null;   // Currently selected button action
+let pendingCard   = null;   // For GIVE_CARD – selected cardId
 
-/* 提供给其它模块做高亮参考 */
+/**
+ * Expose currentAction for other modules (e.g., to highlight active controls)
+ */
 export function getCurrentAction() { return currentAction; }
 
 /**
- * 绑定所有控件
- * @param {Object}   btns      - 结构同 inGameBinder 传入：{move,shore,take,use,give,spec,end,reset}
- * @param {Function} onRefresh - 操作完成后重新拉取并刷新 UI
+ * Bind all game control buttons and in-game interactions.
+ * @param {Object}   btns      - Object of button elements (move, shore, take, use, give, spec, end, reset)
+ * @param {Function} onRefresh - Callback to refresh UI after each operation
  */
 export function wireControls(btns, onRefresh) {
 
-    /* ---------- 小工具 ---------- */
+    /* ---------- Utility: Clear UI highlight states ---------- */
     const clearUi = () => {
         currentAction = null;
         pendingCard   = null;
@@ -26,6 +28,10 @@ export function wireControls(btns, onRefresh) {
             .forEach(p => p.classList.remove('target'));
     };
 
+    /**
+     * Set the current action and update UI highlight for the selected button.
+     * @param {string} act - Action name (MOVE, SHORE_UP, COLLECT_TREASURE, etc.)
+     */
     const setAct = act => {
         clearUi();
         currentAction = act;
@@ -42,30 +48,33 @@ export function wireControls(btns, onRefresh) {
         });
     };
 
-    /* ---------- 顶部按钮 ---------- */
+    /* ---------- Top bar control buttons ---------- */
     btns.move .onclick = () => setAct('MOVE');
     btns.shore.onclick = () => setAct('SHORE_UP');
     btns.take .onclick = () => setAct('COLLECT_TREASURE');
     if (btns.use)  btns.use .onclick = () => setAct('USE_CARD');
     if (btns.give) btns.give.onclick = () => setAct('GIVE_CARD');
 
-    btns.spec.onclick = async () => {            // “Special”
+    // Special ability button
+    btns.spec.onclick = async () => {
         clearUi();
         await api.useSpecialAbility();
         onRefresh();
     };
-    btns.end .onclick = async () => {            // “End Turn”
+    // End turn button
+    btns.end .onclick = async () => {
         clearUi();
         await api.sendAction({ action:'END_TURN' });
         onRefresh();
     };
+    // Reset game button (optional)
     if (btns.reset) btns.reset.onclick = async ()=>{
         clearUi();
         await api.resetGame();
         onRefresh();
     };
 
-    /* ---------- 地图点击（MOVE / SHORE_UP / COLLECT_TREASURE） ---------- */
+    /* ---------- Map click handler (MOVE / SHORE_UP / COLLECT_TREASURE) ---------- */
     document.getElementById('map-container')
         .addEventListener('click', async ev=>{
             if (!currentAction) return;
@@ -81,7 +90,7 @@ export function wireControls(btns, onRefresh) {
             onRefresh();
         });
 
-    /* ---------- 左侧牌堆点击（抽牌） ---------- */
+    /* ---------- Deck click handlers (draw cards) ---------- */
     document.getElementById('treasure-deck')
         ?.addEventListener('click', async ()=>{
             await api.sendAction({ action:'DRAW_TREASURE' });
@@ -93,38 +102,38 @@ export function wireControls(btns, onRefresh) {
             onRefresh();
         });
 
-    /* ---------- 底栏点击逻辑 ---------- */
+    /* ---------- Footer: hand cards and player avatar click logic ---------- */
     const footer = document.getElementById('players-footer');
 
     footer.addEventListener('click', async ev=>{
-        /* 1) 手牌点击 ---------------------------------------------------- */
+        /* 1) Hand card click --------------------------------------------- */
         const cardEl = ev.target.closest('.card');
         if (cardEl) {
             const cardId = +cardEl.dataset.cardId;
 
-            // --- USE_CARD：直接打出 ---
+            // --- USE_CARD: Play selected card immediately ---
             if (currentAction === 'USE_CARD') {
                 await api.sendAction({ action:'USE_CARD', cardId });
                 clearUi();
                 return onRefresh();
             }
 
-            // --- GIVE_CARD：第一步选牌 ---
+            // --- GIVE_CARD: Step 1 – select the card ---
             if (currentAction === 'GIVE_CARD') {
                 pendingCard = cardId;
-                // 视觉反馈
+                // Visual feedback
                 document.querySelectorAll('.card.selected')
                     .forEach(c=>c.classList.remove('selected'));
                 cardEl.classList.add('selected');
-                return;          // 继续等待玩家点击头像
+                return;          // Wait for player avatar click
             }
         }
 
-        /* 2) 玩家头像 / player 容器点击 ---------------------------------- */
+        /* 2) Player avatar click (target for GIVE_CARD) ------------------ */
         const playerEl = ev.target.closest('.player');
         if (playerEl && currentAction === 'GIVE_CARD' && pendingCard != null) {
             const targetIdx = +playerEl.dataset.playerIndex;
-            // 视觉反馈
+            // Visual feedback
             document.querySelectorAll('.player.target')
                 .forEach(p=>p.classList.remove('target'));
             playerEl.classList.add('target');

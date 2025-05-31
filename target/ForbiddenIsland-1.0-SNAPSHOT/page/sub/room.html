@@ -1,26 +1,25 @@
 <div class="container">
     <div class="card card-base room-layout">
         <div class="room-left">
-            <div class="slots" id="slots-container"></div>
-            <h2 id="room-status">Waiting for other players to join...</h2>
-            <button id="btn-room-ready" class="button-base">Ready</button>
-            <button id="btn-room-exit" class="button-base">Exit Room</button>
-            <!-- 只有房主可见 -->
-            <button id="btn-room-destroy" class="button-base" style="background:#f45c5c;display:none;">Destroy Room</button>
-            <span id="start-tip"></span>
+            <div class="slots" id="slots-container"></div> <!-- Container for player slots -->
+            <h2 id="room-status">Waiting for other players to join...</h2> <!-- Status message for room -->
+            <button id="btn-room-ready" class="button-base">Ready</button> <!-- Button to indicate the player is ready -->
+            <button id="btn-room-exit" class="button-base">Exit Room</button> <!-- Button to exit the room -->
+            <!-- Only visible to the room owner -->
+            <button id="btn-room-destroy" class="button-base" style="background:#f45c5c;display:none;">Destroy Room</button> <!-- Button to destroy the room (only visible to room owner) -->
+            <span id="start-tip"></span> <!-- Span for displaying start tips -->
         </div>
         <div class="room-right">
             <div class="map-selector">
                 <div class="map-nav">
-                    <button id="btn-map-prev" class="button-base">←</button>
-                    <div id="map-preview" class="map-thumbnail"></div>
-                    <button id="btn-map-next" class="button-base">→</button>
+                    <button id="btn-map-prev" class="button-base">←</button> <!-- Button to navigate to previous map -->
+                    <div id="map-preview" class="map-thumbnail"></div> <!-- Preview thumbnail of the selected map -->
+                    <button id="btn-map-next" class="button-base">→</button> <!-- Button to navigate to next map -->
                 </div>
-                <button id="btn-map-random" class="button-base">Random</button>
+                <button id="btn-map-random" class="button-base">Random</button> <!-- Button to select a random map -->
             </div>
         </div>
     </div>
 </div>
-<!-- Toast 容器 -->
+<!-- Toast container for displaying notifications -->
 <div id="global-toast" style="display:none;"></div>
-<script src="../../js/room.js"></script>

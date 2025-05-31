@@ -1,12 +1,14 @@
-// assets/js/api/inGame.js（注意：文件名保持不变）
+// API service for in-game operations and state management
 
+// Import shared API utilities
 import { getDataUrl, callApi } from './preGameApi.js';
 
+// Base API endpoint URL from configuration
 const BASE = getDataUrl();
 
 /**
- * 拉取最新游戏状态
- * @returns {Promise<GameState>} 完整的 GameState JSON
+ * Fetches current game state from server
+ * @returns {Promise<Object>} Resolves with complete game state object
  */
 export function updateGameState() {
     const url = `${BASE}?type=update_element`;
@@ -14,9 +16,9 @@ export function updateGameState() {
 }
 
 /**
- * 发送玩家操作
- * @param {object} actionObj 动作描述，如 { action:'MOVE', x:1, y:2 }
- * @returns {Promise<{ message?: string, error?: string }>}
+ * Submits player action to server
+ * @param {Object} actionObj - Action parameters (type, coordinates, etc.)
+ * @returns {Promise<Object>} Resolves with server response
  */
 export function sendAction(actionObj) {
     const url = `${BASE}?type=player_action`;
@@ -28,16 +30,18 @@ export function sendAction(actionObj) {
 }
 
 /**
- * 使用特殊技能
- * @returns {Promise<any>}
+ * Executes special ability for current player
+ * @returns {Promise<Object>} Resolves with ability execution result
  */
 export function useSpecialAbility() {
     const url = `${BASE}?type=useSpecialAbility`;
     return callApi(url);
 }
 
-// assets/js/api/inGameApi.js
-
+/**
+ * Resets current game session
+ * @returns {Promise<Object>} Resolves with reset operation status
+ */
 export function resetGame() {
     const url = `${BASE}?type=reset_game`;
     return callApi(url, { method: 'POST' });

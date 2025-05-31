@@ -2,15 +2,16 @@ import { ROLE_INFO } from '../constants/roleInfo.js';
 import { cardHtml }  from '../constants/cardIcons.js';
 
 /**
- * 渲染底部玩家栏
- * @param {Array} players
- * @param {number} myIdx
- * @param {number} curIdx
- * @param {HTMLElement} footer
+ * Render the footer player area.
+ * Shows all players in order, with yourself always displayed last.
+ * @param {Array}      players - Array of player objects
+ * @param {number}     myIdx   - The current user's playerIndex
+ * @param {number}     curIdx  - The current active player's index
+ * @param {HTMLElement} footer - The footer DOM container
  */
 export function renderFooter(players, myIdx, curIdx, footer) {
     const blocks = footer.querySelectorAll('.player');
-    // 构造显示顺序：其他玩家在前，自己在最后
+    // Construct display order: others first, self last
     const others = players.filter(p => p.playerIndex !== myIdx);
     const selfPlayer = players.find(p => p.playerIndex === myIdx);
     const ordered = selfPlayer ? [...others, selfPlayer] : others;
@@ -18,13 +19,13 @@ export function renderFooter(players, myIdx, curIdx, footer) {
     blocks.forEach((div, i) => {
         if (i < ordered.length) {
             const p = ordered[i];
-            // 兜底：info 可能为 undefined
+            // Fallback in case info is undefined
             const info = ROLE_INFO[p.type] || {};
             const color = info.color || '#fff';
             const img   = info.img   || '';
             const name  = info.name  || p.type;
 
-            // 设置 data-player-index，方便事件分发
+            // Set data-player-index for event delegation
             div.style.display = '';
             div.dataset.playerIndex = p.playerIndex;
 
@@ -36,11 +37,11 @@ export function renderFooter(players, myIdx, curIdx, footer) {
                  </div>
                  <div class="role-label">${name}</div>`;
 
-            // 手牌部分：确保每张卡片有 .card 和 data-card-id
+            // Render hand cards, ensuring .card and data-card-id for each
             const handDiv = div.querySelector('.hand');
             if (p.hand && p.hand.length) {
                 handDiv.innerHTML = p.hand.map(card => {
-                    // 包装每个 cardHtml 返回值，强制补充属性
+                    // Wrap each cardHtml output to force required attributes
                     const wrapper = document.createElement('div');
                     wrapper.innerHTML = cardHtml(card);
                     let cardEl = wrapper.firstElementChild;

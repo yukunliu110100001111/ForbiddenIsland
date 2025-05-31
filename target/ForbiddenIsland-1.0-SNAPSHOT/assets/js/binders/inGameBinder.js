@@ -104,7 +104,7 @@ export async function bindInGame() {
 
     // 首次渲染 & 定时刷新
     await refresh();
-    const timer = setInterval(refresh, 1000);
+    const timer = setInterval(refresh, 3000);
 
     async function refresh() {
         gs = await pull();
