@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class PlayerView {
-    private int playerIndex;               // 替代 name，用 index 表示
+    private int playerIndex;
     private PlayerType type;
     private Tile currentTile;
     private List<Card> hand;

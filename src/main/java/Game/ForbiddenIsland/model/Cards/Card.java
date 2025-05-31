@@ -4,7 +4,7 @@ import Game.ForbiddenIsland.model.TreasureType;
 
 public class Card {
     private CardType type;
-    private TreasureType treasureType; // 仅当type为TREASURE时有效
+    private TreasureType treasureType; // only for treasure cards
 
     public Card(CardType type) {
         this.type = type;

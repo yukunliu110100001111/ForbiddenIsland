@@ -28,14 +28,14 @@ public class PlayerController {
         ActionContext actionContext = parseJsonToActionContext(json);
         ActionLogger logger = (ActionLogger) ctx.getAttribute("actionLogger");
         if (actionContext == null) {
-            System.err.println("[PlayerController] 解析 ActionContext 失败，收到 json: " + json);
+            System.err.println("[PlayerController] interpret ActionContext fail，receive json: " + json);
             return;
         }
-        System.out.println("[PlayerController] 收到 action: " + actionContext.getPlayerChoice()
-                + " | 玩家: " + (actionContext.getTargetPlayers().isEmpty() ? "-" : actionContext.getTargetPlayers().get(0).getType())
-                + " | 目标 tile: " + (actionContext.getTargetTile() == null ? "null" :
+        System.out.println("[PlayerController] receive action: " + actionContext.getPlayerChoice()
+                + " | player: " + (actionContext.getTargetPlayers().isEmpty() ? "-" : actionContext.getTargetPlayers().get(0).getType())
+                + " | target tile: " + (actionContext.getTargetTile() == null ? "null" :
                 actionContext.getTargetTile().getX() + "," + actionContext.getTargetTile().getY())
-                + " | 其它卡/宝藏: " + actionContext.getTargetCard() + "/" + actionContext.getTreasureType()
+                + " | other card/treasure card: " + actionContext.getTargetCard() + "/" + actionContext.getTreasureType()
         );
         switch (actionContext.getPlayerChoice()) {
             case MOVE:
@@ -71,20 +71,20 @@ public class PlayerController {
                 logger.log("Player " + actionContext.getTargetPlayers().isEmpty() + "-" + actionContext.getTargetPlayers().get(0).getType() + " end turn");
                 break;
             default:
-                System.err.println("[PlayerController] 未知操作: " + actionContext.getPlayerChoice());
+                System.err.println("[PlayerController] unknown movement: " + actionContext.getPlayerChoice());
         }
     }
 
     /**
-     * 减少一次行动数，并在行动数耗尽时自动结束回合
+     * reduce a player's action, if zero end turn
      */
     private void decAction() {
         GameState gs = gameController.getGameState();
         int left = gs.getActionsLeft() - 1;
         gs.setActionsLeft(left);
-        System.out.println("[PlayerController] 行动数 -1, 剩余: " + left);
+        System.out.println("[PlayerController] reduce action numbers, remaining: " + left);
         if (left <= 0) {
-            System.out.println("[PlayerController] 行动耗尽，自动结束回合");
+            System.out.println("[PlayerController] end turn");
             endTurn();
         }
     }
@@ -149,7 +149,7 @@ public class PlayerController {
                     .setTreasureType(treasureType)
                     .build();
         } catch (Exception e) {
-            System.err.println("[PlayerController] parseJsonToActionContext 解析失败: " + e.getMessage());
+            System.err.println("[PlayerController] parseJsonToActionContext fail to interpret: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -157,12 +157,12 @@ public class PlayerController {
 
     public boolean movePlayer(ActionContext actionContext) {
         if (gameController.getGameState().getActionsLeft() <= 0) {
-            System.out.println("[PlayerController] 无剩余行动，跳过 move");
+            System.out.println("[PlayerController] no actions remain, skip move");
             return false;
         }
         Player player = actionContext.getTargetPlayers().get(0);
         Tile targetTile = actionContext.getTargetTile();
-        System.out.println("[PlayerController] 执行 movePlayer: "
+        System.out.println("[PlayerController] execute movePlayer: "
                 + player.getType() + " -> (" + targetTile.getX() + "," + targetTile.getY() + ")");
         return gameController.movePlayer(player, targetTile);
     }
@@ -210,7 +210,7 @@ public class PlayerController {
 
 
     public boolean endTurn() {
-        System.out.println("[PlayerController] 触发 endTurn");
+        System.out.println("[PlayerController] trigger endTurn");
         gameController.endTurn();
         return true;
     }

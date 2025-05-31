@@ -30,10 +30,10 @@ public class CardFactory {
     );
 
     public static List<Card> loadTreasureCard() throws IOException {
-        String path = "model/cards.json";  // 路径和 MapFactory 一致
+        String path = "model/cards.json";  // same as map factory
         InputStream is = CardFactory.class.getClassLoader().getResourceAsStream(path);
         if (is == null) {
-            throw new IOException("找不到 " + path + "，请确保它在 resources/model/ 下！");
+            throw new IOException("can't find  " + path + "，make sure it is in resources/model/ ！");
         }
         ObjectMapper mapper = new ObjectMapper();
         List<CardData> cardDefinitions = mapper.readValue(is, new TypeReference<>() {});
@@ -75,7 +75,7 @@ public class CardFactory {
         return deck;
     }
 
-    // JSON 数据模型，用于 Jackson 解析
+    // JSON data model for JSON analysis
     public record CardData(
             String name,
             String type,
