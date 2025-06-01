@@ -48,16 +48,19 @@ public class CardFactory {
                 switch (type) {
                     case TREASURE -> {
                         TreasureType treasureType = TreasureType.valueOf(def.treasure());
-                        card = new TreasureCard(i, treasureType);
+                        card = new TreasureCard(treasureType);
                     }
                     case ACTION, EVENT -> {
                         CardAction action = actionRegistry.getOrDefault(name, null);
-                        card = new ActionCard(i, name, type, action);
+                        card = new ActionCard(name, type, action);
                     }
                     default -> throw new IllegalArgumentException("Unsupported card type: " + type);
                 }
                 cards.add(card);
             }
+        }
+        for  (Card card : cards) {
+            card.setCardId(cards.indexOf(card));
         }
         return cards;
     }
@@ -67,7 +70,9 @@ public class CardFactory {
         List<FloodCard> cards = new ArrayList<>(tiles.stream()
                 .map(FloodCard::new)
                 .toList());
-
+         for (FloodCard card : cards) {
+            card.setCardId(cards.indexOf(card));
+        }
         Collections.shuffle(cards, new Random());
 
         Deck<FloodCard> deck = new DeckImp<>();

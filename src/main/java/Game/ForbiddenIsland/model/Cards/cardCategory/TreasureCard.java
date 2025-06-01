@@ -9,8 +9,8 @@ import lombok.Getter;
 public class TreasureCard extends Card {
     // Treasure card
     private final TreasureType treasureType;
-    public TreasureCard(int id,TreasureType type) {
-        super(id,CardName.TREASURE, CardType.TREASURE);
+    public TreasureCard(TreasureType type) {
+        super(CardName.TREASURE, CardType.TREASURE);
         this.treasureType = type;
     }
 

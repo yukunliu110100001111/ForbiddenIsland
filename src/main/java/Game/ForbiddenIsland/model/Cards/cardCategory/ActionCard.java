@@ -10,8 +10,8 @@ public class ActionCard extends Card {
     //this class is used to represent the action cards, for example, helicopter, sandbag, waterrise
     CardAction action;
 
-    public ActionCard(int id,CardName name, CardType cardType, CardAction action) {
-        super(id,name, cardType);
+    public ActionCard(CardName name, CardType cardType, CardAction action) {
+        super(name, cardType);
         this.action = action;
     }
 
