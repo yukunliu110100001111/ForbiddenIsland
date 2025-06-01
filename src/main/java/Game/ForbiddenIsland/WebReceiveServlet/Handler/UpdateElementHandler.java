@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 
 public class UpdateElementHandler implements RequestHandler {
 
+    // update every useful element in the game(players, tiles, cards)
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         HttpSession session = req.getSession();
@@ -23,12 +24,15 @@ public class UpdateElementHandler implements RequestHandler {
 
         gc.initializeIfNeeded();
 
+        // Player number
         Integer myIdx = (Integer) session.getAttribute("playerIndex");
         if (myIdx == null) myIdx = 0;
 
+        // Get log
         ActionLogger logger = (ActionLogger) ctx.getAttribute("actionLogger");
 
 
+        // Get all Json factor from game
         String logHtml = (logger != null) ? logger.getLogsAsHtml() : "";
         String gameJson = gc.getGameStateJson();
         int braceIdx = gameJson.indexOf('{');
@@ -41,6 +45,7 @@ public class UpdateElementHandler implements RequestHandler {
 
         out.println(result);
     }
+    // format
     private String escape(String input) {
         return input.replace("\"", "\\\"").replace("\n", "").replace("\r", "");
     }

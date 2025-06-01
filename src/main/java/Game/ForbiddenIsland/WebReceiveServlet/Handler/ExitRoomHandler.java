@@ -13,6 +13,7 @@ public class ExitRoomHandler implements RequestHandler {
         this.roomState = roomState;
     }
 
+    // decrease current people in room state when someone out
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         if (!roomState.hasRoom()) {

@@ -16,6 +16,7 @@ public class CreateRoomHandler implements RequestHandler {
         this.roomState = roomState;
     }
 
+    // Create session for the room creator and create room
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         if (roomState.hasRoom()) {

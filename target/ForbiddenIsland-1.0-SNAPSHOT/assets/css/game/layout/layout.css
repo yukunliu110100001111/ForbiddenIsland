@@ -10,6 +10,7 @@ body {
     min-width: 100vw;
     box-sizing: border-box;
     background: linear-gradient(135deg, #b6e7fc 0%, #89b7e6 100%);
+    font-family: 'Merienda', cursive, sans-serif;
     position: relative;
 }
 body::before {

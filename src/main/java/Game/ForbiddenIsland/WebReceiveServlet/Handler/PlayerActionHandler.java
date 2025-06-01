@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 
 public class PlayerActionHandler implements RequestHandler {
 
+    // translate and compute current player's action
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         ServletContext ctx = req.getServletContext();

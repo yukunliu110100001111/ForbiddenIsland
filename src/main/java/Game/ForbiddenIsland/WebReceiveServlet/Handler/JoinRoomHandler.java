@@ -13,6 +13,7 @@ public class JoinRoomHandler implements RequestHandler {
         this.roomState = roomState;
     }
 
+    // allocate session and add people when people join the room
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         if (!roomState.hasRoom()) {

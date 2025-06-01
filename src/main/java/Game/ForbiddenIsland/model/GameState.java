@@ -17,24 +17,24 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-//GameState 里有所有游戏状态，也就是玩家、地图、两个牌堆、水level
+//GameState all state in game, map, card deck, player list, water level
+@Getter
 public class GameState {
-    @Setter @Getter
+    @Setter
     private List<Player> players;
-    @Getter @Setter
-    private int actionsRemaining = 3; // 每回合剩余行动数，默认3
-    @Setter @Getter
+    @Setter
+    private int actionsRemaining = 3; // each turn remains3
+    @Setter
     private GameMap map;
-    @Setter @Getter
+    @Setter
     private Deck<Card> treasureDeck;
-    @Getter @Setter
+    @Setter
     private Deck<FloodCard> floodDeck;
-    @Setter @Getter
+    @Setter
     private List<Card> allCards;
     private int currentPlayerIndex;
-    @Setter @Getter
+    @Setter
     private int waterLevel;
-    @Getter
     private final Map<TreasureType, Boolean> collectedTreasures =
             new EnumMap<>(Map.of(
                     TreasureType.EARTH, false,
@@ -42,27 +42,23 @@ public class GameState {
                     TreasureType.FIRE, false,
                     TreasureType.WATER, false
             ));
-
-    // ==== 新增字段 ====
-    private int actionsLeft = 3; // 每回合剩余行动数，默认3
-    @Setter @Getter
+    private int actionsLeft = 3; // each turn remains 3
+    @Setter
     private List<Card> recentTreasureDraws = new ArrayList<>();
-    @Setter @Getter
+    @Setter
     private List<FloodCard> recentFloodDraws = new ArrayList<>();
     private List<GameLogEntry> history = new ArrayList<>();
-    @Setter @Getter
+    /** remaining decks */
+    @Setter
     private int treasureDeckRemaining;
-    /** 剩余洪水牌数，用于左侧牌堆显示 */
-    @Setter @Getter
+    @Setter
     private int floodDeckRemaining;
-    /** 当前回合合法移动格坐标列表，用于高亮 */
-    @Setter @Getter
+    /** legal movements, use for view */
+    @Setter
     private List<Position> legalMoves = new ArrayList<>();
-    /** 当前回合合法加固格 */
-    @Setter @Getter
+    @Setter
     private List<Position> legalShores = new ArrayList<>();
-    /** 当前回合合法抓宝格 */
-    @Setter @Getter
+    @Setter
     private List<Position> legalCaptures = new ArrayList<>();
     // ==================
 
@@ -100,18 +96,6 @@ public class GameState {
 
     public boolean allTreasuresCollected() {
         return collectedTreasures.values().stream().allMatch(Boolean::booleanValue);
-    }
-
-    public int getTreasureDeckRemaining() {
-        return treasureDeckRemaining;
-    }
-
-    public int getFloodDeckRemaining() {
-        return floodDeckRemaining;
-    }
-
-    public List<GameLogEntry> getHistory() {
-        return history;
     }
 
     public void addHistory(GameLogEntry entry) {
@@ -189,20 +173,13 @@ public class GameState {
     public List<Card> getPlayerHand(int playerIndex) {
         return players.get(playerIndex).getHands();
     }
-    public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
-    }
 
-    // ==== 新增 getter/setter ====
-    public int getActionsLeft() { return actionsLeft; }
     public void setActionsLeft(int actionsLeft) { this.actionsLeft = actionsLeft; }
 
-    public List<Card> getRecentTreasureDraws() { return recentTreasureDraws; }
     public void setRecentTreasureDraws(List<Card> draws) {
         this.recentTreasureDraws = (draws == null) ? new ArrayList<>() : draws;
     }
 
-    public List<FloodCard> getRecentFloodDraws() { return recentFloodDraws; }
     public void setRecentFloodDraws(List<FloodCard> draws) {
         this.recentFloodDraws = (draws == null) ? new ArrayList<>() : draws;
     }

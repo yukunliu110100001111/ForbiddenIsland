@@ -1,19 +1,21 @@
 package Game.ForbiddenIsland.WebReceiveServlet.Handler;
 
-import jakarta.servlet.http.*;
+import Game.ForbiddenIsland.model.RoomState;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import Game.ForbiddenIsland.model.RoomState;
 
-public class DestroyRoomHandler implements RequestHandler {
+public class ResetRoomHandler implements RequestHandler{
 
     private final RoomState roomState;
 
-    public DestroyRoomHandler(RoomState roomState) {
+    public ResetRoomHandler(RoomState roomState) {
         this.roomState = roomState;
     }
 
-    // Clear the session and reset the room when the room creator exit the room
+    // Reset the room state(for testing)
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         if (!roomState.hasRoom()) {
@@ -21,8 +23,11 @@ public class DestroyRoomHandler implements RequestHandler {
             return;
         }
 
-        roomState.reset();
-        req.getSession().invalidate();
+        String type= req.getParameter("type");
+        switch (type) {
+            case "reset": roomState.hasRoom = false;
+            break;
+        }
         out.println("{\"message\":\"Room destroyed successfully.\"}");
     }
 }

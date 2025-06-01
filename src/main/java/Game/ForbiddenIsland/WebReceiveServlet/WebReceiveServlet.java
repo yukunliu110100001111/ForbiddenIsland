@@ -2,7 +2,6 @@ package Game.ForbiddenIsland.WebReceiveServlet;
 
 import Game.ForbiddenIsland.WebReceiveServlet.Handler.*;
 import Game.ForbiddenIsland.model.RoomState;
-import com.alibaba.fastjson.JSONArray;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,10 +14,12 @@ import java.util.HashMap;
 @WebServlet("/data")
 public class WebReceiveServlet extends HttpServlet {
 
+    // This map can get and use different "handle" function in class according to different keys
     private final RoomState roomState = new RoomState();
     private final HashMap<String, RequestHandler> handlerMap = new HashMap<>();
 
 
+    // all class and functions
     @Override
     public void init() {
         handlerMap.put("create_room", new CreateRoomHandler(roomState));
@@ -35,9 +36,7 @@ public class WebReceiveServlet extends HttpServlet {
         handlerMap.put("is_unready", new ReadyHandler(roomState, false));
         handlerMap.put("log_history", new LogHistoryHandler(roomState));
         handlerMap.put("DeckHandler", new DeckHandler());
-
-
-        handlerMap.put("reset_room", new ExperimentHandler(roomState));
+        handlerMap.put("reset_room", new ResetRoomHandler(roomState));
     }
 
     @Override
@@ -50,6 +49,7 @@ public class WebReceiveServlet extends HttpServlet {
         dispatch(req, resp);
     }
 
+    // use functions
     private void dispatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String type = req.getParameter("type");
         resp.setContentType("application/json;charset=UTF-8");

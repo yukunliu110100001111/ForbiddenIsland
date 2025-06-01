@@ -16,6 +16,26 @@
     z-index: 10;
 }
 
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #343950;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 8px #1b213a55;
+    position: relative;
+}
+
+
 .player {
     height: 85%;
     display: flex;
@@ -145,3 +165,16 @@
     border: 2px solid #2196f3;
 }
 
+
+/* 手牌区空状态提示 */
+.hand-empty {
+    color: #777;
+    font-size: 0.9rem;
+    padding: 8px;
+    text-align: center;
+}
+
+.player-droppable {
+    border-color: #5ccfff !important;
+    box-shadow: 0 0 12px #5ccfff55;
+}

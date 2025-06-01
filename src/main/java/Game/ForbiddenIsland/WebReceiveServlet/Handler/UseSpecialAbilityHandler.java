@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 
 public class UseSpecialAbilityHandler implements RequestHandler {
 
+    // Use special ability of different character
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         ServletContext ctx = req.getServletContext();

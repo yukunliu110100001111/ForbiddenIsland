@@ -1,13 +1,13 @@
 /**
  * progressRenderer.js
- * 根据 collectedTreasures 状态给对应图标加 .collected
- * @param {{[key: string]: boolean}} collectedTreasures
- * @param {HTMLElement} container
+ * Add or remove the .collected class on treasure icons based on collectedTreasures state.
+ * @param {{[key: string]: boolean}} collectedTreasures - Object indicating whether each treasure is collected
+ * @param {HTMLElement} container - Container element holding the treasure icons
  */
 export function renderTreasureProgress(collectedTreasures = {}, container) {
     if (!container) return;
 
-    // 取出四个 <img data-key="...">
+    // Iterate over the four treasure <img> elements with data-key
     container.querySelectorAll('.treas-icon').forEach(img => {
         const key = img.dataset.key;
         if (collectedTreasures[key]) {

@@ -13,6 +13,7 @@ public class GetRoomStatusHandler implements RequestHandler {
         this.roomState = roomState;
     }
 
+    // return number of ready people and current people to decide whether room can be started
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         out.println("{\"players\":" + roomState.getCurrentPeopleCount()

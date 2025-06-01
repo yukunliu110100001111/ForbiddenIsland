@@ -1,64 +1,84 @@
 import { ROLE_INFO } from '../constants/roleInfo.js';
-import { cardHtml }  from '../constants/cardIcons.js';
+import { renderAllHands } from './handRenderer.js';
 
-/**
- * 渲染底部玩家栏
- * @param {Array} players
- * @param {number} myIdx
- * @param {number} curIdx
- * @param {HTMLElement} footer
- */
-export function renderFooter(players, myIdx, curIdx, footer) {
-    const blocks = footer.querySelectorAll('.player');
-    // 构造显示顺序：其他玩家在前，自己在最后
-    const others = players.filter(p => p.playerIndex !== myIdx);
-    const selfPlayer = players.find(p => p.playerIndex === myIdx);
-    const ordered = selfPlayer ? [...others, selfPlayer] : others;
+export function renderFooter(players, myPlayerIndex, currentPlayerIndex, footer) {
+    if (!footer) return;
+    footer.innerHTML = '';
 
-    blocks.forEach((div, i) => {
-        if (i < ordered.length) {
-            const p = ordered[i];
-            // 兜底：info 可能为 undefined
-            const info = ROLE_INFO[p.type] || {};
-            const color = info.color || '#fff';
-            const img   = info.img   || '';
-            const name  = info.name  || p.type;
+    players.forEach((player, idx) => {
+        const playerDiv = document.createElement('div');
+        playerDiv.className = 'player';
+        if (idx === myPlayerIndex) playerDiv.classList.add('me');
+        if (idx === currentPlayerIndex) playerDiv.classList.add('active-player');
+        playerDiv.dataset.playerIndex = idx;
 
-            // 设置 data-player-index，方便事件分发
-            div.style.display = '';
-            div.dataset.playerIndex = p.playerIndex;
-
-            div.classList.toggle('me',   p.playerIndex === myIdx);
-            div.classList.toggle('active-player', p.playerIndex === curIdx);
-            div.querySelector('.avatar').innerHTML =
-                `<div class="role-icon" style="background:${color}">
-                    <img src="${img}" alt="${name}">
-                 </div>
-                 <div class="role-label">${name}</div>`;
-
-            // 手牌部分：确保每张卡片有 .card 和 data-card-id
-            const handDiv = div.querySelector('.hand');
-            if (p.hand && p.hand.length) {
-                handDiv.innerHTML = p.hand.map(card => {
-                    // 包装每个 cardHtml 返回值，强制补充属性
-                    const wrapper = document.createElement('div');
-                    wrapper.innerHTML = cardHtml(card);
-                    let cardEl = wrapper.firstElementChild;
-                    if (cardEl) {
-                        cardEl.classList.add('card');
-                        if (card.cardId !== undefined) {
-                            cardEl.dataset.cardId = card.cardId;
-                        }
-                        return cardEl.outerHTML;
-                    }
-                    return '';
-                }).join('');
-            } else {
-                handDiv.innerHTML = '<div class="hand-empty">No Cards</div>';
-            }
+        // 角色卡片头像（3:2纵向比例，80x120px）
+        let roleInfo = player.type && ROLE_INFO[player.type];
+        const roleIcon = document.createElement('div');
+        roleIcon.className = 'role-icon';
+        if (roleInfo && roleInfo.img) {
+            const img = document.createElement('img');
+            img.src = roleInfo.img;
+            img.alt = roleInfo.name;
+            roleIcon.appendChild(img);
         } else {
-            div.style.display = 'none';
-            div.removeAttribute('data-player-index');
+            roleIcon.textContent = player.name ? player.name[0] : (idx + 1);
+        }
+        playerDiv.appendChild(roleIcon);
+
+        // 名称标签
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'role-label';
+        nameDiv.textContent = roleInfo ? roleInfo.name : (player.name || `Player ${idx + 1}`);
+        playerDiv.appendChild(nameDiv);
+
+        // 手牌区域
+        const handDiv = document.createElement('div');
+        handDiv.className = 'hand';
+        playerDiv.appendChild(handDiv);
+
+        footer.appendChild(playerDiv);
+
+        // 悬浮职业描述（如前，略）
+        if (roleInfo) {
+            let tooltipTimer = null, hideTimer = null;
+            let descTooltip = document.getElementById('role-desc-tooltip');
+            if (!descTooltip) {
+                descTooltip = document.createElement('div');
+                descTooltip.id = 'role-desc-tooltip';
+                descTooltip.style.position = 'fixed';
+                descTooltip.style.zIndex = 9999;
+                descTooltip.style.pointerEvents = 'none';
+                descTooltip.style.maxWidth = '220px';
+                descTooltip.style.padding = '10px 18px';
+                descTooltip.style.background = 'rgba(30,34,55,0.98)';
+                descTooltip.style.color = '#ffd260';
+                descTooltip.style.borderRadius = '14px';
+                descTooltip.style.boxShadow = '0 4px 18px #111a';
+                descTooltip.style.fontSize = '1.03rem';
+                descTooltip.style.display = 'none';
+                document.body.appendChild(descTooltip);
+            }
+            roleIcon.addEventListener('mouseenter', (e) => {
+                if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+                tooltipTimer = setTimeout(() => {
+                    descTooltip.textContent = roleInfo.desc || '';
+                    const rect = roleIcon.getBoundingClientRect();
+                    descTooltip.style.top = `${rect.top + window.scrollY + rect.height / 2 - 28}px`;
+                    descTooltip.style.left = `${rect.right + 14}px`;
+                    descTooltip.style.display = 'block';
+                }, 1000);
+            });
+            roleIcon.addEventListener('mouseleave', () => {
+                if (tooltipTimer) { clearTimeout(tooltipTimer); tooltipTimer = null; }
+                hideTimer = setTimeout(() => {
+                    descTooltip.style.display = 'none';
+                }, 300);
+            });
         }
     });
+
+    // 渲染所有玩家手牌
+    const allHands = players.map(p => p.hand || []);
+    renderAllHands(allHands, footer);
 }

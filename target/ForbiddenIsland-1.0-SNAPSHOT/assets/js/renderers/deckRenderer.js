@@ -1,7 +1,7 @@
 /**
- * 初始化或更新两个卡堆的卡背堆叠显示
- * @param {number} treasureRemain - 当前宝藏剩余卡数
- * @param {number} floodRemain    - 当前洪水剩余卡数
+ * Initialize or update the stacked display of two card decks (Treasure and Flood).
+ * @param {number} treasureRemain - Number of remaining Treasure cards
+ * @param {number} floodRemain    - Number of remaining Flood cards
  */
 export function renderDeckCounts(treasureRemain, floodRemain) {
     const treasureDeck = document.getElementById('treasure-deck');
@@ -10,7 +10,12 @@ export function renderDeckCounts(treasureRemain, floodRemain) {
     const TREASURE_INIT = 28;
     const FLOOD_INIT    = 24;
 
-    // 保险：把任何非法输入修正为 0～init 之间的整数
+    /**
+     * Ensure the input value is an integer within [0, init].
+     * @param {number} val
+     * @param {number} init
+     * @returns {number}
+     */
     const sanitize = (val, init) => {
         let n = Number(val);
         if (Number.isNaN(n) || n == null) n = 0;
@@ -20,18 +25,24 @@ export function renderDeckCounts(treasureRemain, floodRemain) {
         return n;
     };
 
-    // 统一方法：渲染堆叠卡背
+    /**
+     * Render stacked card backs and count label for a deck container.
+     * @param {HTMLElement} container - The deck container element
+     * @param {number} remain         - Remaining cards in the deck
+     * @param {number} init           - Initial total number of cards
+     */
     function renderPile(container, remain, init) {
-        if (!container) return;              // 容器不存在就跳过
+        if (!container) return;
         remain = sanitize(remain, init);
 
-        // 清除旧卡背
+        // Remove old card back elements
         container.querySelectorAll('.card-back').forEach(el => el.remove());
 
-        const MAX_SHOW = 6;                  // 最多只展示 6 张
-        const VIS_MIN  = remain > 0 ? 2 : 0; // 非空最少展示 2 张
+        const MAX_SHOW = 6;                  // Maximum cards to visually stack
+        const VIS_MIN  = remain > 0 ? 2 : 0; // At least 2 visible if not empty
         const count    = Math.max(Math.min(remain, MAX_SHOW), VIS_MIN);
 
+        // Create card back visuals
         for (let i = 0; i < count; i++) {
             const card = document.createElement('div');
             card.className = 'card-back';
@@ -40,7 +51,7 @@ export function renderDeckCounts(treasureRemain, floodRemain) {
             container.appendChild(card);
         }
 
-        // 显示数量标签
+        // Update or create the deck count label
         let label = container.querySelector('.deck-count');
         if (!label) {
             label = document.createElement('div');

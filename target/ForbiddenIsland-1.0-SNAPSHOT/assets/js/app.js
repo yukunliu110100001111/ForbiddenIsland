@@ -1,39 +1,41 @@
 // assets/js/app.js
-import { bindPreGame }  from './binders/preGameBinder.js';
-import { bindInGame }   from './binders/inGameBinder.js';
+import { bindPreGame } from './binders/preGameBinder.js';
+import { bindInGame } from './binders/inGameBinder.js';
 
-/** --------------------------------------------------
- *  全局 fetch 拦截：自动捕获 { playerIndex: N }
- *  并写入 sessionStorage，供 in-game 使用
- * -------------------------------------------------- */
+/**
+ * Intercepts fetch requests to automatically capture playerIndex
+ * and store it in sessionStorage for in-game use
+ */
 (function patchFetchForPlayerIndex() {
     const rawFetch = window.fetch;
     window.fetch = async (...args) => {
         const resp = await rawFetch(...args);
         try {
-            // clone() 以免消费掉原 body
+            // Clone response to avoid consuming the original body
             const clone = resp.clone();
             clone.json().then(data => {
                 if (data && typeof data.playerIndex === 'number') {
                     sessionStorage.setItem('myPlayerIndex', String(data.playerIndex));
                     console.log('[playerIndex] set to', data.playerIndex);
                 }
-            }).catch(() => {/* 不是 json 或解析失败 → 忽略 */});
-        } catch (e) {/* 网络错误 / 非 json → 忽略 */}
+            }).catch(() => {/* Ignore non-JSON responses or parse errors */});
+        } catch (e) {/* Ignore network errors or non-JSON responses */}
         return resp;
     };
 })();
 
-
-// 从 <base> 标签读取上下文路径（如 "/ForbiddenIsland_war_exploded/"）
+// Get context path from <base> tag (e.g. "/ForbiddenIsland_war_exploded/")
 const contextPath = document.querySelector('base')?.getAttribute('href') || '';
-// 暴露给 binder 脚本使用
+// Expose context path for use in binder scripts
 window.contextPath = contextPath;
 
-const app     = document.getElementById('app');
+const app = document.getElementById('app');
 const blurBar = document.querySelector('.blur-bar');
 
-/** 控制 .blur-bar 的状态变换（中心横幅 ⇄ 全屏模糊） */
+/**
+ * Controls the state transition of blur-bar (center banner ↔ fullscreen blur)
+ * @param {string} view - Current view name
+ */
 function updateBlurBar(view) {
     const isCover = view === 'cover';
     requestAnimationFrame(() => {
@@ -41,7 +43,7 @@ function updateBlurBar(view) {
     });
 }
 
-/** 卡片退场动画（放大爆炸消失） */
+/** Applies exit animation to all cards (scale and fade out) */
 function animateCardExit() {
     document.querySelectorAll('.card').forEach(card => {
         card.classList.remove('entering');
@@ -50,9 +52,9 @@ function animateCardExit() {
 }
 
 /**
- * 页面切换主函数
- * @param {string} view 视图名：cover ／ lobby ／ creation ／ room ／ game
- * @param {boolean} push 是否要把 hash 推入历史（默认 true）
+ * Main view loading function
+ * @param {string} view - View name: cover/lobby/creation/room/game
+ * @param {boolean} push - Whether to push hash to history (default: true)
  */
 async function loadView(view, push = true) {
     animateCardExit();
@@ -60,27 +62,27 @@ async function loadView(view, push = true) {
     if (push) window.location.hash = view;
     updateBlurBar(view);
 
-    // 等待退场动画先跑一段
+    // Wait for exit animation to partially complete
     await new Promise(r => setTimeout(r, 300));
 
-    // 根据不同视图选择 HTML 路径
+    // Determine HTML path based on view type
     let url;
     if (view === 'game') {
-        // game.html 放在 page 根目录
+        // game.html is in page root
         url = `${contextPath}page/game.html`;
     } else {
-        // cover/lobby/creation/room 放在 page/sub 下
+        // Other views are in page/sub directory
         url = `${contextPath}page/sub/${view}.html`;
     }
 
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`加载视图失败：${url} （${res.status}）`);
+    if (!res.ok) throw new Error(`Failed to load view: ${url} (${res.status})`);
     const html = await res.text();
 
-    // 注入视图
+    // Inject the view HTML
     app.innerHTML = html;
 
-    // 入场动画
+    // Apply enter animation
     requestAnimationFrame(() => {
         document.querySelectorAll('.card').forEach(card => {
             card.classList.remove('exiting');
@@ -88,7 +90,7 @@ async function loadView(view, push = true) {
         });
     });
 
-    // 根据 view 调用对应的绑定函数
+    // Call appropriate binder based on view
     if (['cover', 'lobby', 'creation', 'room'].includes(view)) {
         bindPreGame(view);
     } else if (view === 'game') {
@@ -96,13 +98,13 @@ async function loadView(view, push = true) {
     }
 }
 
-// 监听地址栏 hash 变化
+// Handle hash changes for view navigation
 window.addEventListener('hashchange', () => {
     const view = window.location.hash.slice(1) || 'cover';
     loadView(view, false);
 });
 
-// 首次页面加载
+// Initial page load
 window.addEventListener('DOMContentLoaded', () => {
     const start = window.location.hash.slice(1) || 'cover';
     loadView(start, false);

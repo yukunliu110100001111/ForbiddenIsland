@@ -13,6 +13,7 @@ public class GetPlayerNumHandler implements RequestHandler {
         this.roomState = roomState;
     }
 
+    // allocate number to player
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         out.println("{\"players\":" + roomState.getCurrentPeopleCount()

@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.logging.Handler;
 
 public class DeckHandler implements RequestHandler {
+    // Return the rest card in deck(treasure and flood)
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, PrintWriter out) throws IOException {
         ServletContext ctx = req.getServletContext();

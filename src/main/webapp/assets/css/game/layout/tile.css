@@ -25,7 +25,7 @@
 
 /* 干燥/洪水/特殊地形状态（可按需要加 class 控制） */
 .tile.dry { /* 干燥：无变化 */ }
-.tile.flooded { background-color: rgba(100, 149, 237, 0.5); }
+.tile.flooded { background-color: rgba(101, 167, 255, 0.86); }
 .tile.special {
     background-image: url('../images/special-icon.png');
     background-repeat: no-repeat;
@@ -120,6 +120,56 @@
     100% { filter: drop-shadow(0 0 14px #fffacd) drop-shadow(0 0 28px #beb079); }
 }
 
+/* 拖拽合法 tile 高亮样式 */
+.tile-droppable {
+    outline: 3px solid #ffd700;
+    box-shadow: 0 0 16px #ffd70099;
+    transition: box-shadow 0.2s, outline 0.2s;
+}
+
+/* 拖拽放置非法时的抖动提示动画 */
+.tile-invalid-drop {
+    animation: shake 0.3s;
+}
+@keyframes shake {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-5px); }
+    50%  { transform: translateX(5px); }
+    75%  { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+
+/* Pawn base style */
+.pawn {
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    /* transition on left/top is set inline in JS, but you can also put it here:
+       transition: left 0.3s ease, top 0.3s ease;
+    */
+}
+
+/* Highlight current player's pawn */
+.my-turn-glow {
+    box-shadow: 0 0 12px 3px rgba(255, 223, 60, 0.8);
+}
+
+
+/* Visual feedback for valid drop targets */
+.tile-droppable {
+    outline: 3px dashed #5ccfff;
+}
+
+/* Visual feedback for invalid drop */
+.tile-invalid-drop {
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
 
 
 
