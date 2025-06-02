@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletContext;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PlayerController {
@@ -209,13 +210,24 @@ public class PlayerController {
         gameController.useCards(card, actionContext);
         return true;
     }
-    public boolean discard( ActionContext actionContext){
-        Card card = actionContext.getTargetCard();
+
+    public boolean discard(ActionContext actionContext) {
+        int cardId = actionContext.getTargetCard().getCardId();
         Player player = actionContext.getTargetPlayers().getFirst();
-        player.removeCard(card);
-        gameController.getGameState().discardTreasure(card);
-        return true;
+        List<Card> hand = player.getHands();
+        Iterator<Card> it = hand.iterator();
+        while (it.hasNext()) {
+            Card c = it.next();
+            if (c.getCardId() == cardId) {
+                it.remove(); // 真正移除
+                gameController.getGameState().discardTreasure(c);
+                return true;
+            }
+        }
+        System.err.println("[discard] 未找到 cardId = " + cardId + " 的卡，手牌列表: " + hand);
+        return false;
     }
+
 
 
     public boolean endTurn() {

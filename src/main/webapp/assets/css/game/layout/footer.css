@@ -1,192 +1,158 @@
-#players-footer {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 12px;
-    min-height: 120px;
-    padding: 10px 16px;
-    background: #222b;
-    width: 100%;
-    box-sizing: border-box;
-    border-top: 1.5px solid rgba(255, 255, 255, 0.22);
-    border-left: none;
-    border-right: none;
-    border-radius: 12px 12px 0 0;
-    height: 100%;
-    z-index: 10;
+/* ---------- 主容器 ---------- */
+#players-footer{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap:12px;
+    min-height:120px;
+    padding:10px 16px;
+    width:100%;
+    height:100%;
+    box-sizing:border-box;
+    background:#222b;
+    border-top:1.5px solid rgba(255,255,255,.22);
+    border-radius:12px 12px 0 0;
+    z-index:10;
 }
 
-.avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: #343950;
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 6px;
-    overflow: hidden;
-    box-shadow: 0 0 8px #1b213a55;
-    position: relative;
+/* ---------- 头像 ---------- */
+.avatar{
+    width:38px;
+    height:38px;
+    margin-bottom:6px;
+    border-radius:50%;
+    background:#343950 center/cover;
+    color:#fff;
+    font:bold 1.5rem/38px sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 8px #1b213a55;
+    overflow:hidden;
+    position:relative;
 }
 
-
-.player {
-    height: 85%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    background: #222c;
-    border-radius: 16px;
-    border: 3px solid transparent;
-    box-shadow: 0 2px 8px #0007;
-    min-width: 100px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    margin: 0;
-    padding: 12px 10px 8px 10px;
-    position: relative;
-    box-sizing: border-box;
-    flex: 1 1 0;
-    gap: 6px;
+/* ---------- 玩家面板 ---------- */
+.player{
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    flex:1 1 0;
+    gap:6px;
+    padding:12px 10px 8px;
+    min-width:100px;
+    height:85%;
+    background:#222c;
+    border:3px solid transparent;
+    border-radius:16px;
+    box-shadow:0 2px 8px #0007;
+    box-sizing:border-box;
+    transition:border-color .2s, box-shadow .2s;
+    cursor:pointer;
 }
 
-.player .avatar {
-    margin-right: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.player .avatar{margin-right:8px;}
+
+/* 角色卡片 */
+.player .role-icon{
+    width:80px;
+    aspect-ratio:2/3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#888;
+    border:2.5px solid #fff8;
+    border-radius:8px;
+    box-shadow:0 1px 5px #0005;
+    overflow:hidden;
+}
+.role-icon img{width:100%;height:100%;object-fit:cover;}
+
+/* 角色名称 */
+.player .role-label{
+    margin-top:5px;
+    font-size:.96rem;
+    color:#fff;
+    text-shadow:1px 1px 3px #0008;
 }
 
-.player .role-icon {
-    width: 80px;
-    aspect-ratio: 2 / 3;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #888;
-    border: 2.5px solid #fff8;
-    box-shadow: 0 1px 5px #0005;
+/* 手牌区 */
+.player .hand{
+    flex:1;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-items:flex-end;
+    min-height:48px;
 }
 
-.role-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* ---------- 状态样式 ---------- */
+.player.me{
+    flex:2 1 0;
+    min-width:180px;
+    height:100%;
+    border:2px solid #2196f3;
+    box-shadow:0 2px 20px #ffd70088;
+    z-index:2;
 }
 
-
-.player .role-label {
-    font-size: 0.96rem;
-    color: #fff;
-    margin-top: 5px;
-    text-shadow: 1px 1px 3px #0008;
+.player.active-player{
+    border-color:#5ccfff;
+    outline:2px solid gold;
+    background:rgba(255,255,224,.2);
 }
 
-.player .hand {
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    align-items: flex-end;
-    min-height: 48px;
+.player.player-droppable{
+    border-color:#5ccfff!important;
+    box-shadow:0 0 12px #5ccfff55;
 }
 
-.player.me {
-    flex: 2 1 0 !important;
-    min-width: 180px;
-    height: 100%;
-    border-color: #ffd700 !important;
-    box-shadow: 0 2px 20px #ffd70088;
-    z-index: 2;
-    background: #222c;
-    outline: 0;
+.player.over-limit{
+    border:3px solid red;
+    border-radius:6px;
+    animation:flash-red 1s infinite;
 }
 
-.player.active-player {
-    border-color: #5ccfff;
-    background: #223655;
-    box-shadow: 0 2px 8px #0007;
+/* 手牌区超限闪烁 */
+.hand.over-limit{
+    border:2px dashed #ff4444;
+    animation:limit-blink 1s infinite;
 }
 
-.hand-empty {
-    color: #999;
-    font-size: 0.92rem;
-    padding: 8px;
+/* 手牌区空提示 */
+.hand-empty{
+    color:#777;
+    font-size:.92rem;
+    padding:8px;
+    text-align:center;
 }
 
-@media (max-width: 900px) {
-    #players-footer {
-        gap: 6px;
-        padding: 8px 4px;
-        min-height: 88px;
-        background: rgba(255, 255, 255, 0.18);
+/* ---------- 动画 ---------- */
+@keyframes limit-blink{
+    0%,100%{box-shadow:0 0 8px rgba(255,0,0,0);}
+    50%{box-shadow:0 0 12px rgba(255,0,0,.8);}
+}
+
+@keyframes flash-red{
+    0%,100%{border-color:red;}
+    50%{border-color:transparent;}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:900px){
+    #players-footer{
+        gap:6px;
+        padding:8px 4px;
+        min-height:88px;
+        background:rgba(255,255,255,.18);
     }
-    .player {
-        min-width: 64px;
-        padding: 8px 4px 6px 4px;
-        gap: 4px;
+    .player{
+        min-width:64px;
+        padding:8px 4px 6px;
+        gap:4px;
     }
-    .player.me {
-        min-width: 120px;
-        height: 100%;
-        flex: 2 1 0 !important;
-        border-color: #ffd700 !important;
-        box-shadow: 0 2px 20px #ffd70088;
-    }
-    .player .role-icon {
-        width: 40px;
-        height: 40px;
-    }
-    .player .role-icon img {
-        width: 28px;
-        height: 28px;
-    }
-    .player .hand {
-        gap: 4px;
-    }
+    .player.me{min-width:120px;}
+    .player .role-icon{width:40px;height:40px;}
+    .player .role-icon img{width:28px;height:28px;}
+    .player .hand{gap:4px;}
 }
-
-.player {
-    cursor: pointer;
-    /* 其他样式 */
-}
-.player.active-player {
-    outline: 2px solid gold;
-    background: rgba(255,255,224,0.2);
-}
-.player.me {
-    border: 2px solid #2196f3;
-}
-
-
-/* 手牌区空状态提示 */
-.hand-empty {
-    color: #777;
-    font-size: 0.9rem;
-    padding: 8px;
-    text-align: center;
-}
-
-.player-droppable {
-    border-color: #5ccfff !important;
-    box-shadow: 0 0 12px #5ccfff55;
-}
-
-/* 手牌区超限时闪烁红边 */
-.hand.over-limit {
-    animation: limit-blink 1s infinite;
-    border: 2px dashed #ff4444; /* 红色虚线 */
-}
-@keyframes limit-blink {
-    0%,100% { box-shadow: 0 0 8px rgba(255, 0, 0, 0); }
-    50%    { box-shadow: 0 0 12px rgba(255, 0, 0, 0.8); }
-}
-
-.player, .hand, .avatar { pointer-events: auto; }

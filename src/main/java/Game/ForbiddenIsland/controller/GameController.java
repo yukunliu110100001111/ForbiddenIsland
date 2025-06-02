@@ -65,13 +65,15 @@ public class GameController {
      */
     public void initializeIfNeeded() {
         if (!initialized) {
+            initialized = true;
+            System.out.println("[DEBUG] dealInitialTreasureCards 被调用");
             initializeBoard();
             initializePlayers(playerCount);
             initializeWaterLevel(difficultyLevel);
             initializeDecks();
             dealInitialTreasureCards();
             initialFloodDraw();
-            initialized = true;
+
             startTurn();
         }
     }
