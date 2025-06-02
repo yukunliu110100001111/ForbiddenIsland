@@ -5,7 +5,6 @@ import Game.ForbiddenIsland.model.Board.DeckImp;
 import Game.ForbiddenIsland.model.Board.Tiles.Tile;
 import Game.ForbiddenIsland.model.Board.Tiles.TileImp;
 import Game.ForbiddenIsland.model.Cards.CardName;
-import Game.ForbiddenIsland.model.Cards.CardType;
 import Game.ForbiddenIsland.model.Cards.cardCategory.ActionCard;
 import Game.ForbiddenIsland.model.Cards.cardCategory.Card;
 import Game.ForbiddenIsland.model.Cards.cardCategory.TreasureCard;
@@ -20,6 +19,7 @@ import Game.ForbiddenIsland.util.JsonUtil;
 import Game.ForbiddenIsland.util.factory.CardFactory;
 import Game.ForbiddenIsland.util.factory.MapFactory;
 import Game.ForbiddenIsland.util.factory.PlayerFactory;
+import lombok.Getter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -30,8 +30,18 @@ import java.util.List;
  * It manages the game flow, rules, and state.
  */
 public class GameController {
+    /**
+     * -- GETTER --
+     *  Gets the current game state
+     */
     // 1. Basic Properties and Constructor
+    @Getter
     private GameState gameState = new GameState();
+    /**
+     * -- GETTER --
+     *  Gets the number of actions remaining
+     */
+    @Getter
     private int actionsRemaining = 3;
     private boolean gameOver = false;
     private String gameResult = "";
@@ -314,22 +324,15 @@ public class GameController {
      */
     public boolean useSpecialAbility(Player player, Object... params) {
         if (actionsRemaining <= 0) return false;
-        switch (player.getType()) {
-            case PILOT:
-                return usePilotAbility(player, (Tile) params[0]);
-            case ENGINEER:
-                return useEngineerAbility(player, (List<Tile>) params[0]);
-            case NAVIGATOR:
-                return useNavigatorAbility(player, (Player) params[0], (Tile) params[1]);
-            case EXPLORER:
-                return useExplorerAbility(player, (Tile) params[0]);
-            case DIVER:
-                return useDiverAbility(player, (Tile) params[0]);
-            case MESSENGER:
-                return useMessengerAbility(player, (Player) params[0], (Card) params[1]);
-            default:
-                return false;
-        }
+        return switch (player.getType()) {
+            case PILOT -> usePilotAbility(player, (Tile) params[0]);
+            case ENGINEER -> useEngineerAbility(player, (List<Tile>) params[0]);
+            case NAVIGATOR -> useNavigatorAbility(player, (Player) params[0], (Tile) params[1]);
+            case EXPLORER -> useExplorerAbility(player, (Tile) params[0]);
+            case DIVER -> useDiverAbility(player, (Tile) params[0]);
+            case MESSENGER -> useMessengerAbility(player, (Player) params[0], (Card) params[1]);
+            default -> false;
+        };
     }
 
     /**
@@ -340,7 +343,7 @@ public class GameController {
     public void useCards(ActionCard card, ActionContext actionContext) {
         card.use(gameState, actionContext);
         gameState.discardTreasure(card);
-        actionContext.getTargetPlayers().get(0).removeCard(card);
+        actionContext.getTargetPlayers().getFirst().removeCard(card);
     }
 
     // 5. Special Ability Methods
@@ -410,14 +413,11 @@ public class GameController {
      * Validates if a move is legal for a player
      */
     private boolean isValidMove(Player player, Tile targetTile) {
-        switch (player.getType()) {
-            case EXPLORER:
-                return isValidExplorerMove(player.getPosition(), targetTile);
-            case PILOT:
-                return true; // Pilot can fly anywhere
-            default:
-                return isValidNormalMove(player.getPosition(), targetTile);
-        }
+        return switch (player.getType()) {
+            case EXPLORER -> isValidExplorerMove(player.getPosition(), targetTile);
+            case PILOT -> true; // Pilot can fly anywhere
+            default -> isValidNormalMove(player.getPosition(), targetTile);
+        };
     }
 
     /**
@@ -579,34 +579,6 @@ public class GameController {
      */
     public Player getCurrentPlayer() {
         return gameState.getCurrentPlayer();
-    }
-
-    /**
-     * Gets the number of actions remaining
-     */
-    public int getActionsRemaining() {
-        return actionsRemaining;
-    }
-
-    /**
-     * Checks if the game is over
-     */
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    /**
-     * Gets the game result
-     */
-    public String getGameResult() {
-        return gameResult;
-    }
-
-    /**
-     * Gets the current game state
-     */
-    public GameState getGameState() {
-        return gameState;
     }
 
     /**
