@@ -1,6 +1,8 @@
-// src/renderers/tileDragHandler.js
-
 import { sendAction } from '../api/inGameApi.js';
+
+// 全局变量跟踪当前拖拽的卡片信息
+// 放到window对象上以便其他模块访问
+window.currentDragData = null;
 
 /**
  * 判断某张卡能否放置到这个 tileView 上：
@@ -11,16 +13,19 @@ import { sendAction } from '../api/inGameApi.js';
  * @param {string} cardType  - 拖拽时传过来的 card.cardType，如 "ACTION"、"EVENT"
  * @returns {boolean}
  */
+
 function isLegalTarget(tileView, cardType) {
-    const state = (tileView.state || '').toLowerCase();
+    const state = tileView.state.toLowerCase();
+
     if (cardType === 'ACTION') {
-        return state !== 'sink';
+        return state !== 'sink'; // 直升机卡：不能放置到已经下沉的 tile
     }
     if (cardType === 'EVENT') {
-        return state === 'flooded';
+        return state === 'flooded'; // 沙袋卡：只能放置到淹没的 tile
     }
     return false;
 }
+
 
 /**
  * 为已渲染好的 <div class="tile"> 元素，绑定所有的拖放事件：
@@ -33,42 +38,35 @@ function isLegalTarget(tileView, cardType) {
  * @param {Object}      tileView - 对应的 TileView 数据模型，与 renderTilesBase 一致
  */
 export function bindTileDrag(tileEl, tileView) {
-    // dragenter: 鼠标第一次进入时，如果合法就加高亮
+    // 判断卡片是否合法放置在该 tile 上
     tileEl.addEventListener('dragenter', e => {
-        let dragData;
-        try {
-            dragData = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
-        } catch {
-            dragData = {};
-        }
-        if (isLegalTarget(tileView, dragData.cardType)) {
+        // 使用全局变量而不是从 dataTransfer 获取数据
+        if (!window.currentDragData) return;
+
+        // 判断目标 tile 和拖拽卡片是否合法
+        if (isLegalTarget(tileView, window.currentDragData.cardType)) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            tileEl.classList.add('tile-droppable');
+            tileEl.classList.add('tile-droppable'); // 高亮目标
         }
     });
 
-    // dragover: 必须持续 preventDefault 才能让 drop 触发
     tileEl.addEventListener('dragover', e => {
-        let dragData;
-        try {
-            dragData = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
-        } catch {
-            dragData = {};
-        }
-        if (isLegalTarget(tileView, dragData.cardType)) {
+        // 使用全局变量而不是从 dataTransfer 获取数据
+        if (!window.currentDragData) return;
+
+        if (isLegalTarget(tileView, window.currentDragData.cardType)) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            tileEl.classList.add('tile-droppable');
+            tileEl.classList.add('tile-droppable'); // 高亮目标
         }
     });
 
-    // dragleave: 鼠标移开时，移除高亮样式
     tileEl.addEventListener('dragleave', () => {
         tileEl.classList.remove('tile-droppable');
     });
 
-    // drop: 用户松手时，最后一次合法性判断，合法调用 sendAction，并刷新棋子动画
+    // drop：松手时，执行卡片使用逻辑
     tileEl.addEventListener('drop', async e => {
         tileEl.classList.remove('tile-droppable');
         let dragData;
@@ -77,21 +75,47 @@ export function bindTileDrag(tileEl, tileView) {
         } catch {
             dragData = {};
         }
+
+        // 如果从 dataTransfer 获取不到数据，使用全局变量
+        if (!dragData.cardType && window.currentDragData) {
+            dragData = window.currentDragData;
+        }
+
+        // 如果目标不合法，执行失败的抖动效果
         if (!isLegalTarget(tileView, dragData.cardType)) {
             tileEl.classList.add('tile-invalid-drop');
             setTimeout(() => tileEl.classList.remove('tile-invalid-drop'), 500);
             return;
         }
-        // 合法时调用后端：
-        await sendAction({
+
+        // 合法的卡片拖拽到目标 tile
+        await window.api.sendAction({
             action: 'USE_CARD',
             cardId: dragData.cardId,
             x: tileView.x,
             y: tileView.y
         });
-        // 成功后，刷新游戏状态（触发棋子动画）
+
+        // 更新 UI，刷新后续操作
         if (typeof window.refreshGame === 'function') {
             window.refreshGame();
         }
+
+        // 清除全局拖拽数据
+        currentDragData = null;
     });
 }
+
+// 暴露设置当前拖拽数据的方法
+export function setCurrentDragData(data) {
+    window.currentDragData = data;
+}
+
+// 暴露清除当前拖拽数据的方法
+export function clearCurrentDragData() {
+    window.currentDragData = null;
+}
+
+// 同时绑定到window对象上，方便其他模块直接使用
+window.setCurrentDragData = setCurrentDragData;
+window.clearCurrentDragData = clearCurrentDragData;

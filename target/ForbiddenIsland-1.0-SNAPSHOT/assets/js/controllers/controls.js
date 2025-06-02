@@ -1,7 +1,8 @@
-// controls/controls.js
-import { bindButtons } from './bindButtons.js';
-import { bindMapActions } from './mapActions.js';
-import { bindGiveCardDrag } from './giveCardDrag.js';
+import { bindUseCardDrag } from './useCardDrag.js';
+import {bindButtons} from "./bindButtons.js";
+import {bindMapActions} from "./mapActions.js";
+import {bindGiveCardDrag} from "./giveCardDrag.js";
+import { bindTileDrag } from './tileDragHandler.js';
 
 export function wireControls(btns, onRefresh) {
     let currentAction = null;
@@ -23,6 +24,13 @@ export function wireControls(btns, onRefresh) {
     bindButtons(btns, setAct, clearUi);
     bindMapActions({ getCurrentAction: getAct, setCurrentAction: setAct }, clearUi, onRefresh);
     bindGiveCardDrag(onRefresh);
+    bindUseCardDrag(onRefresh);  // ✅ 加入 useCard 拖拽逻辑
+
+    const tiles = document.querySelectorAll('.tile');
+    tiles.forEach(tileEl => {
+        const tileView = getTileViewData(tileEl);
+        bindTileDrag(tileEl, tileView);
+    });
 
     return { getCurrentAction: getAct };
 }

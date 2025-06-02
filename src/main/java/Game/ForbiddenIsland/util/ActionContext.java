@@ -15,6 +15,7 @@ public class ActionContext {
     private final Tile targetTile;
     private final Card targetCard;
     private final TreasureType treasureType;
+    private final int playerIndex; // 添加playerIndex字段
 
     private ActionContext(Builder builder) {
         this.playerChoice = builder.playerChoice;
@@ -22,6 +23,7 @@ public class ActionContext {
         this.targetTile = builder.targetTile;
         this.targetCard = builder.targetCard;
         this.treasureType = builder.treasureType;
+        this.playerIndex = builder.playerIndex; // 从builder中获取playerIndex
     }
     public PlayerChoice getPlayerChoice() {
         return playerChoice;
@@ -43,6 +45,10 @@ public class ActionContext {
         return treasureType;
     }
 
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
     // Builder class
     public static class Builder {
         private PlayerChoice playerChoice;
@@ -50,6 +56,7 @@ public class ActionContext {
         private Tile targetTile;
         private Card targetCard;
         private TreasureType treasureType;
+        private int playerIndex = -1; // 默认为-1表示未指定
 
         public Builder setPlayerChoice(PlayerChoice playerChoice) {
             this.playerChoice = playerChoice;
@@ -62,6 +69,11 @@ public class ActionContext {
 
         public Builder setTargetTile(Tile tile) {
             this.targetTile = tile;
+            return this;
+        }
+
+        public Builder setPlayerIndex(int playerIndex) {
+            this.playerIndex = playerIndex; // 修复：使用this.playerIndex而不是actionContext.playerIndex
             return this;
         }
 

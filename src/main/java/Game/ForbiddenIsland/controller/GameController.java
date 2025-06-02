@@ -533,6 +533,13 @@ public class GameController {
      * Checks if a player can give a card to another player
      */
     private boolean canGiveCard(Player giver, Player receiver, Card card) {
+        // 1. 先检查玩家是否有这张卡
+        if (!giver.getHands().contains(card)) {
+            System.out.println("[DEBUG] giveCard failed: giver does not have this card!");
+            return false;
+        }
+
+        // 2. 检查特殊角色或同位置
         if (giver.getType() == PlayerType.MESSENGER) {
             return true; // Messenger can give cards from anywhere
         }
@@ -556,7 +563,7 @@ public class GameController {
      * Gets the name for a tile
      */
     private String getTileName(int x, int y, TreasureType treasureType, boolean isFoolsLanding) {
-        if (isFoolsLanding) return "Fools' Landing";
+        if (isFoolsLanding) return "Fool's Landing";
         if (treasureType != null) {
             return treasureType.name() + " Island";
         }

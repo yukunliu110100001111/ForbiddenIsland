@@ -128,6 +128,18 @@ public class GameState {
         return card;
     }
 
+    /**
+     * Find a player by their index
+     * @param index Player index to find
+     * @return Player object or null if index is out of bounds
+     */
+    public Player findPlayerByIndex(int index) {
+        if (index >= 0 && index < players.size()) {
+            return players.get(index);
+        }
+        return null;
+    }
+
     public void discardTreasure(Card card) {
         treasureDeck.discard(card);
     }

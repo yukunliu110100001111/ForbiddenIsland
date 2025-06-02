@@ -13,6 +13,7 @@ export function bindButtons(btns, setAct, clearUi) {
         window.refreshGame?.();
     };
 
+
     /* — 重置 / 调试 — */
     if (btns.reset) btns.reset.onclick = async () => {
         clearUi();

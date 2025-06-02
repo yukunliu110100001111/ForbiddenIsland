@@ -14,4 +14,8 @@ public class TileView {
     private String state;             // state: "SAFE", "FLOODED", "SINK"
     private TreasureType treasureType; //
 
+    // 确保isFoolsLanding方法可用于前端
+    public boolean isFoolsLanding() {
+        return foolsLanding;
+    }
 }

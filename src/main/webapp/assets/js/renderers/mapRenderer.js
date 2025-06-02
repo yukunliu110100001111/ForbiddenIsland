@@ -1,7 +1,7 @@
 // src/renderers/mapRenderer.js
 
 import { renderTilesBase } from './tileRenderer.js';
-import { bindTileDrag    } from './tileDragHandler.js';
+import { bindTileDrag    } from '../controllers/tileDragHandler.js';
 import { updatePawns      } from './pawnRenderer.js';
 
 /**

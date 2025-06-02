@@ -89,3 +89,9 @@
     background: rgba(255, 255, 255, 0.3);
 }
 
+
+/* 按钮被按下时的样式 */
+.color-btn.active {
+    background-color: #007bff;  /* 按钮按下时的背景颜色 */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);  /* 添加按下效果的阴影 */
+}

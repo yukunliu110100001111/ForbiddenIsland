@@ -75,5 +75,4 @@ public class GameStateMapper {
 
         return view;
     }
-
 }

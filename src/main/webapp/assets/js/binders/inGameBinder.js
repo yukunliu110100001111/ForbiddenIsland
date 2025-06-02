@@ -81,7 +81,8 @@ export async function bindInGame() {
         /* ===== 4. 手牌超限检测 & UI ===== */
         const myHandSize = allHands[gs.myPlayerIndex].length;
         const overLimit  = myHandSize > 5;
-        window.isOverLimit = overLimit;
+        // 只有在自己回合时，超限状态才会影响游戏操作
+        window.isOverLimit = overLimit && (gs.currentPlayerIndex === gs.myPlayerIndex);
 
         // 手牌红框闪烁
         document.querySelectorAll('.player').forEach(el => el.classList.remove('over-limit'));
