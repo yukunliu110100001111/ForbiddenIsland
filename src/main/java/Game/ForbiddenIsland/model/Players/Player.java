@@ -16,7 +16,6 @@ public interface Player {
     List<Card> getHands();
     void setHands(List<Card> hands);
 
-    int getHandsSize();
 
     void addCard(Card card);
     void removeCard(Card card);

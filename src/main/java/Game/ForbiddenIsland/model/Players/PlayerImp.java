@@ -13,7 +13,6 @@ public class PlayerImp implements Player{
     private PlayerType type;
     private Tile position;
     private List<Card> hands;
-    private int handsSize = 5;
     private Color color;
     public PlayerImp(PlayerType type) {
         this.type = type;
@@ -47,10 +46,6 @@ public class PlayerImp implements Player{
 
     public void setHands(List<Card> hands) {
         this.hands = hands;
-    }
-
-    public int getHandsSize() {
-        return handsSize;
     }
 
     public void removeCard(Card card){
