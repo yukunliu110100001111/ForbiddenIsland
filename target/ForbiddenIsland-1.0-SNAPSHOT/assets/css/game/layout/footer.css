@@ -178,3 +178,15 @@
     border-color: #5ccfff !important;
     box-shadow: 0 0 12px #5ccfff55;
 }
+
+/* 手牌区超限时闪烁红边 */
+.hand.over-limit {
+    animation: limit-blink 1s infinite;
+    border: 2px dashed #ff4444; /* 红色虚线 */
+}
+@keyframes limit-blink {
+    0%,100% { box-shadow: 0 0 8px rgba(255, 0, 0, 0); }
+    50%    { box-shadow: 0 0 12px rgba(255, 0, 0, 0.8); }
+}
+
+.player, .hand, .avatar { pointer-events: auto; }

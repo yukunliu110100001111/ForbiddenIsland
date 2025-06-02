@@ -18,10 +18,7 @@
             <button id="btn-move" class="color-btn">Move</button>
             <button id="btn-shore" class="color-btn">Shore Up</button>
             <button id="btn-take" class="color-btn">Capture</button>
-            <button id="btn-use" class="color-btn">Use Card</button>
-            <button id="btn-give" class="color-btn">Give Card</button>
             <button id="btn-end-turn" class="color-btn">End Turn</button>
-            <button id="btn-reset" class="color-btn">Reset Game</button>
         </div>
     </header>
     <div class="main-content">
@@ -70,10 +67,24 @@
         <!-- Bottom panel showing player avatars and hands -->
         <div class="bottom-panel-group">
             <footer id="players-footer">
-                <div class="player"><div class="avatar"></div><div class="hand"></div></div>
-                <div class="player"><div class="avatar"></div><div class="hand"></div></div>
-                <div class="player"><div class="avatar"></div><div class="hand"></div></div>
-                <div class="player me"><div class="avatar"></div><div class="hand"></div></div>
+                <!-- 这里给每个 .player 都加上 data-player-index -->
+                <div class="player" data-player-index="0">
+                    <div class="avatar"></div>
+                    <div class="hand"></div>
+                </div>
+                <div class="player" data-player-index="1">
+                    <div class="avatar"></div>
+                    <div class="hand"></div>
+                </div>
+                <div class="player" data-player-index="2">
+                    <div class="avatar"></div>
+                    <div class="hand"></div>
+                </div>
+                <!-- 假设最后一个是 “自己” -->
+                <div class="player me" data-player-index="3">
+                    <div class="avatar"></div>
+                    <div class="hand"></div>
+                </div>
             </footer>
         </div>
     </div>

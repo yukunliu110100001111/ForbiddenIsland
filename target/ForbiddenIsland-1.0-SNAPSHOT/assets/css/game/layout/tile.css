@@ -172,5 +172,41 @@
 }
 
 
+/* 合法放置高亮 */
+.tile-droppable {
+    outline: 3px dashed #ffd700;
+    box-shadow: 0 0 16px #ffd70099;
+}
+/* 非法 drop 抖动 */
+.tile-invalid-drop {
+    animation: shake 0.3s;
+}
+@keyframes shake {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-4px); }
+    50%  { transform: translateX(4px); }
+    75%  { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+/* 玩家头像放置高亮 */
+.player-droppable {
+    outline: 2px solid #5ccfff;
+}
+/* 棋子发光 */
+.my-turn-glow {
+    filter: drop-shadow(0 0 8px #fffacd) drop-shadow(0 0 16px #f3edd0);
+    animation: pawn-glow 1.2s infinite alternate;
+}
+@keyframes pawn-glow {
+    0% { filter: drop-shadow(0 0 6px #fffacd) drop-shadow(0 0 10px #fff0be); }
+    100% { filter: drop-shadow(0 0 14px #fffacd) drop-shadow(0 0 28px #beb079); }
+}
+
+.tile.highlight-move {
+    outline: 3px solid #4caf50;    /* 绿色边框表示“可移动” */
+}
+.tile.highlight-shore {
+    outline: 3px solid #2196f3;    /* 蓝色边框表示“可修复” */
+}
 
 

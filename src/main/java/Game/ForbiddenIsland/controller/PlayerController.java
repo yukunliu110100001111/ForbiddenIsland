@@ -179,9 +179,7 @@ public class PlayerController {
     }
 
     public boolean giveCard(ActionContext actionContext) {
-        // 接收者放在 targetPlayers[0]
         Player receiver = actionContext.getTargetPlayers().get(0);
-        // 发卡者取自当前回合玩家
         Player giver    = gameController.getGameState().getCurrentPlayer();
         Card   card     = actionContext.getTargetCard();
 

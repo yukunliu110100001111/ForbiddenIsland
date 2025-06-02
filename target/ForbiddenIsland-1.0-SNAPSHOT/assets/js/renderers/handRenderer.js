@@ -14,13 +14,6 @@ export function renderAllHands(allHands, playersFooter, myPlayerIndex, isMyTurn)
         return;
     }
 
-    // 调试：打印传入的关键参数
-    console.group('renderAllHands 调试');
-    console.log('  myPlayerIndex =', myPlayerIndex);
-    console.log('  isMyTurn      =', isMyTurn);
-    console.log('  allHands 长度 =', allHands.length);
-    console.groupEnd();
-
     // .hand 容器节点要与 allHands 的索引一一对应
     const handDivs = playersFooter.querySelectorAll('.hand');
     handDivs.forEach((container, idx) => {
@@ -42,12 +35,6 @@ export function renderHand(hand, container, playerIndex, myPlayerIndex, isMyTurn
         return;
     }
 
-    // 再次打印以确认每个 hand 独立传入的索引与状态
-    console.log(
-        `renderHand 调试 → playerIndex = ${playerIndex}, ` +
-        `myPlayerIndex = ${myPlayerIndex}, isMyTurn = ${isMyTurn}`
-    );
-
     // 清空旧手牌
     container.innerHTML = '';
 
@@ -68,15 +55,24 @@ export function renderHand(hand, container, playerIndex, myPlayerIndex, isMyTurn
         const cardEl = wrapper.firstElementChild;
         if (!cardEl) return;
 
+        // 为卡牌添加必要的类与 data 属性
         cardEl.classList.add('card');
         if (card.cardId != null) {
             cardEl.dataset.cardId = card.cardId;
+        }
+        if (card.cardType) {
+            cardEl.dataset.cardType = card.cardType;
         }
 
         // 仅当“轮到自己”且当前渲染的手牌区正是“自己”的 index 时，才允许拖拽
         if (playerIndex === myPlayerIndex && isMyTurn) {
             cardEl.setAttribute('draggable', 'true');
+            cardEl.style.cursor = 'grab';
+            cardEl.classList.remove('card-disabled');
+
+            // 关键改动：设置拖拽时允许的效果
             cardEl.addEventListener('dragstart', e => {
+                e.dataTransfer.effectAllowed = 'move'; // 允许 move
                 e.dataTransfer.setData(
                     'application/json',
                     JSON.stringify({
@@ -85,9 +81,8 @@ export function renderHand(hand, container, playerIndex, myPlayerIndex, isMyTurn
                     })
                 );
             });
-            cardEl.style.cursor = 'grab';
-            cardEl.classList.remove('card-disabled');
         } else {
+            // 非本玩家或非自己回合时，禁止拖拽
             cardEl.removeAttribute('draggable');
             cardEl.style.cursor = 'not-allowed';
             cardEl.classList.add('card-disabled');
