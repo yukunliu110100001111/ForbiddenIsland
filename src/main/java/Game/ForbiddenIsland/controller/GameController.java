@@ -211,14 +211,7 @@ public class GameController {
 
             } else {
                 // In other cases: either it's a regular treasure card or an "action card that can be held" (helicopter, sandbags, etc.)
-                // First check if the current player's hand is at its limit
-                if (currentPlayer.getHands().size() >= currentPlayer.getHandsSize()) {
-                    // Hand is full, must discard this card
-                    gameState.discardTreasure(drawnCard);
-                } else {
-                    // Hand is not full, add this card to the player's hand
-                    currentPlayer.addCard(drawnCard);
-                }
+                currentPlayer.addCard( drawnCard);
             }
         }
     }

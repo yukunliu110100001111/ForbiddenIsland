@@ -32,7 +32,7 @@ public class PlayerController {
             return;
         }
         System.out.println("[PlayerController] receive action: " + actionContext.getPlayerChoice()
-                + " | player: " + (actionContext.getTargetPlayers().isEmpty() ? "-" : actionContext.getTargetPlayers().get(0).getType())
+                + " | player: " + (actionContext.getTargetPlayers().isEmpty() ? "-" : actionContext.getTargetPlayers().getFirst().getType())
                 + " | target tile: " + (actionContext.getTargetTile() == null ? "null" :
                 actionContext.getTargetTile().getX() + "," + actionContext.getTargetTile().getY())
                 + " | other card/treasure card: " + actionContext.getTargetCard() + "/" + actionContext.getTreasureType()
@@ -41,34 +41,38 @@ public class PlayerController {
             case MOVE:
                 if (movePlayer(actionContext)) {
                     decAction();
-                    logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " moved");
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " moved");
                 }
                 break;
             case SHORE_UP:
                 if (shoreUp(actionContext)) {
                     decAction();
-                    logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " shore up");
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " shore up");
                 }
                 break;
             case COLLECT_TREASURE:
                 if (collectTreasure(actionContext)) {
                     decAction();
-                    logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " collect treasure");
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " collect treasure");
                 }
                 break;
             case GIVE_CARD:
                 if (giveCard(actionContext)) {
                     decAction();
-                    logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " give card");
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " give card");
                 }
                 break;
             case USE_CARD:
                 useCard(actionContext);
-                logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " use card");
+                logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " use card");
+                break;
+            case DISCARD_CARD:
+                discard( actionContext);
+                 logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " discard card");
                 break;
             case END_TURN:
                 endTurn();
-                logger.log("Player " + "-" + actionContext.getTargetPlayers().get(0).getType() + " end turn");
+                logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " end turn");
                 break;
             default:
                 System.err.println("[PlayerController] unknown movement: " + actionContext.getPlayerChoice());
@@ -203,6 +207,13 @@ public class PlayerController {
         System.out.println("[PlayerController] useCard: " + card);
         // 真正执行使用逻辑
         gameController.useCards(card, actionContext);
+        return true;
+    }
+    public boolean discard( ActionContext actionContext){
+        Card card = actionContext.getTargetCard();
+        Player player = actionContext.getTargetPlayers().getFirst();
+        player.removeCard(card);
+        gameController.getGameState().discardTreasure(card);
         return true;
     }
 
