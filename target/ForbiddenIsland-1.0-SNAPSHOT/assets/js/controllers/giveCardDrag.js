@@ -50,13 +50,27 @@ export function bindGiveCardDrag(onRefresh) {
         // 只过滤特定类型的卡（ACTION和EVENT），但允许TREASURE类型通过
         if (!data.cardId || (data.cardType === 'ACTION' || data.cardType === 'EVENT')) return;
 
+        // 添加调试信息：显示给卡操作的详细信息
+        console.log('[Debug] Attempting to give card:', {
+            cardId: data.cardId,
+            playerIndex: window.myPlayerIndex,
+            targetPlayerIndex: +p.dataset.playerIndex
+        });
+
         // 调用后端 API 执行给卡操作
-        await window.api.sendAction({
+        const success = await window.api.sendAction({
             action: 'GIVE_CARD',
             cardId: data.cardId,
             playerIndex: window.myPlayerIndex, // 明确添加当前玩家索引
             targetPlayers: [ +p.dataset.playerIndex ]
         });
+
+        // 添加调试信息：显示给卡操作的结果
+        if (success) {
+            console.log('[Debug] GIVE_CARD 操作成功');
+        } else {
+            console.error('[Debug] GIVE_CARD 操作失败');
+        }
 
         // 每次给卡操作后，手动刷新
         onRefresh?.(); // 强制刷新，确保后续操作有效

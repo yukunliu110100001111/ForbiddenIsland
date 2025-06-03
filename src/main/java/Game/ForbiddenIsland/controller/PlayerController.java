@@ -68,8 +68,10 @@ public class PlayerController {
                 logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " use card");
                 break;
             case DISCARD_CARD:
-                discard( actionContext);
-                 logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " discard card");
+                if (discard(actionContext)) {
+                    // 只有当卡片成功弃掉时才记录日志
+                    logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " discarded card");
+                }
                 break;
             case END_TURN:
                 endTurn();
@@ -225,9 +227,30 @@ public class PlayerController {
     }
 
     public boolean discard(ActionContext actionContext) {
+        if (actionContext.getTargetCard() == null) {
+            System.err.println("[discard] 目标卡片为null");
+            return false;
+        }
+
         int cardId = actionContext.getTargetCard().getCardId();
         Player player = actionContext.getTargetPlayers().getFirst();
         List<Card> hand = player.getHands();
+
+        // 先检查这张卡是否存在于手牌中
+        boolean cardExists = false;
+        for (Card c : hand) {
+            if (c.getCardId() == cardId) {
+                cardExists = true;
+                break;
+            }
+        }
+
+        if (!cardExists) {
+            System.err.println("[discard] 未找到 cardId = " + cardId + " 的卡，手牌列表: " + hand);
+            return false;
+        }
+
+        // 使用Iterator安全地移除卡片
         Iterator<Card> it = hand.iterator();
         while (it.hasNext()) {
             Card c = it.next();
@@ -237,7 +260,7 @@ public class PlayerController {
                 return true;
             }
         }
-        System.err.println("[discard] 未找到 cardId = " + cardId + " 的卡，手牌列表: " + hand);
+
         return false;
     }
 
