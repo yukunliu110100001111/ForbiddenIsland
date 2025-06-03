@@ -280,23 +280,46 @@ public class GameController {
      * @return true if collection was successful
      */
     public boolean collectTreasure(Player player, TreasureType treasureType) {
-        if (actionsRemaining <= 0) return false;
-        
-        if (canCollectTreasure(player, treasureType)) {
-            gameState.setTreasureCollected(treasureType, true);
-            int i = 0;
-            List<Card> cards = getCurrentPlayer().getHands();
-            while (i < 4){
-                if (cards.contains(treasureType)){
-                    cards.remove(treasureType);
-                    i++;
+        // 1. 检查剩余行动点
+        if (actionsRemaining <= 0) {
+            return false;
+        }
+
+        // 2. 检查是否满足“收集宝藏”的条件
+        if (!canCollectTreasure(player, treasureType)) {
+            return false;
+        }
+
+        // 3. 拷贝一份当前手牌，避免在遍历时修改原列表
+        List<Card> handCopy = new ArrayList<>(player.getHands());
+        int removedCount = 0;
+
+        // 4. 从后往前遍历，只要找到对应类型的 TreasureCard，就移除并计数
+        for (int i = handCopy.size() - 1; i >= 0 && removedCount < 4; i--) {
+            Card c = handCopy.get(i);
+            if (c instanceof TreasureCard) {
+                TreasureCard tc = (TreasureCard) c;
+                if (tc.getTreasureType() == treasureType) {
+                    handCopy.remove(i);
+                    removedCount++;
                 }
             }
-            getCurrentPlayer().setHands(cards);
-            actionsRemaining--;
-            return true;
         }
-        return false;
+
+        // 5. 如果不足 4 张，操作失败
+        if (removedCount < 4) {
+            return false;
+        }
+
+        // 6. 更新玩家手牌为移除后的列表
+        player.setHands(handCopy);
+
+        // 7. 标记该宝藏已被收集
+        gameState.setTreasureCollected(treasureType, true);
+
+        // 8. 扣除一次行动点并返回成功
+        actionsRemaining--;
+        return true;
     }
 
     /**

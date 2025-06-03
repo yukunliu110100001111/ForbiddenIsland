@@ -187,7 +187,6 @@ public class PlayerController {
     // PlayerController.java
 
     public boolean giveCard(ActionContext actionContext) {
-        // 假设 getTargetPlayers() 是 List<Player>
         Player receiver = actionContext.getTargetPlayers().get(1);
         Player giver = gameController.getGameState().getCurrentPlayer();
         Card card = actionContext.getTargetCard();
@@ -223,11 +222,9 @@ public class PlayerController {
             System.err.println("[discard] 目标卡片为null");
             return false;
         }
-
         int cardId = actionContext.getTargetCard().getCardId();
         Player player = actionContext.getTargetPlayers().getFirst();
         List<Card> hand = player.getHands();
-
         // 先检查这张卡是否存在于手牌中
         boolean cardExists = false;
         for (Card c : hand) {
@@ -236,12 +233,10 @@ public class PlayerController {
                 break;
             }
         }
-
         if (!cardExists) {
             System.err.println("[discard] 未找到 cardId = " + cardId + " 的卡，手牌列表: " + hand);
             return false;
         }
-
         // 使用Iterator安全地移除卡片
         Iterator<Card> it = hand.iterator();
         while (it.hasNext()) {
@@ -252,7 +247,6 @@ public class PlayerController {
                 return true;
             }
         }
-
         return false;
     }
 
