@@ -1,13 +1,26 @@
-    import { setCurrentDragData, clearCurrentDragData } from './tileDragHandler.js';
+// src/controllers/giveCardDrag.js
 
+// 删除 “clearCurrentDragData” 的导入
+// import { clearCurrentDragData } from './useCardDrag.js';
+
+import { sendAction } from '../api/inGameApi.js';
+
+/**
+ * 绑定“给卡”拖放逻辑
+ * @param {Function} onRefresh  给卡后拉取并刷新
+ */
 export function bindGiveCardDrag(onRefresh) {
     const footer = document.getElementById('players-footer');
-    if (!footer) return;
+    if (!footer) {
+        console.warn('bindGiveCardDrag: 找不到 #players-footer');
+        return;
+    }
 
     footer.addEventListener('dragover', e => {
         const p = e.target.closest('.player');
         if (!p) return;
-        if (+p.dataset.playerIndex === window.myPlayerIndex) return; // 不能给自己
+        const targetIdx = +p.dataset.playerIndex;
+        if (targetIdx === window.myPlayerIndex) return;
         e.preventDefault();
         p.classList.add('player-droppable');
     });
@@ -21,58 +34,52 @@ export function bindGiveCardDrag(onRefresh) {
         if (!p) return;
         p.classList.remove('player-droppable');
 
-        if (window.isOverLimit) return;  // 自己超限不能给牌
-
-        // 尝试从dataTransfer获取数据
-        let data;
-        try {
-            // 先尝试application/json格式
-            data = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
-        } catch (err) {
-            // 如果解析失败，尝试text/plain格式
-            try {
-                const cardId = parseInt(e.dataTransfer.getData('text/plain'));
-                if (!isNaN(cardId)) {
-                    data = { cardId };
-                } else {
-                    data = {};
-                }
-            } catch {
-                data = {};
-            }
+        const targetIdx = +p.dataset.playerIndex;
+        if (targetIdx === window.myPlayerIndex) {
+            console.warn('[GiveCard] 禁止给自己');
+            return;
+        }
+        if (window.isOverLimit) {
+            console.warn('[GiveCard] 手牌超限，无法给卡');
+            return;
         }
 
-        // 如果从dataTransfer获取不到数据，则尝试使用全局变量
+        // 从 dataTransfer 或者全局 currentDragData 拿 cardId
+        let data = {};
+        try {
+            data = JSON.parse(e.dataTransfer.getData('application/json') || '{}');
+        } catch {
+            const cardIdNum = parseInt(e.dataTransfer.getData('text/plain'));
+            if (!isNaN(cardIdNum)) {
+                data = { cardId: cardIdNum };
+            }
+        }
         if (!data.cardId && window.currentDragData) {
             data = window.currentDragData;
         }
-
-        // 只过滤特定类型的卡（ACTION和EVENT），但允许TREASURE类型通过
-        if (!data.cardId || (data.cardType === 'ACTION' || data.cardType === 'EVENT')) return;
-
-        // 添加调试信息：显示给卡操作的详细信息
-        console.log('[Debug] Attempting to give card:', {
-            cardId: data.cardId,
-            playerIndex: window.myPlayerIndex,
-            targetPlayerIndex: +p.dataset.playerIndex
-        });
-
-        // 调用后端 API 执行给卡操作
-        const success = await window.api.sendAction({
-            action: 'GIVE_CARD',
-            cardId: data.cardId,
-            playerIndex: window.myPlayerIndex, // 明确添加当前玩家索引
-            targetPlayers: [ +p.dataset.playerIndex ]
-        });
-
-        // 添加调试信息：显示给卡操作的结果
-        if (success) {
-            console.log('[Debug] GIVE_CARD 操作成功');
-        } else {
-            console.error('[Debug] GIVE_CARD 操作失败');
+        if (!data.cardId) {
+            console.warn('[GiveCard] drop 时未拿到 cardId，data =', data);
+            return;
         }
 
-        // 每次给卡操作后，手动刷新
-        onRefresh?.(); // 强制刷新，确保后续操作有效
+        console.log(
+            '%c[GiveCard] 玩家', window.myPlayerIndex,
+            '→', targetIdx,
+            '| 卡牌 ID =', data.cardId
+        );
+
+        // 直接调用 sendAction，不用 clearCurrentDragData
+        const success = await sendAction({
+            action:       'GIVE_CARD',
+            cardId:       data.cardId,
+            targetPlayers: [window.myPlayerIndex,targetIdx]
+        });
+        console.log('[GiveCard] sendAction 返回：', success);
+
+        if (success) {
+            // 直接清空全局 currentDragData
+            window.currentDragData = null;
+            await onRefresh?.();
+        }
     });
 }

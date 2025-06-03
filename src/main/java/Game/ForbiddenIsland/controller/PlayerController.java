@@ -60,7 +60,8 @@ public class PlayerController {
             case GIVE_CARD:
                 if (giveCard(actionContext)) {
                     decAction();
-                    logger.log("Player " + "-" + actionContext.getTargetPlayers().getFirst().getType() + " give card");
+                    Player receiver = actionContext.getTargetPlayers().get(0);
+                    Card card = actionContext.getTargetCard();
                 }
                 break;
             case USE_CARD:
@@ -122,10 +123,7 @@ public class PlayerController {
             }
 
             List<Player> players = new ArrayList<>();
-            if (root.has("playerIndex")) {
-                int idx = root.get("playerIndex").asInt();
-                players.add(gameController.getGameState().getPlayers().get(idx));
-            } else if (root.has("targetPlayers")) {
+            if (root.has("targetPlayers")) {
                 for (JsonNode nameNode : root.get("targetPlayers")) {
                     Player p = gameController.getGameState().findPlayerByName(nameNode.asInt());
                     if (p != null) players.add(p);
@@ -148,11 +146,6 @@ public class PlayerController {
                 treasureType = TreasureType.valueOf(root.get("treasureType").asText());
             }
 
-            // 解析playerIndex参数
-            int playerIndex = -1;
-            if (root.has("playerIndex")) {
-                playerIndex = root.get("playerIndex").asInt(-1);
-            }
 
             return new ActionContext.Builder()
                     .setPlayerChoice(choice)
@@ -160,7 +153,6 @@ public class PlayerController {
                     .setTargetTile(tile)
                     .setTargetCard(card)
                     .setTreasureType(treasureType)
-                    .setPlayerIndex(playerIndex)
                     .build();
         } catch (Exception e) {
             System.err.println("[PlayerController] parseJsonToActionContext fail to interpret: " + e.getMessage());
@@ -192,22 +184,22 @@ public class PlayerController {
         return gameController.collectTreasure(gameController.getCurrentPlayer(), actionContext.getTreasureType());
     }
 
+    // PlayerController.java
+
     public boolean giveCard(ActionContext actionContext) {
-        Player receiver = actionContext.getTargetPlayers().get(0);
-        // 从前端请求中获取playerIndex参数，如果没有则使用当前玩家
-        Player giver;
-        if (actionContext.getPlayerIndex() >= 0) {
-            giver = gameController.getGameState().getPlayers().get(actionContext.getPlayerIndex());
-        } else {
-            giver = gameController.getGameState().getCurrentPlayer();
-        }
+        // 假设 getTargetPlayers() 是 List<Player>
+        Player receiver = actionContext.getTargetPlayers().get(1);
+        Player giver = gameController.getGameState().getCurrentPlayer();
         Card card = actionContext.getTargetCard();
 
         System.out.println("[PlayerController] giveCard: "
-                + giver.getType() + "->" + receiver.getType() + " card=" + card);
+                + giver.getType() + " -> " + receiver.getType()
+                + " card=" + card);
 
         return gameController.giveCard(giver, receiver, card);
     }
+
+
 
 
     public boolean useCard(ActionContext actionContext) {
