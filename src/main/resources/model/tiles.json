@@ -7,7 +7,7 @@
   { "name": "Howling Garden",     "treasureType": "WIND",  "foolsLanding": false },
   { "name": "Cave of Embers",     "treasureType": "FIRE",  "foolsLanding": false },
   { "name": "Cave of Shadows",    "treasureType": "FIRE",  "foolsLanding": false },
-  { "name": "Fool's Landing",     "treasureType": null,    "foolsLanding": true },
+  { "name": "Fools Landing",     "treasureType": null,    "foolsLanding": true },
   { "name": "Observatory",        "treasureType": null,    "foolsLanding": false },
   { "name": "Watchtower",         "treasureType": null,    "foolsLanding": false },
   { "name": "Crimson Forest",     "treasureType": null,    "foolsLanding": false },
