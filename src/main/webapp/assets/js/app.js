@@ -1,8 +1,4 @@
 // assets/js/app.js
-
-// Main application script
-// This file is currently empty and can be extended with the main application logic
-
 import { bindPreGame } from './binders/preGameBinder.js';
 import { bindInGame } from './binders/inGameBinder.js';
 

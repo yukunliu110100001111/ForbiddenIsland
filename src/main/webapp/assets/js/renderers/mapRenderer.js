@@ -35,30 +35,16 @@ export function renderTiles(
     // —— 第二步：把 pawn 放到各自格子中央（带动画） ——
     updatePawns(players, layer, currentPlayerIndex);
 
-    // —— 第三步：遍历刚渲染的每个 tile DOM，开启“可拖拽”和“可放置”两种功能 ——
     board.forEach(row => {
         row.forEach(tileView => {
             if (!tileView || tileView.state.toLowerCase() === 'sink') return;
 
-            // 根据 tileView.x/y 找到对应的 DOM
+            // 根据 data-x、data-y 找到对应的 DOM 节点
             const selector = `.tile[data-x="${tileView.x}"][data-y="${tileView.y}"]`;
             const tileEl = layer.querySelector(selector);
             if (!tileEl) return;
 
-            // —— (a) 开启“拖拽 tile 自身” ——
-            tileEl.setAttribute('draggable', 'true');
-            tileEl.addEventListener('dragstart', e => {
-                // 在 tile 被拖起时，把 tile 的坐标写到 dataTransfer，供 drop 目标（若有）使用
-                const payload = { tileX: tileView.x, tileY: tileView.y };
-                e.dataTransfer.setData('application/json', JSON.stringify(payload));
-                e.dataTransfer.effectAllowed = 'move';
-                tileEl.classList.add('tile-dragging');
-            });
-            tileEl.addEventListener('dragend', () => {
-                tileEl.classList.remove('tile-dragging');
-            });
-
-            // —— (b) 让 tile 也能作为“使用卡片”的 drop 目标 ——
+            // 让 tile 本身也可作为 drop 目标（不改变其 draggable 属性，仅绑定 drop 相关事件）
             bindTileDrag(tileEl, tileView, onRefresh);
         });
     });
