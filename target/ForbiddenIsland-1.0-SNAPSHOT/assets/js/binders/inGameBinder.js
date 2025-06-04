@@ -11,6 +11,7 @@ import { renderTreasureProgress } from '../renderers/progressRenderer.js';
 import { highlightTiles } from '../renderers/highlightRenderer.js';
 import { wireControls } from '../controllers/controls.js';
 import * as api from '../api/inGameApi.js';
+import {bindGiveCardDrag} from "../controllers/giveCardDrag.js";
 window.api = api;                         // 供各子模块统一调用
 
 export async function bindInGame() {
@@ -41,7 +42,7 @@ export async function bindInGame() {
 
     /* ---------- 绑定所有按钮 / 拖拽 / 地图点击 ---------- */
     const { getCurrentAction } = wireControls(dom.btns, refresh);
-
+    bindGiveCardDrag(refresh);
     /* ---------- Restart ---------- */
     dom.restart?.addEventListener('click', () => {
         sessionStorage.clear();
@@ -63,11 +64,12 @@ export async function bindInGame() {
         window.refreshGame  = refresh;
 
         /* ===== 1. 地图渲染 & 高亮 ===== */
-        renderTiles(gs.board, gs.players, dom.mapLayer);
-        highlightTiles(
-            getCurrentAction(),
-            gs.legalMoves, gs.legalShores, gs.legalCaptures,
-            dom.mapLayer
+        renderTiles(
+            gs.board,
+            gs.players,
+            document.getElementById('tiles-layer'),
+            gs.currentPlayerIndex,
+            refresh   // ← 传入 onRefresh，用于 drop 之后触发完整刷新
         );
 
         /* ===== 2. 玩家头像 + 空手牌容器 ===== */

@@ -49,40 +49,37 @@ export function renderHand(hand, container, playerIndex, myPlayerIndex, isMyTurn
 
     // 渲染每张卡
     hand.forEach(card => {
-        // cardHtml(card) 返回一段 <div class="card card-XXX">...</div> 的字符串
+        // 创建 cardEl 的那段：
         const wrapper = document.createElement('div');
         wrapper.innerHTML = cardHtml(card);
         const cardEl = wrapper.firstElementChild;
         if (!cardEl) return;
 
-        // 为卡牌添加必要的类与 data 属性
         cardEl.classList.add('card');
         if (card.cardId != null) {
-            cardEl.dataset.cardId = card.cardId;
+            cardEl.dataset.cardId = card.cardId;    // 确保 dataset 拿到后端真实 cardId
         }
         if (card.cardType) {
             cardEl.dataset.cardType = card.cardType;
         }
 
-        // 仅当“轮到自己”且当前渲染的手牌区正是“自己”的 index 时，才允许拖拽
+        // 当且仅当渲染的是“自己”手牌且是自己回合时才允许拖拽
         if (playerIndex === myPlayerIndex && isMyTurn) {
             cardEl.setAttribute('draggable', 'true');
             cardEl.style.cursor = 'grab';
             cardEl.classList.remove('card-disabled');
 
-            // 关键改动：设置拖拽时允许的效果
             cardEl.addEventListener('dragstart', e => {
-                e.dataTransfer.effectAllowed = 'move'; // 允许 move
-                e.dataTransfer.setData(
-                    'application/json',
-                    JSON.stringify({
-                        cardType: card.cardType,
-                        cardId: card.cardId
-                    })
-                );
+                // 关键：把后端真实的 card.cardId 写入 dataTransfer
+                const payload = {
+                    cardType: card.cardType,
+                    cardId: card.cardId
+                };
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('application/json', JSON.stringify(payload));
+                e.dataTransfer.setData('text/plain', String(card.cardId));
             });
         } else {
-            // 非本玩家或非自己回合时，禁止拖拽
             cardEl.removeAttribute('draggable');
             cardEl.style.cursor = 'not-allowed';
             cardEl.classList.add('card-disabled');

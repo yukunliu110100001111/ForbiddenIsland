@@ -2,7 +2,6 @@ import { bindUseCardDrag } from './useCardDrag.js';
 import {bindButtons} from "./bindButtons.js";
 import {bindMapActions} from "./mapActions.js";
 import {bindGiveCardDrag} from "./giveCardDrag.js";
-import { bindTileDrag } from './tileDragHandler.js';
 
 export function wireControls(btns, onRefresh) {
     let currentAction = null;

@@ -1,5 +1,4 @@
 // src/renderers/tileRenderer.js
-import { checkImageExists } from '../helpers/imageHelper.js';
 
 /**
  * renderTilesBase(board, layer)
@@ -60,50 +59,11 @@ export function renderTilesBase(board = [], layer) {
                 el.dataset.treasureType = t.treasureType; // 捕获后端要用
             }
 
-            // 标记是否为Fool's Landing
-            if (t.foolsLanding) {
-                el.dataset.foolsLanding = 'true';
-            }
-
-            const fixedName = t.name.replace(/\u00A0/g, ' ')  // 去除不可见空格
-                .replace(/\s+/g, ' ')    // 压缩多空格
-                .replace(/’/g, "'")      // 替换花式引号
-                .trim();                // 去除首尾空格
-            const imgPath = `assets/Images/tiles/${encodeURI(fixedName)}.png`;
-
-            // 设置图片背景
-            el.style.backgroundImage = `url('${imgPath}')`;
-            el.style.backgroundSize = 'cover';
+            // 背景图
+            const imgPath = `assets/Images/tiles/${encodeURI(t.name)}.png`;
+            el.style.backgroundImage    = `url('${imgPath}')`;
+            el.style.backgroundSize     = 'cover';
             el.style.backgroundPosition = 'center';
-
-            // 为Fool's Landing添加图片错误处理
-            if (t.foolsLanding) {
-                const img = new Image();
-                img.onload = () => console.log('成功加载Fool\'s Landing图片');
-                img.onerror = () => {
-                    console.log('Fool\'s Landing图片加载失败，使用备用方案');
-                    // 尝试备用方案1：不同的文件名
-                    const altPath = 'assets/Images/tiles/FoolsLanding.png';
-                    el.style.backgroundImage = `url('${altPath}')`;
-
-                    // 再次尝试检查，如果依然失败，使用纯色方案
-                    const altImg = new Image();
-                    altImg.onload = () => console.log('备用图片加载成功');
-                    altImg.onerror = () => {
-                        console.log('所有图片加载失败，使用纯色背景');
-                        el.style.backgroundColor = '#3F51B5';
-                        el.style.backgroundImage = 'none';
-
-                        // 增加可见性
-                        const fLabel = document.createElement('div');
-                        fLabel.textContent = "Fool's Landing";
-                        fLabel.style.cssText = 'color:white;font-weight:bold;font-size:14px;text-align:center;';
-                        el.appendChild(fLabel);
-                    };
-                    altImg.src = altPath;
-                };
-                img.src = imgPath;
-            }
 
             // 如果是 flooded，给它一个小动画
             if (t.state.toLowerCase() === 'flooded') {
@@ -126,7 +86,7 @@ export function renderTilesBase(board = [], layer) {
                 icon.className = 'treasure-icon';
                 Object.assign(icon.style, {
                     position: 'absolute',
-                    width: '30px', height: '30px',
+                    width: '24px', height: '24px',
                     top: '4px', right: '4px',
                     pointerEvents: 'none'
                 });

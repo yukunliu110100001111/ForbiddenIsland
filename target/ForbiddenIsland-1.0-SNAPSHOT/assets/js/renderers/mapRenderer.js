@@ -1,39 +1,51 @@
 // src/renderers/mapRenderer.js
 
 import { renderTilesBase } from './tileRenderer.js';
-import { bindTileDrag    } from '../controllers/tileDragHandler.js';
 import { updatePawns      } from './pawnRenderer.js';
+import { bindTileDrag     } from '../controllers/useCardDrag.js';
 
 /**
- * mapRenderer.js
+ * renderTiles(board, players, layer, currentPlayerIndex, onRefresh)
  *
- * 该函数只做三件事：
- *   1. renderTilesBase(board, layer)：把静态 tile 都渲染出来（但不移除 pawn）。
- *   2. updatePawns(players, layer, currentPlayerIndex)：把棋子放到 tile 中心，并平滑动画。
- *   3. bindTileDrag(...)：遍历每个 tileDOM，给它绑定拖拽放置特殊卡的能力。
+ *   1. renderTilesBase(board, layer)：静态渲染所有 .tile（并不移除 pawn）
+ *   2. updatePawns(players, layer, currentPlayerIndex)：把 pawn 放到正确位置
+ *   3. forEach tileElement：
+ *       a. 标记 draggable = true（让 tile 自身能拖）
+ *       b. 绑定 dragstart/dragend 逻辑（传递 tile 坐标）
+ *       c. 绑定 bindTileDrag(tileEl, tileView, onRefresh)：让 tile 本身也能作为 drop 目标
  *
- * @param {Array<Array>} board              - 2D 数组，每项是 TileView
- * @param {Array}        players            - 每个玩家 { currentTile: {x,y}, … }
- * @param {HTMLElement}  layer              - 容器 DOM 节点 (#tiles-layer)
- * @param {number|null}  currentPlayerIndex - 当前操作玩家，用于高亮 pawn
+ * @param {Array<Array>}  board              - 2D 数组，每项是 TileView
+ * @param {Array}         players            - 所有玩家数据（用于 updatePawns）
+ * @param {HTMLElement}   layer              - 地图容器 DOM (#tiles-layer)
+ * @param {number|null}   currentPlayerIndex - 当前操作玩家索引
+ * @param {Function}      onRefresh          - 地图上 drop 卡片后或拖动 tile 后要调用的回调
  */
-export function renderTiles(board = [], players = [], layer, currentPlayerIndex = null) {
+export function renderTiles(
+    board = [],
+    players = [],
+    layer,
+    currentPlayerIndex = null,
+    onRefresh
+) {
     if (!layer) return;
 
-    // —— 第一步：把地块画出来（只移除现有 .tile，不清空 layer），静态渲染所有 .tile ——
+    // —— 第一步：静态渲染所有 .tile，不移除 pawn ——
     renderTilesBase(board, layer);
 
-    // —— 第二步：渲染或更新 pawn 位置，带动画 ——
+    // —— 第二步：把 pawn 放到各自格子中央（带动画） ——
     updatePawns(players, layer, currentPlayerIndex);
 
-    // —— 第三步：把拖拽事件绑定到每个 tile DOM ——
     board.forEach(row => {
-        row.forEach(t => {
-            if (!t || t.state.toLowerCase() === 'sink') return;
+        row.forEach(tileView => {
+            if (!tileView || tileView.state.toLowerCase() === 'sink') return;
 
-            const tileEl = layer.querySelector(`.tile[data-x="${t.x}"][data-y="${t.y}"]`);
+            // 根据 data-x、data-y 找到对应的 DOM 节点
+            const selector = `.tile[data-x="${tileView.x}"][data-y="${tileView.y}"]`;
+            const tileEl = layer.querySelector(selector);
             if (!tileEl) return;
-            bindTileDrag(tileEl, t);
+
+            // 让 tile 本身也可作为 drop 目标（不改变其 draggable 属性，仅绑定 drop 相关事件）
+            bindTileDrag(tileEl, tileView, onRefresh);
         });
     });
 }
